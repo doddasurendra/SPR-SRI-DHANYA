@@ -1568,6 +1568,10 @@ function updateOrderStatus(newStatus) {
 
   saveOrdersDatabase();
   renderAdminOrdersTable();
+  // Auto-sync status update to Google Cloud Firestore
+  if (typeof sprDbUpdateOrderStatus === "function") {
+    sprDbUpdateOrderStatus(state.currentAdminOrderId, newStatus);
+  }
   openAdminOrderDetails(state.currentAdminOrderId);
   showToast(`Order status updated to: ${newStatus}`);
 }

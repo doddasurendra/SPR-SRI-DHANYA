@@ -1632,6 +1632,54 @@
       <!-- TAB: SETTINGS, AUDIT LOGS & BACKUP -->
       <div id="adminTabSettingsContent" style="display: none;">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <!-- GOOGLE FIREBASE CLOUD DATABASE (sdodda073@gmail.com) -->
+          <div class="detail-card" style="grid-column: 1 / -1; margin-top: 15px; border-left: 4px solid #f59e0b; background: #fff;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <h4 style="margin: 0; color: #1e293b;">🔥 GOOGLE FIREBASE CLOUD DATABASE & FIRESTORE</h4>
+              <span id="adminFirebaseStatusPill" class="live-status-pill" style="background: #854d0e; color: #fef08a;">🔥 Firebase Bridge Ready (sdodda073@gmail.com)</span>
+            </div>
+            <p id="adminFirebaseStatusDetail" style="font-size: 13px; color: #64748b; margin: 8px 0 14px 0;">
+              Real-time Google Cloud Firestore synchronization for <code>sdodda073@gmail.com</code>. Orders, customers, and inventory synchronize live across all devices.
+            </p>
+
+            <form onsubmit="saveFirebaseConfigFromAdmin(event)">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                  <label>Google Account</label>
+                  <input type="email" id="fbOwnerEmailInput" value="sdodda073@gmail.com" readonly style="background: #f1f5f9; font-weight: 700;">
+                </div>
+                <div class="form-group">
+                  <label>Firebase Project ID *</label>
+                  <input type="text" id="fbProjectIdInput" placeholder="e.g. spr-siri-dhanya" value="spr-siri-dhanya" required>
+                </div>
+                <div class="form-group">
+                  <label>Firebase Web API Key (apiKey) *</label>
+                  <input type="text" id="fbApiKeyInput" placeholder="Paste apiKey from Firebase Console" required>
+                </div>
+                <div class="form-group">
+                  <label>Auth Domain</label>
+                  <input type="text" id="fbAuthDomainInput" placeholder="spr-siri-dhanya.firebaseapp.com">
+                </div>
+                <div class="form-group">
+                  <label>App ID (appId)</label>
+                  <input type="text" id="fbAppIdInput" placeholder="1:123456789:web:abcdef">
+                </div>
+                <div class="form-group">
+                  <label>Storage Bucket</label>
+                  <input type="text" id="fbStorageBucketInput" placeholder="spr-siri-dhanya.appspot.com">
+                </div>
+              </div>
+              
+              <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <button type="submit" class="btn btn-primary" style="font-weight: 700;">
+                  🔥 Save & Connect Cloud Firestore
+                </button>
+                <a href="https://console.firebase.google.com" target="_blank" class="btn btn-secondary" style="font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                  🌐 Open Firebase Console (sdodda073@gmail.com)
+                </a>
+              </div>
+            </form>
+          </div>
           <!-- Left: Website Settings & Declarations -->
           <div class="detail-card">
             <h4>⚙️ OFFICIAL STORE SETTINGS & COMPLIANCE</h4>
@@ -2820,6 +2868,11 @@
 
   <script src="qrcode.min.js"></script>
   <script src="jsQR.min.js"></script>
+  <!-- Official Google Firebase 10.x Cloud SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="firebase-config.js"></script>
   <script src="app.js"></script>
   <!-- ============================================== -->
   <!-- FLIPKART MOBILE BOTTOM SHEET: SORT OPTIONS     -->
