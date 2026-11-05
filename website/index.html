@@ -1086,15 +1086,17 @@
       <!-- AI messages populated dynamically -->
     </div>
 
-    <!-- Quick Prompt Chips -->
+        <!-- Quick Prompt Chips -->
     <div class="ai-quick-chips" id="aiQuickChips">
-      <button class="chip" onclick="sendAiQuickPrompt('What products are currently in stock?')">📦 In Stock Items?</button>
-      <button class="chip" onclick="sendAiQuickPrompt('Show me the full price list of all items')">💰 Price List</button>
-      <button class="chip" onclick="sendAiQuickPrompt('Which millet is best for diabetes and sugar control?')">🌿 Diabetic Friendly?</button>
-      <button class="chip" onclick="sendAiQuickPrompt('I want to order the 5-in-1 Complete Health Combo')">🛒 Order Combo Pack</button>
-      <button class="chip" onclick="sendAiQuickPrompt('How to prepare instant dosa in 15 minutes?')">⏱️ Cooking Guide</button>
-      <button class="chip" onclick="sendAiQuickPrompt('Track my order status')">🚚 Track Order</button>
-      <button class="chip" onclick="sendAiQuickPrompt('Connect me with owner phone numbers')">📞 Talk to Owner</button>
+      <button class="chip" onclick="sendAiQuickPrompt('How to order step by step?')">🛒 How to Order Step-by-Step?</button>
+      <button class="chip" onclick="sendAiQuickPrompt('What makes SPR Siri Dhanya special?')">🌟 What Makes SPR Special?</button>
+      <button class="chip" onclick="sendAiQuickPrompt('What are your factory operations and how does it work?')">⚙️ Factory Operations & Working</button>
+      <button class="chip" onclick="sendAiQuickPrompt('Which millet is best for diabetes and sugar control?')">🌿 Diabetic Friendly Millets</button>
+      <button class="chip" onclick="sendAiQuickPrompt('Show me the full price list of all items')">💰 Official Price List</button>
+      <button class="chip" onclick="sendAiQuickPrompt('How to prepare instant dosa in 15 minutes?')">⏱️ 15-Min Recipe Guide</button>
+      <button class="chip" onclick="sendAiQuickPrompt('I want to order the 5-in-1 Complete Health Combo')">🎁 5-in-1 Family Combo</button>
+      <button class="chip" onclick="sendAiQuickPrompt('Track my order status')">🚚 Track Order Status</button>
+      <button class="chip" onclick="sendAiQuickPrompt('Connect me with owner phone numbers')">📞 Factory Contacts & WhatsApp</button>
     </div>
 
     <!-- AI Chat Input Bar -->
@@ -2431,12 +2433,14 @@
         <button class="btn btn-secondary btn-sm" onclick="replayVoiceAnswer()">🔁 Replay Answer</button>
       </div>
 
-      <div class="voice-quick-hints">
-        <span>💡 Try Asking:</span>
+            <div class="voice-quick-hints">
+        <span>💡 Ask Anything:</span>
+        <button onclick="askVoiceSample('ఆర్డర్ స్టెప్ బై స్టెప్ ఎలా చేయాలి?')">"ఆర్డర్ ఎలా చేయాలి?"</button>
+        <button onclick="askVoiceSample('సిరిధాన్య ప్రత్యేకత ఏమిటి?')">"సిరిధాన్య ప్రత్యేకత ఏమిటి?"</button>
+        <button onclick="askVoiceSample('ఫ్యాక్టరీ పనితీరు మరియు తయారీ విధానం ఏమిటి?')">"ఫ్యాక్టరీ తయారీ విధానం?"</button>
+        <button onclick="askVoiceSample('15 నిమిషాల్లో దోశ ఎలా చేయాలి?')">"15 నిమిషాల్లో దోశ ఎలా చేయాలి?"</button>
         <button onclick="askVoiceSample('డయాబెటిస్‌కు ఏది మంచిది?')">"డయాబెటిస్‌కు ఏది మంచిది?"</button>
         <button onclick="askVoiceSample('What is the price of 5-in-1 combo?')">"Price of 5-in-1 combo?"</button>
-        <button onclick="askVoiceSample('15 నిమిషాల్లో దోశ ఎలా తయారు చేయాలి?')">"15 నిమిషాల్లో దోశ ఎలా చేయాలి?"</button>
-        <button onclick="askVoiceSample('Is Ragi Dosa in stock right now?')">"Is Ragi Dosa in stock?"</button>
       </div>
     </div>
   </div>

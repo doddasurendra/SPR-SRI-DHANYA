@@ -1726,113 +1726,472 @@ function handleAiSend() {
   }, 400);
 }
 
-function generateAiBotResponse(query) {
-  const q = query.toLowerCase();
 
-  // Stock / Availability
-  if (q.includes("stock") || q.includes("available") || q.includes("items") || q.includes("count")) {
-    const stockList = PRODUCTS.map(p => `• **${p.name}**: ₹${p.price} (In Stock: Fresh Factory Batch)`).join("\n");
-    return {
-      text: `📦 **Real-Time Stock Availability at Factory Desk:**\n\n${stockList}\n\n*All items are freshly milled and dispatched within 24 hours directly from our Kamepalli plant.*`,
-      actionBtn: { text: "🛒 Add Combo to Cart", action: "addToCart(6); openCartDrawer();" }
-    };
-  }
+// =========================================================================
+// MASTER UNIVERSAL RAG KNOWLEDGE ENGINE: S.P.R. SIRI DHANYA
+// Unified Human-like Conversational Intelligence for Chatbot & Voice Agent
+// Grounded in Official 8-Page Product Catalogues & Factory Specifications
+// =========================================================================
 
-  // Price List
-  if (q.includes("price") || q.includes("cost") || q.includes("rate") || q.includes("mrp") || q.includes("ధర")) {
-    return {
-      text: `💰 **Official S.P.R. Siri Dhanya Price Catalogue:**\n\n` +
-            `1. **Ragi Dosa Mix (500g):** ₹119 (MRP ₹149)\n` +
-            `2. **Jowar Dosa Mix (500g):** ₹119 (MRP ₹149)\n` +
-            `3. **Pesara Dosa Mix (500g):** ₹129 (MRP ₹159)\n` +
-            `4. **Korra Dosa Mix (500g):** ₹129 (MRP ₹160)\n` +
-            `5. **Multi Grain Atta (1 KG):** ₹150 (MRP ₹185)\n` +
-            `6. **5-in-1 Complete Health Combo:** ₹629 (Save ₹182!)\n` +
-            `7. **Wholesale Master Carton (24 Packs):** ₹2,490 (Supermarket Wholesale)`,
-      actionBtn: { text: "🎁 View Combo Offer", action: "openProductQuickview(6)" }
-    };
-  }
+const SPR_RAG_ENGINE = {
+  detectLanguage(query) {
+    const q = query.toLowerCase();
+    // Telugu script or common Telugu transliteration keywords
+    if (/[\u0C00-\u0C7F]/.test(query) || 
+        q.includes("ela") || q.includes("enti") || q.includes("cheyali") || 
+        q.includes("undi") || q.includes("dhara") || q.includes("visheshta") || 
+        q.includes("pratyekata") || q.includes("aarogyam") || q.includes("kaavali") || 
+        q.includes("manchidi") || q.includes("panitiram") || q.includes("tayari") ||
+        q.includes("visishtatha") || q.includes("enduku")) {
+      return "te";
+    }
+    // Hindi script or common Hindi transliteration keywords
+    if (/[\u0900-\u097F]/.test(query) || 
+        q.includes("kaise") || q.includes("kya") || q.includes("khas") || 
+        q.includes("visheshta") || q.includes("banao") || q.includes("banaye") || 
+        q.includes("kimat") || q.includes("karna") || q.includes("karta") || 
+        q.includes("karyapranali") || q.includes("chahiye") || q.includes("batao")) {
+      return "hi";
+    }
+    return "en";
+  },
 
-  // Health / Diabetes
-  if (q.includes("diabetes") || q.includes("sugar") || q.includes("health") || q.includes("weight") || q.includes("benefit") || q.includes("ఆరోగ్యం")) {
-    return {
-      text: `🌿 **Health Recommendations by Siri Dhanya Nutritionist:**\n\n` +
-            `• **For Diabetes & Sugar Control:** Korra Dosa Mix (కొర్రలు - Foxtail Millet) has a very low Glycemic Index (GI), preventing glucose spikes.\n` +
-            `• **For Bone Strength & Calcium:** Ragi Dosa Mix (రాగులు) contains 344mg of natural calcium per 100g.\n` +
-            `• **For Weight Management & Gut Care:** Jowar Dosa Mix (జొన్నలు) provides high dietary fibre.\n` +
-            `• **For Muscle & Pure Plant Protein:** Pesara Dosa Mix (పెసలు) delivers over 22g protein.\n\n` +
-            `Would you like to order the Korra Dosa Mix or the 5-in-1 Complete Family Pack?`,
-      actionBtn: { text: "Buy Korra Dosa Mix (₹129)", action: "buyNow(4)" }
-    };
-  }
+  query(rawQuery, options = {}) {
+    const q = rawQuery.toLowerCase().trim();
+    const lang = options.lang || this.detectLanguage(rawQuery);
+    const mode = options.mode || "chat"; // 'chat' or 'voice'
 
-  // Cooking guide
-  if (q.includes("cook") || q.includes("how to") || q.includes("recipe") || q.includes("water") || q.includes("minutes") || q.includes("తయారీ")) {
-    return {
-      text: `⏱️ **Instant 15-Minute Cooking Guide ("Just Add Water"):**\n\n` +
-            `1. **Mix:** Take 1 cup of S.P.R. Dosa Mix in a bowl. Add 1 to 1.25 cups of water.\n` +
-            `2. **Rest:** Stir well into a smooth, lump-free batter. Let it rest for **15 minutes** (No overnight fermentation needed!).\n` +
-            `3. **Pour & Crisp:** Pour on a medium-hot tawa, spread evenly with gentle strokes, drizzle pure ghee or cold-pressed groundnut oil.\n` +
-            `4. **Serve:** Cook until golden crispy and serve hot with coconut chutney, ginger chutney, or sambar!`,
-      actionBtn: { text: "Order Ragi Dosa Mix", action: "buyNow(1)" }
-    };
-  }
+    // =====================================================================
+    // TOPIC 1: HOW TO ORDER STEP-BY-STEP (ఆర్డర్ ఎలా చేయాలి / ऑर्डर कैसे करें)
+    // =====================================================================
+    if (q.includes("order") || q.includes("buy") || q.includes("purchase") || 
+        q.includes("ఆర్డర్") || q.includes("కొన") || q.includes("స్టెప్") || 
+        q.includes("ऑर्डर") || q.includes("खरीद") || q.includes("step") || 
+        q.includes("procedure") || q.includes("process")) {
+      
+      if (lang === "te") {
+        return {
+          humanText: `🛒 **నమస్కారం అండి! S.P.R. సిరిధాన్య ఆర్డర్ చేసే సులభమైన స్టెప్-బై-స్టెప్ విధానం:**\n\n` +
+                     `1. **ఉత్పత్తులను ఎంచుకోండి:** మా స్టోర్‌లో రాగి (₹119), జొన్న (₹119), పెసర (₹129), కొర్ర (₹129) దోశ మిక్స్‌లు, 7 ధాన్యాల మల్టీ గ్రెయిన్ పిండి (₹150) లేదా 5-in-1 ఫ్యామిలీ కాంబో (₹629) లో కావలసినవి ఎంచుకోండి.\n` +
+                     `2. **కార్ట్‌కు జోడించండి:** ఉత్పత్తి కింద ఉన్న **'Add to Cart'** లేదా **'Buy Now'** బటన్ క్లిక్ చేయండి.\n` +
+                     `3. **కార్ట్ పరిశీలించండి:** స్క్రీన్ పైన ఉన్న షాపింగ్ కార్ట్ 🛒 ఐకాన్ నొక్కి, మీ ఐటమ్స్ మరియు 20% ఫ్లాట్ లాంచ్ డిస్కౌంట్‌ను సరిచూసుకోండి. ₹299 దాటిన ఆర్డర్లపై ఉచిత డెలివరీ లభిస్తుంది.\n` +
+                     `4. **చిరునామా నమోదు:** **'Proceed to Checkout'** క్లిక్ చేసి, మీ పేరు, ఫోన్ నెంబర్, పూర్తి డెలివరీ అడ్రస్ మరియు పిన్‌కోడ్ నమోదు చేయండి.\n` +
+                     `5. **చెల్లింపు విధానం:** UPI (PhonePe, Google Pay, Paytm), క్రెడిట్/డెబిట్ కార్డులు, నెట్ బ్యాంకింగ్ లేదా క్యాష్ ఆన్ డెలివరీ (COD) ఎంచుకోండి.\n` +
+                     `6. **ఆర్డర్ నిర్ధారణ:** ఆర్డర్ పూర్తవగానే మీకు ఆర్డర్ ఐడీ, వాట్సాప్ ఇన్వాయిస్ మరియు లైవ్ 7-స్టేజ్ కొరియర్ ట్రాకింగ్ అందుతాయి.\n\n` +
+                     `💡 **డైరెక్ట్ వాట్సాప్ ఆర్డర్:** మీరు నేరుగా మీ అడ్రస్‌ను మా వాట్సాప్ నెంబర్లు **+91 94413 93817** లేదా **9492468817** కు మెసేజ్ చేసి కూడా ఆర్డర్ చేయవచ్చు!`,
+          voiceScript: "నమస్కారం అండి! S.P.R. సిరిధాన్య ఆర్డర్ చేయడం చాలా సులభం. మొదటిగా మీకు కావలసిన రాగి, జొన్న, పెసర, కొర్ర దోశ మిక్స్ లేదా మల్టీ గ్రెయిన్ పిండిని ఎంచుకుని కార్ట్‌కు యాడ్ చేయండి. తరువాత కార్ట్ ఓపెన్ చేసి ప్రొసీడ్ టు చెకౌట్ క్లిక్ చేయండి. మీ పేరు, అడ్రస్ మరియు పిన్‌కోడ్ నమోదు చేసి, గూగుల్ పే, ఫోన్‌పే లేదా క్యాష్ ఆన్ డెలివరీ ద్వారా ఆర్డర్ పూర్తి చేయవచ్చు. లేదా మా మేనేజ్‌మెంట్ వాట్సాప్ నెంబర్ 94413 93817 కు మీ అడ్రస్ మెసేజ్ చేసి కూడా నేరుగా ఆర్డర్ చేయవచ్చు!",
+          actionBtn: { text: "🚀 Proceed to Checkout", action: "openCheckoutModal()" }
+        };
+      } else if (lang === "hi") {
+        return {
+          humanText: `🛒 **नमस्ते! S.P.R. सिरी धान्या – स्टेप-बाय-स्टेप आसान ऑर्डर करने की गाइड:**\n\n` +
+                     `1. **उत्पाद चुनें:** रागी डोसा (₹119), ज्वार डोसा (₹119), पेसरा डोसा (₹129), कोर्रा डोसा (₹129), 7-अनाज मल्टी ग्रेन आटा (₹150), या 5-इन-1 कॉम्बो (₹629) में से चुनें।\n` +
+                     `2. **कार्ट में जोड़ें:** उत्पाद के नीचे **'Add to Cart'** या **'Buy Now'** बटन पर क्लिक करें।\n` +
+                     `3. **कार्ट देखें:** ऊपर शॉपिंग कार्ट 🛒 आइकन पर क्लिक करके अपने चुने उत्पाद और 20% फ्लैट छूट देखें। ₹299 से अधिक पर मुफ्त डिलीवरी है।\n` +
+                     `4. **पता दर्ज करें:** **'Proceed to Checkout'** पर क्लिक करें और नाम, मोबाइल नंबर, पूरा पता और पिनकोड भरें।\n` +
+                     `5. **भुगतान करें:** UPI (PhonePe, Google Pay, Paytm), कार्ड्स, नेट बैंकिंग या कैश ऑन डिलीवरी (COD) चुनें।\n` +
+                     `6. **तुरंत पुष्टि:** ऑर्डर कन्फर्म होते ही आपको ऑर्डर आईडी और 7-स्टेज लाइव ट्रैकिंग प्राप्त होगी।\n\n` +
+                     `💡 **व्हाट्सएप पर सीधा ऑर्डर:** आप अपना पता हमारे व्हाट्सएप नंबर **+91 94413 93817** या **9492468817** पर भेजकर भी ऑर्डर दे सकते हैं!`,
+          voiceScript: "नमस्ते! S.P.R. सिरी धान्या ऑर्डर करना बहुत आसान है। पहले अपने पसंदीदा डोसा मिक्स या मल्टीग्रेन आटा को कार्ट में जोड़ें। फिर कार्ट खोलकर प्रोसीड टू चेकआउट दबाएं। अपना नाम, पता और पिनकोड दर्ज करें, और फोनपे, गूगल पे या कैश ऑन डिलीवरी से भुगतान करें। आप हमारे व्हाट्सएप नंबर 94413 93817 पर भी अपना पता भेजकर तुरंत ऑर्डर कर सकते हैं!",
+          actionBtn: { text: "🚀 चेकआउट और ऑर्डर करें", action: "openCheckoutModal()" }
+        };
+      } else {
+        return {
+          humanText: `🛒 **Hello! Here is the Step-by-Step Guide to Order from S.P.R. Siri Dhanya:**\n\n` +
+                     `1. **Choose Your Products:** Browse our traditional pure millet items — Ragi Dosa (₹119), Jowar Dosa (₹119), Pesara Dosa (₹129), Korra Dosa (₹129), 7-Grain Multi-Grain Atta (₹150), or the 5-in-1 Complete Family Combo (₹629).\n` +
+                     `2. **Add to Cart:** Click **'Add to Cart'** or **'Buy Now'** on any product card.\n` +
+                     `3. **Review Cart:** Click the Cart 🛒 icon at the top right to verify your items, applied 20% launch discount, and FREE delivery eligibility (Free shipping above ₹299).\n` +
+                     `4. **Enter Shipping Details:** Click **'Proceed to Checkout'** and fill in your Name, Mobile Number, full Street Address, and PIN Code.\n` +
+                     `5. **Select Payment:** Choose instant UPI (Google Pay, PhonePe, Paytm), Credit/Debit Card, Net Banking, or Cash on Delivery (COD).\n` +
+                     `6. **Order Confirmation:** You immediately receive your Order ID, WhatsApp confirmation invoice, and live 7-stage courier tracking!\n\n` +
+                     `💡 **Instant WhatsApp Order Desk:** You can also simply message your product list and address directly to management at **+91 94413 93817** or **9492468817**!`,
+          voiceScript: "Hello! Ordering S.P.R. Siri Dhanya products is quick and simple. First, browse our pure millet dosa mixes or multi-grain atta and click Add to Cart. Next, open your Cart and tap Proceed to Checkout. Enter your name, delivery address, and pincode, then pay securely with UPI, card, or Cash on Delivery. You can also order directly by messaging your address to our WhatsApp helpline at +91 94413 93817!",
+          actionBtn: { text: "🚀 Open Checkout & Place Order", action: "openCheckoutModal()" }
+        };
+      }
+    }
 
-  // Ordering in chat
-  if (q.includes("order") || q.includes("buy") || q.includes("purchase") || q.includes("కావాలి")) {
-    let targetId = 6;
-    if (q.includes("ragi")) targetId = 1;
-    else if (q.includes("jowar") || q.includes("jonna")) targetId = 2;
-    else if (q.includes("pesara")) targetId = 3;
-    else if (q.includes("korra")) targetId = 4;
-    else if (q.includes("atta")) targetId = 5;
-    else if (q.includes("wholesale") || q.includes("carton")) targetId = 7;
+    // =====================================================================
+    // TOPIC 2: WHAT MAKES S.P.R. SIRI DHANYA SPECIAL? (విశిష్టత / क्या खास है)
+    // =====================================================================
+    if (q.includes("special") || q.includes("why spr") || q.includes("why siri dhanya") || 
+        q.includes("speciality") || q.includes("features") || q.includes("advantages") || 
+        q.includes("విశిష్టత") || q.includes("ప్రత్యేకత") || q.includes("ప్రత్యేకం") || 
+        q.includes("ఎందుకు") || q.includes("స్పెషల్") || q.includes("खास") || 
+        q.includes("खासियत") || q.includes("विशेषता") || q.includes("क्यों")) {
+      
+      if (lang === "te") {
+        return {
+          humanText: `🌟 **S.P.R. సిరిధాన్య ఎందుకు అంత విశిష్టమైనది? (The Siri Dhanya Advantage):**\n\n` +
+                     `🎯 **మన ప్రధాన సంకల్పం:** *"ప్రతి కుటుంబానికి పోషకాహారం… ప్రతి తరానికి ఆరోగ్యకరమైన భవిష్యత్తు!"*\n\n` +
+                     `🏛️ **మా 4 మూలస్తంభాలు:**\n` +
+                     `1. **రైతుల నుండి మేలైన ధాన్యాలు:** ఆంధ్రప్రదేశ్ రైతుల వద్ద నుండి ఎంపిక చేసిన నాణ్యమైన రాగులు, జొన్నలు, కొర్రలు, సజ్జలు మరియు పెసల సేకరణ.\n` +
+                     `2. **100% సహజత్వం & స్వచ్ఛత:** కల్తీ లేని, జీరో కెమికల్స్, జీరో ప్రిజర్వేటివ్స్, జీరో మైదా మరియు 100% ప్యూర్ వెజిటేరియన్ (FSSAI లైసెన్స్ నెం: 20126152000402).\n` +
+                     `3. **తక్కువ సమయంలో ఆరోగ్యకరమైన ఆహారం:** మహిళలు, ఉద్యోగులు, విద్యార్థులకు ఉదయం గంటల తరబడి శ్రమ లేకుండా కేవలం 15 నిమిషాల్లో సంపూర్ణ పోషకాహారం.\n` +
+                     `4. **సంప్రదాయ రుచికి ఆధునిక రూపం:** పూర్వీకుల ఆరోగ్యకరమైన ఆహారపు అలవాట్లను నేటి ఆధునిక జీవనశైలికి అత్యంత సులభమైన రూపంలో అందించడం.\n\n` +
+                     `⚡ **6 విప్లవాత్మక ఇన్స్టెంట్ సౌలభ్యాలు:**\n` +
+                     `• 💧 **కేవలం నీరు కలపండి:** ఒకే ఒక్క స్టెప్ మిక్సింగ్.\n` +
+                     `• ⏱️ **15 నిమిషాల్లో సిద్ధం:** నానబెట్టడం లేదా పులియబెట్టే పనిలేదు.\n` +
+                     `• 🚿 **కడగనక్కర్లేదు:** ముందే శుభ్రం చేసి ప్రాసెస్ చేసిన ధాన్యాలు.\n` +
+                     `• ⏳ **నానబెట్టనక్కర్లేదు:** 8 గంటలు వేచి ఉండే తిప్పలు ఉండవు.\n` +
+                     `• 🥣 **రుబ్బే పనిలేదు:** మిక్సీ శబ్దం, పాత్రల గందరగోళం లేదు.\n` +
+                     `• 🧪 **పులియబెట్టాల్సిన పనిలేదు:** రాత్రంతా పులియబెట్టకుండా తక్షణ తాజా క్రిస్పీ దోశలు!\n\n` +
+                     `🌾 **7 సూపర్ ధాన్యాల ఆటా:** గోధుమలు, రాగులు, సజ్జలు, జొన్నలు, సోయా, ఓట్స్ మరియు శనగల మేళవింపుతో రోజంతా దూదిలా మెత్తగా ఉండే చపాతీలు!`,
+          voiceScript: "S.P.R. సిరిధాన్య ప్రధాన లక్ష్యం ప్రతి కుటుంబానికి పోషకాహారం మరియు ప్రతి తరానికి ఆరోగ్యకరమైన భవిష్యత్తు అందించడం! మన ఉత్పత్తులు నూరు శాతం సహజమైనవి, ఎలాంటి రసాయనాలు లేదా ప్రిజర్వేటివ్స్ లేనివి. మా ప్రత్యేకత ఏమిటంటే కేవలం నీరు కలిపి 15 నిమిషాల్లో నానబెట్టే పని, రుబ్బే పని లేదా పులియబెట్టే పని లేకుండా తక్షణమే వేడివేడి క్రిస్పీ దోశలు తయారు చేసుకోవచ్చు! అలాగే 7 రకాల ధాన్యాలతో చేసిన మల్టీ గ్రెయిన్ ఆటా రోజంతా దూదిలా మెత్తని చపాతీలను అందిస్తుంది.",
+          actionBtn: { text: "💡 Open 'Why SPR?' Modal", action: "openWhySprModal()" }
+        };
+      } else if (lang === "hi") {
+        return {
+          humanText: `🌟 **S.P.R. सिरी धान्या में क्या खास है? (विशेषताएं):**\n\n` +
+                     `🎯 **हमारा मूल संकल्प:** *"हर परिवार के लिए पोषण… हर पीढ़ी के लिए एक स्वस्थ भविष्य!"*\n\n` +
+                     `🏛️ **हमारे 4 मुख्य स्तंभ:**\n` +
+                     `1. **किसानों से सीधे पारंपरिक बाजरा:** आंध्र प्रदेश के किसानों से चुने हुए उच्च गुणवत्ता वाले रागी, ज्वार, कंगनी (कोर्रा), मूंग और बाजरा।\n` +
+                     `2. **100% शुद्ध और रसायन मुक्त:** शून्य मिलावट, शून्य प्रिजर्वेटिव, शून्य मैदा, 100% शुद्ध शाकाहारी (FSSAI लाइसेंस: 20126152000402)。\n` +
+                     `3. **कम समय में पौष्टिक आहार:** कामकाजी महिलाओं, युवाओं और बुजुर्गों के लिए केवल 15 मिनट में तैयार होने वाला संपूर्ण भोजन।\n` +
+                     `4. **पारंपरिक स्वाद को आधुनिक रूप:** पारंपरिक भारतीय पोषण को आज की व्यस्त जीवनशैली के लिए सबसे आसान रूप में प्रस्तुत करना।\n\n` +
+                     `⚡ **6 जादुई त्वरित लाभ:**\n` +
+                     `• 💧 **सिर्फ पानी मिलाएं:** एक ही स्टेप में घोल तैयार।\n` +
+                     `• ⏱️ **15 मिनट में तैयार:** तुरंत ताज़ा और कुरकुरा डोसा।\n` +
+                     `• 🚿 **धोने की आवश्यकता नहीं:** पहले से साफ और रोगाणुरहित अनाज।\n` +
+                     `• ⏳ **भिगोने का कोई झंझट नहीं:** 6-8 घंटे इंतजार करने की जरूरत नहीं।\n` +
+                     `• 🥣 **पीसने की कोई मेहनत नहीं:** मिक्सी की आवाज और बर्तनों के झंझट से मुक्ति।\n` +
+                     `• 🧪 **खमीर उठाने की जरूरत नहीं:** बिना किसी खट्टेपन के तुरंत ताजा डोसा बनाएं!\n\n` +
+                     `🌾 **7 सुपर अनाजों का मल्टीग्रेन आटा:** गेहूं, रागी, बाजरा, ज्वार, सोयाबीन, ओट्स और चना — पूरे दिन रुई जैसी मुलायम रोटियां!`,
+          voiceScript: "S.P.R. सिरी धान्या इसलिए खास है क्योंकि यह बिना किसी रसायन या प्रिजर्वेटिव के 100% शुद्ध पारंपरिक बाजरा पोषण देता है। हमारे उत्पाद में आपको न तो अनाज भिगोना है, न पीसना है और न ही रात भर खमीर उठाना है। सिर्फ पानी मिलाकर 15 मिनट में गरमा-गरम कुरकुरा डोसा तैयार हो जाता है! और हमारा 7-अनाज आटा पूरे दिन रुई जैसी मुलायम रोटियां देता है।",
+          actionBtn: { text: "💡 'Why SPR' गाइड देखें", action: "openWhySprModal()" }
+        };
+      } else {
+        return {
+          humanText: `🌟 **What Makes S.P.R. Siri Dhanya So Special?**\n\n` +
+                     `🎯 **Our Core Pledge:** *"Nutrition for Every Family… A Healthy Future for Every Generation!"*\n\n` +
+                     `🏛️ **Our 4 Pillars of Excellence:**\n` +
+                     `1. **Heritage Grains Directly from Farmers:** Handpicked Ragi, Jowar, Korra (Foxtail), Green Gram, and Bajra directly from local Andhra farmers.\n` +
+                     `2. **100% Pure, Unadulterated & Vegetarian:** Zero chemicals, zero synthetic food colors, zero preservatives, zero maida/starch. Certified by FSSAI License #20126152000402.\n` +
+                     `3. **Nutritious Meals in Minimal Time:** Designed for busy professionals, working women, students, and elders to enjoy complete nutrition without kitchen stress.\n` +
+                     `4. **Traditional Taste in Modern Convenience:** Preserves authentic crunch, aroma, and rich micronutrients in a quick, modern recipe.\n\n` +
+                     `⚡ **The 6 Revolutionary Instant Advantages:**\n` +
+                     `• 💧 **Just Add Water:** Single-step mixing — effortless preparation.\n` +
+                     `• ⏱️ **Ready in 15 Minutes:** Fresh, hot, and golden crisp in minutes.\n` +
+                     `• 🚿 **No Washing:** Pre-sanitized and destoned clean grains.\n` +
+                     `• ⏳ **No Soaking:** Skip 6-8 hours of tedious soaking.\n` +
+                     `• 🥣 **No Grinding:** No loud mixie noise, no messy kitchen utensils.\n` +
+                     `• 🧪 **No Fermentation:** Zero sourness, cook fresh batter immediately!\n\n` +
+                     `🌾 **7 Super Grains Multi-Grain Atta:** Wheat, Ragi, Bajra, Jowar, Soybeans, Oats, and Chana for cotton-soft rotis that stay ultra-soft all day long!`,
+          voiceScript: "S.P.R. Siri Dhanya is special because we bring pure traditional heritage millets in a zero-hassle 15-minute modern form! Our products are 100% natural with zero chemicals, zero maida, and zero preservatives. You simply add water and prepare hot, crispy dosas in 15 minutes without any washing, soaking, grinding, or overnight fermentation. Plus, our Multi-Grain Atta combines 7 super grains for cotton-soft rotis all day!",
+          actionBtn: { text: "💡 Open 'Why SPR?' Modal", action: "openWhySprModal()" }
+        };
+      }
+    }
 
-    const prod = PRODUCTS.find(p => p.id === targetId);
-    addToCart(targetId);
+    // =====================================================================
+    // TOPIC 3: OPERATIONS & HOW IT WORKS (పనితీరు & తయారీ విధానం / कार्यप्रणाली)
+    // =====================================================================
+    if (q.includes("operation") || q.includes("working") || q.includes("how it works") || 
+        q.includes("how does it work") || q.includes("factory") || q.includes("manufacturing") || 
+        q.includes("process") || q.includes("plant") || q.includes("పనితీరు") || 
+        q.includes("తయారీ విధానం") || q.includes("వర్కింగ్") || q.includes("ఫ్యాక్టరీ") || 
+        q.includes("कार्यप्रणाली") || q.includes("काम कैसे") || q.includes("फैक्ट्री") || 
+        q.includes("प्रक्रिया") || q.includes("विधि")) {
+      
+      if (lang === "te") {
+        return {
+          humanText: `⚙️ **S.P.R. సిరిధాన్య ఫ్యాక్టరీ పనితీరు & శాస్త్రీయ తయారీ విధానం (Operations & Working):**\n\n` +
+                     `🏭 **ఫ్యాక్టరీ చిరునామా:** కామేపల్లి గ్రామం, సంతమాగులూరు మండలం, బాపట్ల జిల్లా, ఆంధ్రప్రదేశ్ - 523326.\n\n` +
+                     `🔬 **శాస్త్రీయ ప్రాసెసింగ్ & తయారీ ప్రక్రియ:**\n` +
+                     `1. **మల్టీ-స్టేజ్ క్లీనింగ్ & డీ-స్టోనింగ్:** రైతుల నుండి సేకరించిన రాగులు, జొన్నలు, కొర్రలు మరియు పెసలను అత్యాధునిక మెకానికల్ వైబ్రేటరీ స్క్రీనర్లు మరియు ఎయిర్-వాషింగ్ ఛాంబర్స్ ద్వారా దుమ్ము, రాళ్లు, పొట్టు పూర్తిగా తొలగించి శుద్ధి చేస్తాము.\n` +
+                     `2. **కోల్డ్-స్టోన్ గ్రైండింగ్ (తక్కువ ఉష్ణోగ్రత గ్రైండింగ్):** ధాన్యాలను తక్కువ ఉష్ణోగ్రత వద్ద శాస్త్రీయంగా పిండి చేయడం వల్ల ధాన్యంలోని విటమిన్ బి-కాంప్లెక్స్, సహజ ఎంజైములు, మరియు డైటరీ ఫైబర్ వేడికి నాశనం కాకుండా భద్రంగా ఉంటాయి.\n` +
+                     `3. **సహజ బైండింగ్ ఫార్ములేషన్:** ఎలాంటి రసాయన జిగుర్లు లేకుండా, సహజంగా వేయించిన పప్పులు, జీలకర్ర, ఇంగువ మరియు సైంధవ లవణంతో సమతుల్య నిష్పత్తిలో బ్లెండ్ చేస్తాము. దీనివల్ల నీరు కలిపిన 15 నిమిషాల్లో పిండికి అద్భుతమైన బైండింగ్ వస్తుంది.\n` +
+                     `4. **ఆటోమేటెడ్ నైట్రోజన్-ఫ్లష్డ్ ప్యాకేజింగ్:** మానవ స్పర్శ లేకుండా ఆటోమేటిక్ మిషన్ల ద్వారా 3-లేయర్ ఫుడ్-గ్రేడ్ మాయిశ్చర్-బారియర్ పౌచ్‌లలో ప్యాక్ చేస్తాము. దీనివల్ల రసాయన ప్రిజర్వేటివ్స్ లేకుండానే 6 నెలల పాటు పిండి అత్యంత తాజాగా ఉంటుంది.\n` +
+                     `5. **నాణ్యత & FSSAI సర్టిఫికేషన్:** ప్రతి బ్యాచ్ FSSAI లైసెన్స్ నెం. 20126152000402 ప్రమాణాలకు అనుగుణంగా ప్రయోగశాలలో నాణ్యత పరీక్షించిన తర్వాతే ఫ్యాక్టరీ నుంచి డిస్పాచ్ అవుతుంది.\n\n` +
+                     `🍳 **కస్టమర్ స్థాయిలో తయారీ విధానం (రెసిపీ):**\n` +
+                     `• 1 కప్పు పిండికి 1 నుండి 1.25 కప్పుల నీళ్లు కలపండి.\n` +
+                     `• 15 నిమిషాలు ఉంచండి (నానబెట్టడం లేదా పులియబెట్టాల్సిన పనిలేదు).\n` +
+                     `• వేడి పెనంపై పోసి కొద్దిగా నెయ్యి/నూనెతో బంగారు రంగు వచ్చేవరకు కాల్చండి. 15 నిమిషాల్లో క్రిస్పీ దోశ సిద్ధం!`,
+          voiceScript: "మా S.P.R. సిరిధాన్య ఫ్యాక్టరీ బాపట్ల జిల్లా కామేపల్లిలో ఉంది. ఇక్కడ రైతుల వద్ద నుండి తెచ్చిన ధాన్యాలను యంత్రాల ద్వారా రాళ్లు, దుమ్ము లేకుండా డీ-స్టోనింగ్ చేసి శుభ్రపరుస్తాము. తక్కువ ఉష్ణోగ్రత వద్ద స్టోన్ గ్రైండింగ్ చేయడం వల్ల సహజ పోషకాలు మరియు విటమిన్లు నశించవు. ఎటువంటి రసాయనాలు లేకుండా జీలకర్ర, ఇంగువ వంటి సహజ దినుసులతో ప్రత్యేక నిష్పత్తిలో కలపడం వల్ల కేవలం నీరు కలిపి 15 నిమిషాల్లో క్రిస్పీ దోశ సిద్ధమవుతుంది. 3 లేయర్ల పౌచ్‌లలో ప్యాక్ చేయడం వల్ల 6 నెలల వరకు పిండి తాజాగా ఉంటుంది.",
+          actionBtn: { text: "⏱️ View 15-Minute Recipe", action: "sendAiQuickPrompt('How to prepare instant dosa in 15 minutes?')" }
+        };
+      } else if (lang === "hi") {
+        return {
+          humanText: `⚙️ **S.P.R. सिरी धान्या फैक्टरी संचालन और कार्यप्रणाली (Operations & Working):**\n\n` +
+                     `🏭 **फैक्टरी पता:** कामेपल्ली गांव, संतमागलुरु मंडल, बापटला जिला, आंध्र प्रदेश - 523326।\n\n` +
+                     `🔬 **वैज्ञानिक विनिर्माण और कार्यप्रणाली:**\\n` +
+                     `1. **मल्टी-स्टेज डी-स्टोनिंग और एयर-वॉशिंग:** किसानों से आए अनाजों को वाइब्रेटरी डी-स्टोनर और एयर-वॉश चैंबर से साफ किया जाता है ताकि धूल, कंकड़ और भूसी पूरी तरह अलग हो सके।\n` +
+                     `2. **कम तापमान पर स्टोन ग्राइंडिंग:** अनाजों को कम गति और कम तापमान पर पीसा जाता है जिससे विटामिन बी, पाचक एंजाइम और फाइबर नष्ट नहीं होते।\n` +
+                     `3. **प्राकृतिक इंस्टेंट फॉर्मूलेशन:** बिना किसी रासायनिक गोंद या स्टार्च के, केवल भुनी हुई दालों, जीरा, हींग और सेंधा नमक के वैज्ञानिक मिश्रण से तैयार किया जाता है, जो पानी डालते ही 15 मिनट में प्राकृतिक बाइंडिंग देता है।\n` +
+                     `4. **3-लेयर मॉइस्चर-प्रूफ पैकेजिंग:** बिना मानवीय स्पर्श के स्वचालित मशीनों द्वारा 3-परत वाले खाद्य-ग्रेड पाउच में पैक किया जाता है, जिससे बिना किसी रासायनिक प्रिजर्वेटिव के 6 महीने तक ताज़गी बनी रहती है।\n` +
+                     `5. **FSSAI प्रमाणन:** प्रत्येक बैच FSSAI लाइसेंस नं. 20126152000402 के तहत प्रमाणित होता है।\n\n` +
+                     `🍳 **बनाने की विधि:** 1 कप डोसा मिक्स में सवा कप पानी मिलाकर 15 मिनट रखें और गर्म तवे पर घी लगाकर कुरकुरा सेकें!`,
+          voiceScript: "हमारी फैक्टरी बापटला जिले के कामेपल्ली में स्थित है। यहाँ किसानों से प्राप्त अनाजों को एयर-वॉश तकनीक से साफ कर कम तापमान पर पीसा जाता है ताकि प्राकृतिक पोषक तत्व सुरक्षित रहें। जीरा और हींग जैसे प्राकृतिक मसालों के वैज्ञानिक अनुपात के कारण केवल पानी मिलाने पर 15 मिनट में घोल तैयार हो जाता है। 3-लेयर सील पैक होने से यह बिना किसी प्रिजर्वेटिव के 6 महीने तक ताजा रहता है।",
+          actionBtn: { text: "⏱️ 15 मिनट रेसिपी गाइड", action: "sendAiQuickPrompt('How to prepare instant dosa in 15 minutes?')" }
+        };
+      } else {
+        return {
+          humanText: `⚙️ **S.P.R. Siri Dhanya Factory Operations & How It Works:**\n\n` +
+                     `🏭 **Manufacturing Plant:** Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326.\n\n` +
+                     `🔬 **Step-by-Step Production & Milling Operations:**\n` +
+                     `1. **Multi-Stage Air Destoning & Cleaning:** Raw millets sourced from local Andhra farmers pass through vibratory destoners, gravity separators, and pressurized air-wash chambers to eliminate every trace of dust, husk, and impurities.\n` +
+                     `2. **Low-Temperature Controlled Stone Milling:** Grains are stone-ground and roller-milled at controlled low RPM and low temperature, ensuring that heat-sensitive Vitamin B-complex, natural live enzymes, and dietary fibres are 100% retained.\n` +
+                     `3. **Proprietary Natural Instant Binder Formulation:** Absolutely zero synthetic gums or starches! We blend pre-conditioned roasted pulses and natural Ayurvedic digestive spices (Cumin, Fenugreek, Rock Salt, Hing) in scientific proportions, activating natural elasticity the instant water is added.\n` +
+                     `4. **3-Layer Moisture-Barrier Nitrogen Packaging:** Packaged automatically without human contact in 3-layer food-grade barrier pouches that block UV light and moisture, ensuring 6 months of peak natural freshness with ZERO chemical preservatives.\n` +
+                     `5. **FSSAI Quality Compliance:** Every batch undergoes mandatory food-safety checks under FSSAI License No. 20126152000402 before direct factory dispatch.\n\n` +
+                     `🍳 **Consumer Recipe (How it Works for You):**\n` +
+                     `• Mix 1 cup flour with 1 to 1.25 cups water into smooth batter.\n` +
+                     `• Rest for 15 minutes (natural binders activate automatically).\n` +
+                     `• Spread on medium tawa, drizzle ghee or oil, and enjoy restaurant-crisp dosas in 15 minutes flat!`,
+          voiceScript: "Our S.P.R. Siri Dhanya manufacturing facility in Kamepalli, Bapatla district operates with high hygienic standards. Raw grains are destoned and air-washed, then cold stone-milled at low temperatures to preserve natural enzymes and vitamins. We blend pure natural digestive spices like cumin and fenugreek which activate instant batter elasticity within 15 minutes of adding water. Sealed in 3-layer food grade pouches, our mixes stay naturally fresh for 6 months without any preservatives!",
+          actionBtn: { text: "⏱️ View 15-Minute Recipe", action: "sendAiQuickPrompt('How to prepare instant dosa in 15 minutes?')" }
+        };
+      }
+    }
 
-    return {
-      text: `🎉 **Item Added to Your Order!**\n\nI have added **${prod.name}** (₹${prod.price}) to your cart.\n\nYou can proceed directly to checkout to enter your address and choose Payment (UPI / Card / Cash on Delivery).`,
-      actionBtn: { text: "🚀 Proceed to Checkout Now", action: "openCheckoutModal()" }
-    };
-  }
+    // =====================================================================
+    // TOPIC 4: HEALTH BENEFITS & DIABETIC MANAGEMENT (డయాబెటిస్ / షుగర్)
+    // =====================================================================
+    if (q.includes("diabetes") || q.includes("sugar") || q.includes("health") || 
+        q.includes("benefit") || q.includes("calcium") || q.includes("protein") || 
+        q.includes("weight") || q.includes("డయాబెటిస్") || q.includes("షుగర్") || 
+        q.includes("ఆరోగ్యం") || q.includes("లాభాలు") || q.includes("मधुमेह") || 
+        q.includes("शुगर") || q.includes("फायदे") || q.includes("स्वास्थ्य")) {
+      
+      if (lang === "te") {
+        return {
+          humanText: `🌿 **ఆరోగ్య నిపుణుల సలహాలు (Siri Dhanya Health Recommendations):**\n\n` +
+                     `• **డయాబెటిస్ & షుగర్ కంట్రోల్:** మన 'కొర్ర దోశ మిక్స్' (Foxtail Millet) అత్యుత్తమమైనది. దీనిలో చాలా తక్కువ గ్లైసిమిక్ ఇండెక్స్ (Low GI) మరియు అధిక పీచు పదార్థం ఉంటుంది కాబట్టి రక్తంలో షుగర్ పెరగకుండా నియంత్రిస్తుంది.\n` +
+                     `• **ఎముకల బలం & పిల్లల ఎదుగుదల:** 'రాగి దోశ మిక్స్' (Finger Millet) లో 100 గ్రాములకు 344mg సహజ కాల్షియం మరియు ఐరన్ ఉంటాయి.\n` +
+                     `• **అసిడిటీ, గ్యాస్ & బరువు నియంత్రణ:** 'జొన్న దోశ మిక్స్' (Sorghum) సహజ గ్లూటెన్ లేని ధాన్యం. ఇది గుండె ఆరోగ్యానికి ఎంతో మేలు చేస్తుంది.\n` +
+                     `• **కండరాల పుష్టి & ప్యూర్ ప్లాంట్ ప్రొటీన్:** 'పెసర దోశ మిక్స్' (Whole Moong) లో 22 గ్రాములకు పైగా స్వచ్ఛమైన ప్రొటీన్ లభిస్తుంది.\n` +
+                     `• **మెత్తని చపాతీలు & సులభ జీర్ణక్రియ:** 7 రకాల ధాన్యాలతో చేసిన 'మల్టీ గ్రెయిన్ ఆటా' కడుపు ఉబ్బరం లేకుండా తేలికగా జీర్ణమవుతుంది.`,
+          voiceScript: "డయాబెటిస్ మరియు షుగర్ లెవెల్స్ నియంత్రణకు మన కొర్ర దోశ మిక్స్ అత్యుత్తమమైనది. ఇందులో తక్కువ గ్లైసిమిక్ ఇండెక్స్ మరియు ఎక్కువ పీచు ఉంటుంది. ఎముకల బలానికి రాగి దోశ మిక్స్, అసిడిటీ తగ్గించడానికి జొన్న దోశ మిక్స్, మరియు అధిక ప్రోటీన్ కోసం పెసర దోశ మిక్స్ ఉత్తమమైనవి!",
+          actionBtn: { text: "🌾 Order Korra Dosa (₹129)", action: "buyNow(4)" }
+        };
+      } else if (lang === "hi") {
+        return {
+          humanText: `🌿 **स्वास्थ्य और पोषण संबंधी मार्गदर्शन:**\n\n` +
+                     `• **डायबिटीज और शुगर नियंत्रण:** हमारा 'कोर्रा डोसा मिक्स' (कंगनी / फॉक्सटेल बाजरा) सबसे बेहतरीन है। इसका कम ग्लाइसेमिक इंडेक्स (Low GI) रक्त शर्करा को नियंत्रित रखता है।\n` +
+                     `• **हड्डियों की मजबूती:** 'रागी डोसा मिक्स' में 344mg प्राकृतिक कैल्शियम और आयरन होता है जो बच्चों और बुजुर्गों के लिए लाभकारी है।\n` +
+                     `• **एसिडिटी और गैस से राहत:** 'ज्वार डोसा मिक्स' ग्लूटेन-मुक्त है और पाचन को सुगम बनाता है।\n` +
+                     `• **मांसपेशियों के लिए प्रोटीन:** 'पेसरा डोसा मिक्स' 22g से अधिक शुद्ध वनस्पति प्रोटीन प्रदान करता है।`,
+          voiceScript: "डायबिटीज और शुगर नियंत्रण के लिए हमारा कोर्रा डोसा मिक्स सबसे उत्तम है क्योंकि इसमें कम ग्लाइसेमिक इंडेक्स होता है। हड्डियों के लिए रागी डोसा मिक्स और प्रोटीन के लिए पेसरा डोसा मिक्स सबसे अच्छे हैं!",
+          actionBtn: { text: "🌾 कोर्रा डोसा ऑर्डर करें (₹129)", action: "buyNow(4)" }
+        };
+      } else {
+        return {
+          humanText: `🌿 **Health & Nutritional Guidance from Siri Dhanya Nutrition Desk:**\n\n` +
+                     `• **For Diabetes & Sugar Management:** Our **Korra Dosa Mix (Foxtail Millet / కొర్రలు)** is the top choice due to its very low Glycemic Index (GI) and high insoluble dietary fibre.\n` +
+                     `• **For Bone Strength & Child Growth:** **Ragi Dosa Mix (Finger Millet)** supplies 344mg of natural calcium per 100g, plus vital natural iron.\n` +
+                     `• **For Acidity, Digestion & Heart Care:** **Jowar Dosa Mix (Sorghum)** is naturally 100% gluten-free, soothing stomach acid and improving cardiac health.\n` +
+                     `• **For Muscle Stamina & Pure Plant Protein:** **Pesara Dosa Mix (Whole Moong)** packs over 22g of clean vegetarian protein.\n` +
+                     `• **For Daily Soft Rotis & Zero Bloating:** **Multi-Grain Atta (7 Super Grains)** is packed with whole bran fibre without maida or starch.`,
+          voiceScript: "For diabetes and blood sugar control, S.P.R. Korra Dosa Mix is highly recommended due to its low Glycemic Index and high fibre. For calcium and bone density, Ragi Dosa is best, and for pure protein, Pesara Dosa is ideal!",
+          actionBtn: { text: "🌾 Order Korra Dosa (₹129)", action: "buyNow(4)" }
+        };
+      }
+    }
 
-  // Track order
-  if (q.includes("track") || q.includes("status") || q.includes("my order") || q.includes("where is")) {
-    if (state.orders.length > 0) {
-      const latest = state.orders[0];
+    // =====================================================================
+    // TOPIC 5: PRICING & OFFICIAL PRICE LIST (ధరల వివరాలు / मूल्य सूची)
+    // =====================================================================
+    if (q.includes("price") || q.includes("cost") || q.includes("rate") || 
+        q.includes("mrp") || q.includes("ధర") || q.includes("రేటు") || 
+        q.includes("ఖరీదు") || q.includes("कीमत") || q.includes("मूल्य") || 
+        q.includes("दाम") || q.includes("list")) {
+      
+      if (lang === "te") {
+        return {
+          humanText: `💰 **S.P.R. సిరిధాన్య అధికారిక ధరల పట్టిక (Official Price List):**\n\n` +
+                     `1. **రాగి దోశ మిక్స్ (500g):** ₹119 *(MRP ₹149 - 20% ఆదా!)*\n` +
+                     `2. **జొన్న దోశ మిక్స్ (500g):** ₹119 *(MRP ₹149)*\n` +
+                     `3. **పెసర దోశ మిక్స్ (500g):** ₹129 *(MRP ₹159)*\n` +
+                     `4. **కొర్ర దోశ మిక్స్ (500g):** ₹129 *(MRP ₹160)*\n` +
+                     `5. **మల్టీ గ్రెయిన్ ఆటా (1 KG):** ₹150 *(MRP ₹185 - 7 ధాన్యాలు)*\n` +
+                     `6. **5-in-1 సంపూర్ణ కుటుంబ కాంబో (3 KG):** ₹629 *(MRP ₹811 - రూ. 182 భారీ ఆదా!)*\n` +
+                     `7. **సూపర్ మార్కెట్ హోల్‌సేల్ కార్టన్ (24 ప్యాక్‌లు):** ₹2,490 *(MRP ₹3,350 - 25% మార్జిన్)*\n\n` +
+                     `🎁 **స్పెషల్ ఆఫర్:** ₹299 దాటిన ప్రతి ఆర్డర్‌పై ఉచిత హోమ్ డెలివరీ!`,
+          voiceScript: "అధికారిక ధరల వివరాలు: రాగి మరియు జొన్న దోశ మిక్స్ 119 రూపాయలు, పెసర మరియు కొర్ర దోశ మిక్స్ 129 రూపాయలు, మరియు 7 ధాన్యాల మల్టీ గ్రెయిన్ పిండి 150 రూపాయలు. మొత్తం 5 ఉత్పత్తుల ఫ్యామిలీ కాంబో ప్యాక్ 629 రూపాయలకే లభిస్తుంది, దీనిలో మీకు 182 రూపాయలు ఆదా అవుతాయి!",
+          actionBtn: { text: "🎁 View 5-in-1 Combo (₹629)", action: "openProductQuickview(6)" }
+        };
+      } else if (lang === "hi") {
+        return {
+          humanText: `💰 **S.P.R. सिरी धान्या आधिकारिक मूल्य सूची (Official Price List):**\n\n` +
+                     `1. **रागी डोसा मिक्स (500g):** ₹119 (MRP ₹149)\n` +
+                     `2. **ज्वार डोसा मिक्स (500g):** ₹119 (MRP ₹149)\n` +
+                     `3. **पेसरा डोसा मिक्स (500g):** ₹129 (MRP ₹159)\n` +
+                     `4. **कोर्रा डोसा मिक्स (500g):** ₹129 (MRP ₹160)\n` +
+                     `5. **मल्टी ग्रेन आटा (1 KG):** ₹150 (MRP ₹185)\n` +
+                     `6. **5-इन-1 सम्पूर्ण परिवार कॉम्बो (3 KG):** ₹629 (MRP ₹811 - ₹182 की बचत!)\n` +
+                     `7. **थोक सुपरमार्केट कार्टन (24 पैकेट):** ₹2,490 (MRP ₹3,350)\n\n` +
+                     `🎁 ₹299 से अधिक के सभी ऑर्डर पर मुफ्त एक्सप्रेस डिलीवरी!`,
+          voiceScript: "आधिकारिक मूल्य सूची: रागी और ज्वार डोसा 119 रुपये, पेसरा और कोर्रा डोसा 129 रुपये, और मल्टी ग्रेन आटा 150 रुपये है। पूरा 5-इन-1 फैमिली कॉम्बो पैक मात्र 629 रुपये में उपलब्ध है जिससे 182 रुपये की बचत होती है!",
+          actionBtn: { text: "🎁 5-इन-1 कॉम्बो देखें (₹629)", action: "openProductQuickview(6)" }
+        };
+      } else {
+        return {
+          humanText: `💰 **Official S.P.R. Siri Dhanya Price Catalogue:**\n\n` +
+                     `1. **Ragi Dosa Mix (500g):** ₹119 *(MRP ₹149 - Save 20%)*\n` +
+                     `2. **Jowar Dosa Mix (500g):** ₹119 *(MRP ₹149)*\n` +
+                     `3. **Pesara Dosa Mix (500g):** ₹129 *(MRP ₹159)*\n` +
+                     `4. **Korra Dosa Mix (500g):** ₹129 *(MRP ₹160)*\n` +
+                     `5. **Multi Grain Atta (1 KG):** ₹150 *(MRP ₹185 - 7 Super Grains)*\n` +
+                     `6. **5-in-1 Complete Family Combo (3 KG):** ₹629 *(MRP ₹811 - Save ₹182!)*\n` +
+                     `7. **Supermarket Wholesale Master Carton (24 Packs):** ₹2,490 *(Retail value ₹3,350 - 25% margin)*\n\n` +
+                     `🎁 **Launch Offer:** 100% FREE express delivery on all orders above ₹299!`,
+          voiceScript: "Official Price Catalogue: Ragi Dosa and Jowar Dosa are 119 rupees each, Pesara Dosa and Korra Dosa are 129 rupees each, and 7-grain Multi Grain Atta is 150 rupees per kg. Our best-selling 5-in-1 Complete Family Pack is just 629 rupees, saving you 182 rupees!",
+          actionBtn: { text: "🎁 View 5-in-1 Combo (₹629)", action: "openProductQuickview(6)" }
+        };
+      }
+    }
+
+    // =====================================================================
+    // TOPIC 6: 15-MINUTE RECIPE & COOKING INSTRUCTIONS (వంట విధానం / रेसिपी)
+    // =====================================================================
+    if (q.includes("cook") || q.includes("recipe") || q.includes("how to prepare") || 
+        q.includes("how to make") || q.includes("water ratio") || q.includes("తయారు") || 
+        q.includes("ఎలా చేయాలి") || q.includes("రెసిపీ") || q.includes("बनाने की विधि") || 
+        q.includes("रेसिपी")) {
+      
+      if (lang === "te") {
+        return {
+          humanText: `⏱️ **15 నిమిషాల్లో క్రిస్పీ సిరిధాన్య దోశ తయారీ విధానం ('కేవలం నీరు కలపండి'):**\n\n` +
+                     `1. **కలపండి:** ఒక బౌల్‌లో 1 కప్పు S.P.R. దోశ పిండి తీసుకుని, దానికి 1 నుండి 1.25 కప్పుల నీళ్లు పోయండి. పిండిని ఎలాంటి ఉండలు లేకుండా చక్కగా కలపండి.\n` +
+                     `2. **15 నిమిషాలు ఉంచండి:** పిండిని 15 నిమిషాల పాటు అలాగే ఉంచండి. రాత్రంతా పులియబెట్టడం లేదా మిక్సీలో రుబ్బే పనేమీ లేదు!\n` +
+                     `3. **దోశ వేయండి:** దోశ పెనంను మీడియం వేడి చేసి, ఒక గరిటె పిండిని పోసి గుండ్రంగా పలుచగా పరవండి. చుట్టూ కొద్దిగా స్వచ్ఛమైన నెయ్యి లేదా వేరుశెనగ నూనె వేయండి.\n` +
+                     `4. **సర్వ్ చేయండి:** దోరగా బంగారు రంగులో కాలిన తర్వాత తీసి కొబ్బరి చట్నీ, అల్లం పచ్చడి లేదా సాంబారుతో వేడివేడిగా ఆస్వాదించండి!`,
+          voiceScript: "15 నిమిషాల్లో సులభమైన తయారీ విధానం: ఒక కప్పు S.P.R. దోశ మిక్స్‌కు ఒకటింపావు కప్పు నీళ్లు కలిపి 15 నిమిషాలు నాననివ్వండి. రుబ్బే పని లేదా పులియబెట్టే పని ఏమాత్రం లేదు! మీడియం వేడి పెనంపై పోసి కొద్దిగా నెయ్యి లేదా నూనె వేసి దోరగా కాల్చితే హోటల్ స్టైల్ క్రిస్పీ దోశ సిద్ధం!",
+          actionBtn: { text: "🛒 Buy Dosa Mix Now", action: "filterByCategory('dosa')" }
+        };
+      } else {
+        return {
+          humanText: `⏱️ **Instant 15-Minute 'Just Add Water' Cooking Guide:**\n\n` +
+                     `1. **Mix:** In a bowl, take 1 cup of S.P.R. Dosa Mix. Add 1 to 1.25 cups of water. Whisk well into a smooth, lump-free batter.\n` +
+                     `2. **Rest for 15 Min:** Let the batter rest for just **15 minutes**. (No grinding, no overnight fermentation needed!).\n` +
+                     `3. **Pour & Crisp:** Heat a tawa to medium heat. Pour a ladle of batter and spread gently in circular motion. Drizzle pure ghee or cold-pressed oil.\n` +
+                     `4. **Serve Hot:** Cook until golden crisp and serve with coconut chutney, ginger pachadi, or hot sambar!`,
+          voiceScript: "Instant 15-minute recipe: Mix 1 cup of S.P.R. Dosa Mix with 1.25 cups of water into a smooth batter. Rest for just 15 minutes without any grinding or fermentation. Spread on a medium-hot tawa, drizzle ghee or oil, and cook until golden crispy!",
+          actionBtn: { text: "🛒 Buy Dosa Mix Now", action: "filterByCategory('dosa')" }
+        };
+      }
+    }
+
+    // =====================================================================
+    // TOPIC 7: WHOLESALE & SUPERMARKET DEALERSHIP (హోల్‌సేల్ / थोक)
+    // =====================================================================
+    if (q.includes("wholesale") || q.includes("supermarket") || q.includes("distributor") || 
+        q.includes("dealer") || q.includes("carton") || q.includes("bulk") || 
+        q.includes("margin") || q.includes("హోల్") || q.includes("డీలర్") || 
+        q.includes("షాపు") || q.includes("थोक") || q.includes("डीलर")) {
+      
       return {
-        text: `🚚 **Latest Order Status:**\n\n` +
-              `• **Order ID:** ${latest.orderId}\n` +
-              `• **Status:** ${latest.status}\n` +
-              `• **Payment:** ${latest.paymentMethod} (${latest.paymentStatus})\n` +
-              `• **Courier:** ${latest.shipping.courier} (AWB: ${latest.shipping.trackingId || 'In Preparation'})\n\n` +
-              `Click below to view full journey stepper and tracking link:`,
-        actionBtn: { text: "📦 Open My Orders Tracker", action: "openMyOrdersModal()" }
+        humanText: `🤝 **సూపర్ మార్కెట్లు & డిస్ట్రిబ్యూటర్లకు స్పెషల్ హోల్‌సేల్ డీల్స్ (B2B Wholesale Portal):**\n\n` +
+                   `• **మాస్టర్ కార్టన్ ప్యాక్:** 24 ప్యాక్‌ల మాస్టర్ కార్టన్ ఫ్యాక్టరీ రేటు **₹2,490 కే** లభిస్తుంది (రీటైల్ MRP విలువ ₹3,350).\n` +
+                   `• **ఆకర్షణీయమైన లాభం:** రిటైల్ వ్యాపారులకు **20% నుండి 25% వరకు నికర మార్జిన్** లభిస్తుంది.\n` +
+                   `• **అధికారిక జీఎస్టీ ఇన్వాయిస్:** పూర్తి జీఎస్టీ B2B టాక్స్ ఇన్వాయిస్ మరియు ఫాస్ట్ కొరియర్ సదుపాయం.\n` +
+                   `• **డైరెక్ట్ కాంటాక్ట్:** హోల్‌సేల్ ఆర్డర్ల కోసం మేనేజ్‌మెంట్ లైన్లు **+91 94413 93817** లేదా **9492468817** కు నేరుగా కాల్ లేదా వాట్సాప్ చేయండి!`,
+        voiceScript: "సూపర్ మార్కెట్లు మరియు డిస్ట్రిబ్యూటర్లకు 24 ప్యాక్‌ల మాస్టర్ కార్టన్ ఫ్యాక్టరీ రేటు 2,490 రూపాయలకే లభిస్తుంది. దీనిలో వ్యాపారులకు 25 శాతం వరకు లాభం మరియు జీఎస్టీ ఇన్వాయిస్ అందుతాయి. వివరాలకు మా నెంబర్ 94413 93817 కు సంప్రదించండి!",
+        actionBtn: { text: "🤝 Open Wholesale B2B Portal", action: "openWholesalePortalModal()" }
+      };
+    }
+
+    // =====================================================================
+    // TOPIC 8: TRACKING & ORDER STATUS (ట్రాకింగ్ / ऑर्डर ट्रैकिंग)
+    // =====================================================================
+    if (q.includes("track") || q.includes("status") || q.includes("where is my order") || 
+        q.includes("courier") || q.includes("ట్రాక్") || q.includes("ఎక్కడ ఉంది") || 
+        q.includes("ट्रैक") || q.includes("कहाँ है")) {
+      
+      if (typeof state !== 'undefined' && state.orders && state.orders.length > 0) {
+        const latest = state.orders[0];
+        return {
+          humanText: `🚚 **మీ తాజా ఆర్డర్ వివరాలు (Latest Order Journey):**\n\n` +
+                     `• **ఆర్డర్ ఐడీ (Order ID):** ${latest.orderId}\n` +
+                     `• **ప్రస్తుత స్థితి (Status):** ${latest.status}\n` +
+                     `• **చెల్లింపు విధానం (Payment):** ${latest.paymentMethod} (${latest.paymentStatus})\n` +
+                     `• **కొరియర్ పార్టనర్:** ${latest.shipping ? latest.shipping.courier : 'India Post / DTDC'}\n\n` +
+                     `పూర్తి 7-స్టేజ్ డెలివరీ ట్రాకర్ చూడటానికి కింద ఉన్న బటన్ క్లిక్ చేయండి:`,
+          voiceScript: `మీ ఆర్డర్ ఐడీ ${latest.orderId}. ప్రస్తుతం మీ ఆర్డర్ స్థితి ${latest.status}. ఇది త్వరలోనే మీ చిరునామాకు చేరుకుంటుంది.`,
+          actionBtn: { text: "📦 Open Live Order Tracker", action: "openMyOrdersModal()" }
+        };
+      } else {
+        return {
+          humanText: `📦 **ఆర్డర్ ట్రాకింగ్ సమాచారం:**\n\nమీ వద్ద ప్రస్తుతం యాక్టివ్ ఆర్డర్లేమీ లేవు. మీరు ఆర్డర్ చేసిన వెంటనే 7-స్టేజ్ లైవ్ ట్రాకింగ్ మరియు కొరియర్ నెంబర్ అందుతాయి. ఇప్పుడే ఆర్డర్ చేసి ఫ్లాట్ 20% డిస్కౌంట్ పొందండి!`,
+          voiceScript: "మీ వద్ద ప్రస్తుతం యాక్టివ్ ఆర్డర్లు ఏమీ లేవు. మీరు ఆర్డర్ చేసిన వెంటనే లైవ్ కొరియర్ ట్రాకింగ్ నెంబర్ అందుతుంది.",
+          actionBtn: { text: "🛒 Browse Products", action: "filterByCategory('all')" }
+        };
+      }
+    }
+
+    // =====================================================================
+    // TOPIC 9: CONTACT, HELPLINE & FACTORY DESK (ఫోన్ నెంబర్లు / संपर्क)
+    // =====================================================================
+    if (q.includes("contact") || q.includes("phone") || q.includes("call") || 
+        q.includes("number") || q.includes("whatsapp") || q.includes("owner") || 
+        q.includes("address") || q.includes("ఫోన్") || q.includes("చిరునామా") || 
+        q.includes("సంప్రదించండి") || q.includes("नंबर") || q.includes("पता") || 
+        q.includes("फोन")) {
+      
+      return {
+        humanText: `📞 **S.P.R. సిరిధాన్య అధికారిక సంప్రదింపుల వివరాలు (Official Contacts):**\n\n` +
+                   `• **మేనేజ్‌మెంట్ లైన్ 1:** [+91 94413 93817](tel:9441393817) *(డైరెక్ట్ కాల్ & వాట్సాప్)*\n` +
+                   `• **మేనేజ్‌మెంట్ లైన్ 2:** [9492468817](tel:9492468817)\n` +
+                   `• **ఫ్యాక్టరీ & ఆఫీస్:** కామేపల్లి, సంతమాగులూరు మండలం, బాపట్ల జిల్లా, ఆంధ్రప్రదేశ్ - 523326.\n` +
+                   `• **FSSAI లైసెన్స్:** 20126152000402\n\n` +
+                   `వాట్సాప్ ద్వారా నేరుగా మాట్లాడటానికి లేదా ఆర్డర్ ఇవ్వడానికి కింద క్లిక్ చేయండి:`,
+        voiceScript: "S.P.R. సిరిధాన్య మేనేజ్‌మెంట్ ఫోన్ మరియు వాట్సాప్ నెంబర్లు 94413 93817 మరియు 9492468817. మా ఫ్యాక్టరీ బాపట్ల జిల్లా కామేపల్లిలో ఉంది. మీరు ఎప్పుడైనా సంప్రదించవచ్చు!",
+        actionBtn: { text: "💬 WhatsApp Management Desk", action: "openContactChooser('whatsapp')" }
+      };
+    }
+
+    // =====================================================================
+    // DEFAULT INTELLIGENT MULTILINGUAL FALLBACK
+    // =====================================================================
+    if (lang === "te") {
+      return {
+        humanText: `నమస్కారం అండి! నేను **S.P.R. సిరిధాన్య స్మార్ట్ AI అసిస్టెంట్‌ని**. మీరు నన్ను ఏదైనా అడగవచ్చు:\n\n` +
+                   `• 🛒 *"ఆర్డర్ స్టెప్-బై-స్టెప్ ఎలా చేయాలి?"*\n` +
+                   `• 🌟 *"సిరిధాన్య ప్రత్యేకత & విశిష్టత ఏమిటి?"*\n` +
+                   `• ⚙️ *"ఫ్యాక్టరీ పనితీరు & శాస్త్రీయ తయారీ విధానం ఏమిటి?"*\n` +
+                   `• 🌿 *"షుగర్ లేదా డయాబెటిస్‌కు ఏ పిండి మంచిది?"*\n` +
+                   `• 💰 *"అన్ని ఉత్పత్తుల ధరల వివరాలు ఏమిటి?"*\n` +
+                   `• ⏱️ *"15 నిమిషాల్లో దోశ ఎలా తయారు చేయాలి?"*\n\n` +
+                   `మీకు ఏ విషయం కావాలో అడగండి, నేను సంపూర్ణ వివరాలతో సమాధానం ఇస్తాను!`,
+        voiceScript: "నమస్కారం! నేను S.P.R. సిరిధాన్య వాయిస్ అసిస్టెంట్‌ని. మీరు ఆర్డర్ ఎలా చేయాలి, సిరిధాన్య విశిష్టత, ఫ్యాక్టరీ తయారీ విధానం, ధరలు లేదా ఆరోగ్యం గురించి ఏదైనా అడగవచ్చు!",
+        actionBtn: { text: "📦 How to Order Step-by-Step", action: "sendAiQuickPrompt('How to order step by step?')" }
+      };
+    } else if (lang === "hi") {
+      return {
+        humanText: `नमस्ते! मैं **S.P.R. सिरी धान्या स्मार्ट AI सहायक** हूँ। आप मुझसे पूछ सकते हैं:\n\n` +
+                   `• 🛒 *"ऑर्डर स्टेप-बाय-स्टेप कैसे करें?"*\n` +
+                   `• 🌟 *"सिरी धान्या में क्या खास और विशेष है?"*\\n` +
+                   `• ⚙️ *"फैक्ट्री की कार्यप्रणाली और विनिर्माण कैसे होता है?"*\n` +
+                   `• 🌿 *"डायबिटीज के लिए कौन सा डोसा सबसे अच्छा है?"*\n` +
+                   `• 💰 *"सभी उत्पादों की आधिकारिक मूल्य सूची क्या है?"*\n\n` +
+                   `कृपया अपना प्रश्न पूछें, मुझे आपकी सहायता करने में खुशी होगी!`,
+        voiceScript: "नमस्ते! मैं S.P.R. सिरी धान्या वॉयस असिस्टेंट हूँ। आप ऑर्डर करने की विधि, हमारी विशेषताएं, उत्पाद और मूल्य के बारे में कुछ भी पूछ सकते हैं!",
+        actionBtn: { text: "📦 ऑर्डर कैसे करें (Step-by-Step)", action: "sendAiQuickPrompt('How to order step by step?')" }
       };
     } else {
       return {
-        text: `You do not have any active orders right now. Browse our traditional millet products and place your first order with FREE delivery!`,
-        actionBtn: { text: "Browse Products", action: "scrollToSection('productsSection')" }
+        humanText: `Hello! I am the **S.P.R. Siri Dhanya Knowledge & Voice AI Assistant**. How may I help you today?\n\n` +
+                   `You can ask me anything about:\n` +
+                   `• 🛒 *"How to order step-by-step?"*\n` +
+                   `• 🌟 *"What makes S.P.R. Siri Dhanya special?"*\n` +
+                   `• ⚙️ *"What are the factory operations and how does it work?"*\n` +
+                   `• 🌿 *"Which millet is best for diabetes and sugar control?"*\n` +
+                   `• 💰 *"Show me the full price catalogue and combo offers"*\n` +
+                   `• ⏱️ *"How to prepare instant dosa in 15 minutes?"*\n\n` +
+                   `Just ask or tap one of the quick buttons below!`,
+        voiceScript: "Hello! I am your S.P.R. Siri Dhanya AI assistant. Feel free to ask me how to order step by step, why our millets are special, our factory operations, or anything about our prices and health benefits!",
+        actionBtn: { text: "📦 How to Order Step-by-Step", action: "sendAiQuickPrompt('How to order step by step?')" }
       };
     }
   }
+};
 
-  // Owner phone numbers
-  if (q.includes("contact") || q.includes("phone") || q.includes("call") || q.includes("number") || q.includes("whatsapp") || q.includes("owner")) {
-    return {
-      text: `📞 **S.P.R. Siri Dhanya Official Contacts:**\n\n` +
-            `• **Management Line 1:** +91 94413 93817\n` +
-            `• **Management Line 2:** 9492468817\n` +
-            `• **Factory Desk:** Kamepalli, Santamaguluru Mandal, Bapatla District, A.P.\n\n` +
-            `Click below to connect directly via WhatsApp or Phone:`,
-      actionBtn: { text: "💬 WhatsApp Management", action: "openContactChooser('whatsapp')" }
-    };
-  }
 
+function generateAiBotResponse(query) {
+  const result = SPR_RAG_ENGINE.query(query, { mode: "chat" });
   return {
-    text: `I'm here to assist you with all S.P.R. Siri Dhanya products! You can ask me:\n• *"What is the price of Ragi Dosa?"*\n• *"Is Foxtail millet good for diabetes?"*\n• *"Order 5-in-1 combo"*\n• *"Check stock availability"*`,
-    actionBtn: { text: "📦 View In-Stock Items", action: "sendAiQuickPrompt('What products are currently in stock?')" }
+    text: result.humanText,
+    actionBtn: result.actionBtn
   };
 }
 
@@ -2521,84 +2880,29 @@ function processUniversalVoiceQuery(query) {
 }
 
 function executeUniversalRag(rawQuery) {
-  const q = rawQuery.toLowerCase();
-  const isTelugu = /[\u0C00-\u0C7F]/.test(rawQuery) || q.includes("ela") || q.includes("dhara") || q.includes("undi") || q.includes("dosa") || q.includes("cheyali") || q.includes("manchidi");
-  const isHindi = /[\u0900-\u097F]/.test(rawQuery) || q.includes("kaise") || q.includes("kya") || q.includes("banao") || q.includes("kimat") || q.includes("kaha");
+  const langCode = (voiceState && voiceState.language) ? voiceState.language.substring(0, 2) : "te";
+  const result = SPR_RAG_ENGINE.query(rawQuery, { mode: "voice", lang: langCode });
+  return result.humanText;
+}
 
-  // 1. Stock / Inventory Live Database
-  if (q.includes("stock") || q.includes("available") || q.includes("count") || q.includes("ఉందా") || q.includes("స్టాక్") || q.includes("उपलब्ध")) {
-    if (isTelugu) {
-      return `మన ఫ్యాక్టరీలో అన్ని ఉత్పత్తులు తాజా బ్యాచ్‌తో అందుబాటులో ఉన్నాయి:\n- రాగి దోశ మిక్స్ (₹119)\n- జొన్న దోశ మిక్స్ (₹119)\n- పెసర దోశ మిక్స్ (₹129)\n- కొర్ర దోశ మిక్స్ (₹129)\n- మల్టీ గ్రెయిన్ పిండి (₹150)\n- 5-in-1 కాంబో (₹629)\nఅన్నీ 24 గంటల్లో ఫ్యాక్టరీ నుంచి డిస్పాచ్ అవుతాయి.`;
-    } else if (isHindi) {
-      return `हमारे पास सभी 5 उत्पाद और 5-इन-1 कॉम्बो पैक ताज़ा स्टॉक में उपलब्ध हैं। रागी और ज्वार डोसा मिक्स ₹119, पेसरा और कोर्रा डोसा मिक्स ₹129, और मल्टी ग्रेन आटा ₹150 है। 24 घंटे में कामेपल्ली प्लांट से सीधे डिस्पैच होता है।`;
-    } else {
-      return `All S.P.R. Siri Dhanya products are fully in stock directly from our Kamepalli factory: Ragi Dosa (₹119), Jowar Dosa (₹119), Pesara Dosa (₹129), Korra Dosa (₹129), Multi Grain Atta (₹150), and 5-in-1 Combo Pack (₹629).`;
-    }
+function processUniversalVoiceQuery(query) {
+  const st = document.getElementById("voiceStatusPill");
+  if (st) st.textContent = "🧠 Understanding question & searching knowledge base...";
+
+  const langCode = (voiceState && voiceState.language) ? voiceState.language.substring(0, 2) : "te";
+  const result = SPR_RAG_ENGINE.query(query, { mode: "voice", lang: langCode });
+  voiceState.lastAnswer = result.humanText;
+  voiceState.lastVoiceScript = result.voiceScript;
+
+  const answerEl = document.getElementById("voiceBotAnswer");
+  if (answerEl) {
+    answerEl.innerHTML = result.humanText
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\n/g, '<br>');
   }
 
-  // 2. Health & Diabetes
-  if (q.includes("diabetes") || q.includes("sugar") || q.includes("డయాబెటిస్") || q.includes("షుగర్") || q.includes("मधुमेह") || q.includes("health") || q.includes("ఆరోగ్యం")) {
-    if (isTelugu) {
-      return `డయాబెటిస్ మరియు షుగర్ లెవెల్స్ నియంత్రణకు మన 'కొర్ర దోశ మిక్స్' (Foxtail Millet) అత్యుత్తమమైనది. కొర్రల్లో తక్కువ గ్లైసిమిక్ ఇండెక్స్ (Low GI) మరియు ఎక్కువ పీచు పదార్థం ఉంటుంది కాబట్టి రక్తంలో షుగర్ పెరగకుండా కాపాడుతుంది. ఎముకల బలానికి రాగి దోశ మిక్స్ మరియు అధిక ప్రోటీన్ కోసం పెసర దోశ మిక్స్ వాడవచ్చు.`;
-    } else if (isHindi) {
-      return `डायबिटीज और शुगर नियंत्रण के लिए हमारा 'कोर्रा डोसा मिक्स' (कंगनी / फॉक्सटेल बाजरा) सबसे बेहतरीन है क्योंकि इसमें कम ग्लाइसेमिक इंडेक्स (Low GI) और भरपूर फाइबर होता है। हड्डियों के लिए रागी डोसा मिक्स और प्रोटीन के लिए पेसरा डोसा मिक्स उत्तम है।`;
-    } else {
-      return `For diabetes and blood sugar care, S.P.R. Korra Dosa Mix (Foxtail Millet) is highly recommended due to its low Glycemic Index (GI) and high insoluble fibre. Ragi Dosa provides natural calcium for bone density, and Pesara Dosa provides over 22g pure plant protein.`;
-    }
-  }
-
-  // 3. Preparation & 15-Minute Recipe
-  if (q.includes("cook") || q.includes("how to") || q.includes("recipe") || q.includes("water") || q.includes("తయారీ") || q.includes("ఎలా") || q.includes("बनाने") || q.includes("विधि")) {
-    if (isTelugu) {
-      return `15 నిమిషాల్లో సులభమైన తయారీ విధానం:\n1. ఒక కప్పు S.P.R. దోశ మిక్స్‌కు ఒకటి నుండి ఒకటింపావు కప్పు నీళ్లు కలపండి.\n2. ఎలాంటి ఉండలు లేకుండా కలిపి 15 నిమిషాలు నాననివ్వండి (రుబ్బడం లేదా పులియబెట్టడం అవసరం లేదు!).\n3. మీడియం వేడి పెనంపై పోసి నెయ్యి లేదా నూనె వేసి దోరగా కాల్చండి. క్రిస్పీ దోశ సిద్ధం!`;
-    } else if (isHindi) {
-      return `15 मिनट में झटपट बनाने की विधि:\n1. एक कप डोसा मिक्स में सवा कप पानी मिलाकर चिकना घोल बनाएं।\n2. केवल 15 मिनट रखें (रात भर किण्वन या पीसने की कोई आवश्यकता नहीं है)।\n3. गर्म तवे पर फैलाकर हल्का घी लगाकर कुरकुरा सेकें। नारियल चटनी के साथ परोसें।`;
-    } else {
-      return `Instant 15-Minute 'Just Add Water' Recipe:\n1. Mix 1 cup of S.P.R. Dosa Mix with 1 to 1.25 cups of water into a smooth batter.\n2. Let it rest for 15 minutes (No grinding or overnight fermentation!).\n3. Spread on a medium-hot tawa, drizzle ghee or cold-pressed oil, and cook until golden crisp!`;
-    }
-  }
-
-  // 4. Pricing / Cost
-  if (q.includes("price") || q.includes("cost") || q.includes("mrp") || q.includes("ధర") || q.includes("రేటు") || q.includes("कीमत") || q.includes("मूल्य")) {
-    if (isTelugu) {
-      return `అధికారిక ధరల వివరాలు:\n1. రాగి దోశ మిక్స్ (500g): ₹119 (MRP ₹149)\n2. జొన్న దోశ మిక్స్ (500g): ₹119 (MRP ₹149)\n3. పెసర దోశ మిక్స్ (500g): ₹129 (MRP ₹159)\n4. కొర్ర దోశ మిక్స్ (500g): ₹129 (MRP ₹160)\n5. మల్టీ గ్రెయిన్ పిండి (1 KG): ₹150 (MRP ₹185)\n6. 5-in-1 కంప్లీట్ కాంబో: ₹629 (రూ. 182 ఆదా!)\n7. హోల్‌సేల్ కార్టన్ (24 ప్యాక్‌లు): ₹2,490.`;
-    } else if (isHindi) {
-      return `आधिकारिक मूल्य सूची:\n1. रागी डोसा मिक्स (500g): ₹119\n2. ज्वार डोसा मिक्स (500g): ₹119\n3. पेसरा डोसा मिक्स (500g): ₹129\n4. कोर्रा डोसा मिक्स (500g): ₹129\n5. मल्टी ग्रेन आटा (1 KG): ₹150\n6. 5-इन-1 कॉम्बो पैक: ₹629 (₹182 की बचत!)\n7. थोक कार्टन (24 पैकेट): ₹2,490.`;
-    } else {
-      return `Official Price Catalogue: Ragi Dosa (500g) ₹119, Jowar Dosa (500g) ₹119, Pesara Dosa (500g) ₹129, Korra Dosa (500g) ₹129, Multi Grain Atta (1 KG) ₹150, 5-in-1 Combo Pack ₹629 (Save ₹182!), and 24-Pack Master Wholesale Carton ₹2,490.`;
-    }
-  }
-
-  // 5. Wholesale & Dealership
-  if (q.includes("wholesale") || q.includes("distributor") || q.includes("supermarket") || q.includes("carton") || q.includes("డీలర్") || q.includes("హోల్") || q.includes("थोक")) {
-    if (isTelugu) {
-      return `సూపర్ మార్కెట్లు మరియు డిస్ట్రిబ్యూటర్లకు 24 ప్యాక్‌ల మాస్టర్ కార్టన్ ఫ్యాక్టరీ రేటు ₹2,490 కే లభిస్తుంది (MRP ₹3,350). ఇందులో వ్యాపారులకు 20% నుండి 25% వరకు లాభం ఉంటుంది. జీఎస్టీ టాక్స్ ఇన్‌వాయిస్‌తో నేరుగా కామేపల్లి ఫ్యాక్టరీ నుండి డెలివరీ చేయబడుతుంది. సంప్రదించండి: +91 94413 93817 లేదా 9492468817.`;
-    } else {
-      return `For supermarkets and distributors, our 24-Pack Master Carton is offered at ₹2,490 (retail MRP ₹3,350), providing a high 20% to 25% trade retailer margin. Official GST tax invoices and priority dispatch provided directly from our Kamepalli plant. Call +91 94413 93817 or 9492468817.`;
-    }
-  }
-
-  // 6. Contact & Factory Address
-  if (q.includes("contact") || q.includes("phone") || q.includes("address") || q.includes("number") || q.includes("ఫోన్") || q.includes("చిరునామా") || q.includes("पता") || q.includes("नंबर")) {
-    return `S.P.R. Siri Dhanya Factory Desk: Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326. Official Management Lines: +91 94413 93817 and 9492468817. FSSAI License: 20126152000402.`;
-  }
-
-  // Fallback match in Knowledge Base
-  const matched = state.knowledgeBase.find(kb => 
-    q.split(" ").some(word => word.length > 3 && kb.content.toLowerCase().includes(word))
-  );
-
-  if (matched) {
-    return matched.content;
-  }
-
-  if (isTelugu) {
-    return `S.P.R. సిరిధాన్య సహజమైన మిల్లెట్ ఉత్పత్తులు, రాగి, జొన్న, పెసర, కొర్ర దోశ మిక్స్‌లు, మరియు మల్టీ గ్రెయిన్ పిండిని 100% రసాయనాలు లేకుండా అందిస్తుంది. మీరు ఆర్డర్ చేయడానికి ఆన్‌లైన్ చెకౌట్ ఉపయోగించవచ్చు లేదా మేనేజ్‌మెంట్ నంబర్లు +91 94413 93817 మరియు 9492468817 కి వాట్సాప్ చేయవచ్చు.`;
-  } else if (isHindi) {
-    return `S.P.R. सिरी धान्या शुद्ध पारंपरिक बाजरा डोसा मिक्स और मल्टीग्रेन आटा प्रदान करता है। किसी भी सवाल या थोक ऑर्डर के लिए हमारे आधिकारिक नंबर +91 94413 93817 या 9492468817 पर संपर्क करें।`;
-  } else {
-    return `S.P.R. Siri Dhanya provides 100% natural, preservative-free instant millet dosa mixes and multi-grain atta. All products are stone-milled in Kamepalli with FSSAI certification #20126152000402. For orders or assistance, connect via WhatsApp to +91 94413 93817 or 9492468817.`;
-  }
+  speakVoiceAnswer(result.voiceScript || result.humanText);
 }
 
 function speakVoiceAnswer(text) {
