@@ -108,11 +108,11 @@ def run_tests():
         page.wait_for_selector("#checkoutModal.active")
 
         # Step 1 -> Step 2
-        page.click("#checkoutStep1 .btn-primary")
-        page.wait_for_timeout(300)
+        page.click("button:has-text('DELIVER HERE & CONTINUE')")
+        page.wait_for_timeout(400)
         # Step 2 -> Step 3
-        page.click("#checkoutStep2 .btn-primary")
-        page.wait_for_timeout(300)
+        page.click("button:has-text('CONTINUE TO PAYMENT')")
+        page.wait_for_timeout(400)
 
         # Check Payment Options
         step3_text = page.locator("#checkoutStep3").inner_text()

@@ -3647,3 +3647,159 @@ body {
   border-radius: 8px;
   padding: 16px;
 }
+
+
+/* ========================================================================== */
+/* === S.P.R. SIRI DHANYA: 14-MODULE ADMIN, WHOLESALE PORTAL & 7-STAGE STEP === */
+/* ========================================================================== */
+
+/* Scrollable Admin Command Tabs */
+.admin-tabs-scrollable::-webkit-scrollbar {
+  height: 6px;
+}
+.admin-tabs-scrollable::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* 7-Stage Live Order Stepper */
+.stepper-7-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin: 16px 0 10px 0;
+  padding: 0 5px;
+}
+
+.step-7-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  text-align: center;
+}
+
+.step-7-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  margin-bottom: 4px;
+}
+
+.step-7-item.completed .step-7-circle {
+  background: #2e7d32;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(46,125,50,0.4);
+}
+
+.step-7-item.current .step-7-circle {
+  background: var(--fk-blue);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(40,116,240,0.5);
+  animation: pulseCurrentStep 1.5s infinite;
+}
+
+@keyframes pulseCurrentStep {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.step-7-label {
+  font-size: 10px;
+  color: #64748b;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.step-7-item.completed .step-7-label {
+  color: #2e7d32;
+  font-weight: 700;
+}
+
+.step-7-item.current .step-7-label {
+  color: var(--fk-blue);
+  font-weight: 700;
+}
+
+/* Customer Order Card Upgrades */
+.cust-order-actions-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.btn-reorder {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+  font-weight: 700;
+}
+.btn-reorder:hover {
+  background: #2e7d32;
+  color: #fff;
+}
+
+.btn-invoice {
+  background: #eef5ff;
+  color: var(--fk-blue);
+  border: 1px solid #90caf9;
+  font-weight: 600;
+}
+.btn-invoice:hover {
+  background: var(--fk-blue);
+  color: #fff;
+}
+
+/* Status Pill Colors */
+.status-placed { background: #e3f2fd; color: #1565c0; }
+.status-confirmed { background: #e8f5e9; color: #2e7d32; }
+.status-processing { background: #fff8e1; color: #f57f17; }
+.status-packed { background: #f3e5f5; color: #7b1fa2; }
+.status-shipped { background: #e0f2f1; color: #00796b; }
+.status-out-for-delivery { background: #ede7f6; color: #512da8; }
+.status-delivered { background: #e8f5e9; color: #1b5e20; }
+.status-cancelled { background: #ffebee; color: #c62828; }
+.status-returned { background: #fff3e0; color: #e65100; }
+.status-replacement-requested { background: #fce4ec; color: #c2185b; }
+
+/* Wholesale Portal Styles */
+.wholesale-nav-btn {
+  background: #2e7d32 !important;
+  color: #fff !important;
+  border-color: #1b5e20 !important;
+}
+
+.wholesale-nav-btn:hover {
+  background: #1b5e20 !important;
+}
+
+/* Printable Official Tax Invoice Container */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printableInvoiceContainer, #printableInvoiceContainer * {
+    visibility: visible;
+  }
+  #printableInvoiceContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}

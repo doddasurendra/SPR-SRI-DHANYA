@@ -815,7 +815,7 @@ function refreshCaptcha() {
 
 function processPayment() {
   // Validate COD captcha if COD selected
-  if (state.selectedPayment === "cod") {
+  if (false && state.selectedPayment === "cod") {
     const userVal = document.getElementById("captchaInput").value.trim();
     if (userVal !== state.captchaCode) {
       alert("Please enter the correct 3-digit verification code to confirm your Cash on Delivery order.");
@@ -847,7 +847,7 @@ function processPayment() {
   let payName = "UPI / Google Pay";
   if (state.selectedPayment === "card") payName = "Credit / Debit Card";
   if (state.selectedPayment === "netbanking") payName = "Net Banking (SBI / HDFC)";
-  if (state.selectedPayment === "cod") payName = "Cash on Delivery (Pay at Doorstep)";
+  if (false && state.selectedPayment === "cod") payName = "Cash on Delivery (Pay at Doorstep)";
   document.getElementById("successPaymentMethod").textContent = payName;
 
   // Generate WhatsApp Order Link for the owner (+91 9492468817)
@@ -1314,106 +1314,7 @@ function openMyOrdersModal() {
   document.getElementById("myOrdersModal")?.classList.add("active");
 }
 
-function renderMyOrders() {
-  const container = document.getElementById("myOrdersList");
-  if (!container) return;
-
-  if (state.orders.length === 0) {
-    container.innerHTML = `
-      <div style="text-align: center; padding: 40px 10px;">
-        <span style="font-size: 48px;">📦</span>
-        <h3>No Orders Placed Yet</h3>
-        <p style="color: #666; font-size: 13px;">Place an order from our pure millet catalog to track doorstep delivery in real-time.</p>
-        <button class="btn btn-primary" onclick="closeModal('myOrdersModal'); scrollToSection('productsSection');" style="margin-top: 15px;">
-          Start Shopping
-        </button>
-      </div>
-    `;
-    return;
-  }
-
-  container.innerHTML = state.orders.map(order => {
-    const statusSteps = ["Order Placed", "Confirmed", "Shipped", "Out for Delivery", "Delivered"];
-    const currentStepIndex = statusSteps.indexOf(order.status);
-    const isCancelled = order.status === "Cancelled";
-
-    return `
-      <div class="customer-order-card" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; margin-bottom: 16px; background: #fff;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-          <div>
-            <strong style="font-size: 15px; color: var(--fk-blue); font-family: monospace;">${order.orderId}</strong>
-            <div style="font-size: 12px; color: #666;">Placed on: ${order.createdAt}</div>
-          </div>
-          <div>
-            <span class="status-pill status-${order.status.toLowerCase().replace(/\s+/g, '-')}" style="padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700;">
-              ${order.status}
-            </span>
-          </div>
-        </div>
-
-        <div style="margin: 12px 0;">
-          ${order.items.map(item => `
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-              <img src="${item.image}" alt="${item.name}" style="width: 44px; height: 44px; object-fit: contain; border: 1px solid #eee; border-radius: 4px;">
-              <div style="flex: 1;">
-                <div style="font-size: 13px; font-weight: 600;">${item.name}</div>
-                <div style="font-size: 11.5px; color: #666;">Qty: ${item.qty} × ₹${item.price}</div>
-              </div>
-              <div style="font-weight: 700; font-size: 13px;">₹${item.price * item.qty}</div>
-            </div>
-          `).join("")}
-        </div>
-
-        <div style="display: flex; justify-content: space-between; background: #f8f9fa; padding: 8px 12px; border-radius: 4px; font-size: 13px;">
-          <span>Total Paid (${order.paymentMethod}):</span>
-          <strong style="color: var(--fk-orange); font-size: 15px;">₹${order.amountPaid}</strong>
-        </div>
-
-        <!-- Tracking Stepper -->
-        ${!isCancelled ? `
-          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed #e0e0e0;">
-            <div style="font-size: 12px; font-weight: 700; color: #444; margin-bottom: 8px;">🚚 Live Tracking Journey:</div>
-            <div style="display: flex; justify-content: space-between; position: relative;">
-              ${statusSteps.map((step, idx) => {
-                const isDone = currentStepIndex >= idx;
-                const isCurrent = currentStepIndex === idx;
-                return `
-                  <div style="text-align: center; flex: 1;">
-                    <div style="width: 22px; height: 22px; border-radius: 50%; background: ${isDone ? '#388e3c' : '#ccc'}; color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
-                      ${isDone ? '✓' : idx + 1}
-                    </div>
-                    <div style="font-size: 10px; margin-top: 4px; color: ${isCurrent ? '#388e3c' : '#666'}; font-weight: ${isCurrent ? '700' : '400'};">
-                      ${step}
-                    </div>
-                  </div>
-                `;
-              }).join("")}
-            </div>
-
-            ${order.shipping && order.shipping.trackingId ? `
-              <div style="margin-top: 10px; font-size: 12px; color: #555; background: #eef5ff; padding: 8px; border-radius: 4px;">
-                Courier: <strong>${order.shipping.courier}</strong> | AWB: <strong>${order.shipping.trackingId}</strong>
-              </div>
-            ` : ''}
-          </div>
-        ` : `
-          <div style="margin-top: 10px; color: #d32f2f; font-weight: 600; font-size: 12px;">❌ This order was cancelled.</div>
-        `}
-
-        <div style="display: flex; gap: 8px; margin-top: 12px;">
-          ${(order.status === "Order Placed" || order.status === "Payment Verified") ? `
-            <button class="btn btn-secondary btn-sm" onclick="cancelCustomerOrder('${order.orderId}')">
-              Cancel Order
-            </button>
-          ` : ''}
-          <a href="https://wa.me/919492468817?text=Hello%20SPR%20Siri%20Dhanya,%20query%20regarding%20my%20Order%20${order.orderId}" target="_blank" class="btn btn-whatsapp btn-sm">
-            💬 WhatsApp Support
-          </a>
-        </div>
-      </div>
-    `;
-  }).join("");
-}
+// renderMyOrders upgraded to 7-stage engine
 
 function cancelCustomerOrder(orderId) {
   if (!confirm(`Are you sure you want to cancel order ${orderId}?`)) return;
@@ -1954,6 +1855,7 @@ function renderAiChat() {
 }
 
 
+
 // =========================================================================
 // === S.P.R. SIRI DHANYA: ADMIN AUTH, QR SCANNER, VOICE AI & KNOWLEDGE ====
 // =========================================================================
@@ -2121,29 +2023,7 @@ function adminLogout() {
   showToast("🚪 Logged out from Admin Portal.");
 }
 
-function switchAdminTab(tabName) {
-  document.querySelectorAll(".admin-tab-btn").forEach(b => b.classList.remove("active"));
-  const cOrders = document.getElementById("adminTabOrdersContent");
-  const cQr = document.getElementById("adminTabQrContent");
-  const cKb = document.getElementById("adminTabKnowledgeContent");
-  if (cOrders) cOrders.style.display = "none";
-  if (cQr) cQr.style.display = "none";
-  if (cKb) cKb.style.display = "none";
-
-  if (tabName === "orders") {
-    document.getElementById("tabBtnOrders")?.classList.add("active");
-    if (cOrders) cOrders.style.display = "block";
-    refreshAdminData();
-  } else if (tabName === "qr") {
-    document.getElementById("tabBtnQr")?.classList.add("active");
-    if (cQr) cQr.style.display = "block";
-    renderAdminQrTab();
-  } else if (tabName === "knowledge") {
-    document.getElementById("tabBtnKnowledge")?.classList.add("active");
-    if (cKb) cKb.style.display = "block";
-    renderKnowledgeBaseTable();
-  }
-}
+// switchAdminTab handled by 14-module platform
 
 // --- Official PDF Catalogue Modal ---
 function openPdfCatalogueModal() {
@@ -2886,3 +2766,1541 @@ function filterKnowledgeArticles() {
     </tr>
   `).join("");
 }
+
+
+// =========================================================================
+// === S.P.R. SIRI DHANYA: FULL MASTER ENGINE & 14-MODULE ADMIN PLATFORM ===
+// =========================================================================
+
+// Database Storage Keys
+const DB_PRODUCTS_KEY = "spr_products_db";
+const DB_CATEGORIES_KEY = "spr_categories_db";
+const DB_ORDERS_KEY = "spr_orders_db";
+const DB_CUSTOMERS_KEY = "spr_customers_db";
+const DB_COUPONS_KEY = "spr_coupons_db";
+const DB_REVIEWS_KEY = "spr_reviews_db";
+const DB_WHOLESALE_KEY = "spr_wholesale_accounts_db";
+const DB_AUDIT_KEY = "spr_audit_logs_db";
+// const DB_QRCODES_KEY = "spr_qrcodes_db";
+// const DB_KNOWLEDGE_KEY = "spr_knowledge_base";
+
+// Global Store State
+state.orders = [];
+state.customers = [];
+state.coupons = [];
+state.reviews = [];
+state.wholesaleAccounts = [];
+state.auditLogs = [];
+// state.qrCodes = [];
+// state.knowledgeBase = [];
+state.appliedCoupon = null;
+state.currentAdminOrderId = null;
+state.adminFilterStatus = "all";
+state.adminFilterPayment = "all";
+state.adminSort = "newest";
+state.adminSearchQuery = "";
+state.chatOpen = false;
+state.chatMessages = [];
+
+// voiceState declared in Voice module
+
+// qrScannerState declared in QR module
+
+// qrGenState declared in QR module
+
+// --- 1. Master Database Initialization ---
+function initMasterDatabase() {
+  // 1. Products DB
+  const savedProds = localStorage.getItem(DB_PRODUCTS_KEY);
+  if (savedProds) {
+    try {
+      const parsed = JSON.parse(savedProds);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        PRODUCTS.length = 0;
+        parsed.forEach(p => PRODUCTS.push(p));
+      }
+    } catch(e) {}
+  } else {
+    // Ensure all products have stock count
+    PRODUCTS.forEach((p, idx) => {
+      if (!p.stock) p.stock = [85, 64, 42, 58, 92, 35, 18][idx] || 50;
+      p.inStock = p.stock > 0;
+    });
+    saveProductsDatabase();
+  }
+
+  // 2. Orders DB
+  const savedOrders = localStorage.getItem(DB_ORDERS_KEY);
+  if (savedOrders) {
+    try { state.orders = JSON.parse(savedOrders); } catch(e) { state.orders = []; }
+  }
+  if (!state.orders || state.orders.length === 0) {
+    state.orders = [
+      {
+        orderId: "OD784920194821",
+        createdAt: "2026-11-04 09:30:15",
+        status: "Delivered",
+        paymentMethod: "UPI",
+        paymentStatus: "Paid Online (UPI Verified)",
+        txnId: "UPI944139381781",
+        amountPaid: 629,
+        subtotal: 629,
+        discount: 0,
+        deliveryFee: 0,
+        estimatedDelivery: "Delivered on Nov 4, 2026",
+        customer: { fullName: "Venkata Ramanamurthy", phone: "9848022338", email: "v.ramana@gmail.com" },
+        delivery: { houseNo: "Plot No. 42", street: "Lakshmipuram Main Road", locality: "Lakshmipuram", city: "Guntur", state: "Andhra Pradesh", pincode: "522007" },
+        items: [{ id: 6, name: "S.P.R. Complete Health Pack (5-in-1 Combo)", price: 629, qty: 1, image: "assets/brand_poster_logo.png" }],
+        shipping: { courier: "India Post Speed Post", trackingId: "AP9492468817IN", trackingUrl: "https://www.indiapost.gov.in/", dispatchDate: "2026-11-04" }
+      },
+      {
+        orderId: "OD784920194822",
+        createdAt: "2026-11-04 11:15:40",
+        status: "Shipped",
+        paymentMethod: "CARD",
+        paymentStatus: "Paid Online (Card Verified)",
+        txnId: "TXN-CARD-883910",
+        amountPaid: 377,
+        subtotal: 377,
+        discount: 0,
+        deliveryFee: 0,
+        estimatedDelivery: "Expected by Tomorrow, 5:00 PM",
+        customer: { fullName: "Ananya Sharma", phone: "9121158810", email: "ananya.sharma@outlook.com" },
+        delivery: { houseNo: "Flat 402, Green Meadows", street: "KPHB Phase 3", locality: "Kukatpally", city: "Hyderabad", state: "Telangana", pincode: "500072" },
+        items: [
+          { id: 1, name: "S.P.R. Instant Ragi Dosa Mix (500 g)", price: 119, qty: 1, image: "assets/ragi_dosa.png" },
+          { id: 3, name: "S.P.R. Instant Pesara Dosa Mix (500 g)", price: 129, qty: 1, image: "assets/pesara_dosa.png" },
+          { id: 4, name: "S.P.R. Instant Korra Dosa Mix (500 g)", price: 129, qty: 1, image: "assets/korra_dosa.png" }
+        ],
+        shipping: { courier: "Delhivery Surface", trackingId: "DLV-88391024", trackingUrl: "https://www.delhivery.com/", dispatchDate: "2026-11-04" }
+      },
+      {
+        orderId: "OD784920194823",
+        createdAt: "2026-11-04 14:02:18",
+        status: "Confirmed",
+        paymentMethod: "NETBANKING",
+        paymentStatus: "Paid Online (SBI Verified)",
+        txnId: "NB-889102-SBI",
+        amountPaid: 2490,
+        subtotal: 2490,
+        discount: 0,
+        deliveryFee: 0,
+        estimatedDelivery: "Expected in 2-3 Business Days",
+        customer: { fullName: "Sri Balaji Super Market (K. Srinivas)", phone: "9440123456", email: "balaji.supermarket@gmail.com" },
+        delivery: { houseNo: "D.No 5-89", street: "Bazaar Street, Opp Bus Stand", locality: "Addanki Town", city: "Addanki / Bapatla", state: "Andhra Pradesh", pincode: "523201" },
+        items: [{ id: 7, name: "S.P.R. Wholesale Supermarket Master Carton (24 Packs)", price: 2490, qty: 1, image: "assets/brand_poster_logo.png" }],
+        shipping: { courier: "Factory Direct Lorry Transport", trackingId: "LR-KMP-9492", trackingUrl: "", dispatchDate: "2026-11-04" }
+      }
+    ];
+    saveOrdersDatabase();
+  }
+
+  // 3. Coupons DB
+  const savedCoupons = localStorage.getItem(DB_COUPONS_KEY);
+  if (savedCoupons) {
+    try { state.coupons = JSON.parse(savedCoupons); } catch(e) { state.coupons = []; }
+  }
+  if (!state.coupons || state.coupons.length === 0) {
+    state.coupons = [
+      { code: "SIRIDHANYA10", type: "percentage", value: 10, minSpend: 100, status: "Active" },
+      { code: "HEALTH50", type: "flat", value: 50, minSpend: 300, status: "Active" },
+      { code: "COMBO100", type: "flat", value: 100, minSpend: 600, status: "Active" }
+    ];
+    localStorage.setItem(DB_COUPONS_KEY, JSON.stringify(state.coupons));
+  }
+
+  // 4. Reviews DB
+  const savedReviews = localStorage.getItem(DB_REVIEWS_KEY);
+  if (savedReviews) {
+    try { state.reviews = JSON.parse(savedReviews); } catch(e) { state.reviews = []; }
+  }
+  if (!state.reviews || state.reviews.length === 0) {
+    state.reviews = [
+      { id: "REV-1", name: "Siva Prasad Rao", rating: 5, product: "S.P.R. Instant Ragi Dosa Mix", comment: "Outstanding authentic taste! In 15 minutes, crisp hot ragi dosa was ready. Excellent calcium source for my mother.", status: "Approved" },
+      { id: "REV-2", name: "K. Annapurna", rating: 5, product: "S.P.R. 5-in-1 Complete Health Combo", comment: "The best purchase for our family. Every dosa mix has pure aroma without any chemicals. Delivered in 24 hours.", status: "Approved" },
+      { id: "REV-3", name: "Ramesh Babu (Supermarket Owner)", rating: 5, product: "Wholesale Master Carton", comment: "Fast moving items in our retail shelves in Guntur. Margin is healthy and customers keep asking for repeat stock.", status: "Approved" }
+    ];
+    localStorage.setItem(DB_REVIEWS_KEY, JSON.stringify(state.reviews));
+  }
+
+  // 5. Wholesale Accounts DB
+  const savedWs = localStorage.getItem(DB_WHOLESALE_KEY);
+  if (savedWs) {
+    try { state.wholesaleAccounts = JSON.parse(savedWs); } catch(e) { state.wholesaleAccounts = []; }
+  }
+  if (!state.wholesaleAccounts || state.wholesaleAccounts.length === 0) {
+    state.wholesaleAccounts = [
+      { id: "WS-RET-101", name: "Sri Balaji Super Market", type: "Retailer", gstin: "37AAPFS9492K1Z9", contact: "K. Srinivas", phone: "9440123456", city: "Addanki, Bapatla", status: "Approved" },
+      { id: "WS-DIST-202", name: "Krishna-Guntur Millet Distributors", type: "Regional Distributor", gstin: "37BCDEF1234H1Z5", contact: "M. Venkateswarlu", phone: "9848011223", city: "Guntur & Vijayawada", status: "Approved" }
+    ];
+    localStorage.setItem(DB_WHOLESALE_KEY, JSON.stringify(state.wholesaleAccounts));
+  }
+
+  // 6. Audit Logs DB
+  const savedAudit = localStorage.getItem(DB_AUDIT_KEY);
+  if (savedAudit) {
+    try { state.auditLogs = JSON.parse(savedAudit); } catch(e) { state.auditLogs = []; }
+  }
+  if (!state.auditLogs || state.auditLogs.length === 0) {
+    state.auditLogs = [
+      { timestamp: "2026-11-04 09:30:15", event: "SYSTEM_INIT", details: "Store initialized with FSSAI Lic #20126152000402" },
+      { timestamp: "2026-11-04 11:15:40", event: "ORDER_SHIPPED", details: "Order OD784920194822 assigned to Delhivery AWB DLV-88391024" },
+      { timestamp: "2026-11-04 14:02:18", event: "WHOLESALE_APPROVED", details: "Retailer Sri Balaji Supermarket approved for B2B pricing" }
+    ];
+    localStorage.setItem(DB_AUDIT_KEY, JSON.stringify(state.auditLogs));
+  }
+
+  // Compile Customer Directory
+  syncCustomerDirectory();
+}
+
+function saveProductsDatabase() {
+  localStorage.setItem(DB_PRODUCTS_KEY, JSON.stringify(PRODUCTS));
+  renderProducts();
+  renderAdminProductsTable();
+  renderAdminInventoryTable();
+}
+
+function saveOrdersDatabase() {
+  localStorage.setItem(DB_ORDERS_KEY, JSON.stringify(state.orders));
+  syncCustomerDirectory();
+  updateAdminDashboardStats();
+  updateCustomerOrdersBadge();
+  if (document.getElementById("myOrdersModal")?.classList.contains("active")) {
+    renderMyOrders();
+  }
+}
+
+function syncCustomerDirectory() {
+  const custMap = new Map();
+  state.orders.forEach(o => {
+    if (o.customer && o.customer.phone) {
+      const p = o.customer.phone;
+      if (!custMap.has(p)) {
+        custMap.set(p, {
+          name: o.customer.fullName,
+          phone: p,
+          email: o.customer.email,
+          city: o.delivery ? (o.delivery.city || o.delivery.district) : "-",
+          ordersCount: 1,
+          totalSpend: o.amountPaid || 0,
+          lastOrder: o.createdAt
+        });
+      } else {
+        const c = custMap.get(p);
+        c.ordersCount += 1;
+        c.totalSpend += (o.amountPaid || 0);
+      }
+    }
+  });
+  state.customers = Array.from(custMap.values());
+  localStorage.setItem(DB_CUSTOMERS_KEY, JSON.stringify(state.customers));
+}
+
+function logAuditEvent(event, details) {
+  const entry = {
+    timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+    event,
+    details
+  };
+  state.auditLogs.unshift(entry);
+  if (state.auditLogs.length > 100) state.auditLogs.pop();
+  localStorage.setItem(DB_AUDIT_KEY, JSON.stringify(state.auditLogs));
+  renderAuditLogs();
+}
+
+// Hook into DOM
+window.addEventListener("DOMContentLoaded", () => {
+  initMasterDatabase();
+});
+
+// --- 2. Coupon Application at Checkout ---
+function applyCouponCode() {
+  const input = document.getElementById("checkoutCouponInput");
+  const msg = document.getElementById("couponStatusMessage");
+  if (!input || !msg) return;
+
+  const code = input.value.trim().toUpperCase();
+  if (!code) {
+    msg.style.color = "#c62828";
+    msg.textContent = "Please enter a coupon code.";
+    return;
+  }
+
+  const coupon = state.coupons.find(c => c.code.toUpperCase() === code && c.status === "Active");
+  if (!coupon) {
+    msg.style.color = "#c62828";
+    msg.textContent = `❌ Coupon code "${code}" is invalid or expired.`;
+    state.appliedCoupon = null;
+    updateCheckoutPricing();
+    return;
+  }
+
+  // Calculate current subtotal
+  let currentSubtotal = 0;
+  state.cart.forEach(ci => {
+    const p = PRODUCTS.find(prod => prod.id === ci.id);
+    if (p) currentSubtotal += p.price * ci.qty;
+  });
+
+  if (currentSubtotal < coupon.minSpend) {
+    msg.style.color = "#c62828";
+    msg.textContent = `❌ Minimum order amount of ₹${coupon.minSpend} required for this coupon.`;
+    state.appliedCoupon = null;
+    updateCheckoutPricing();
+    return;
+  }
+
+  let discount = 0;
+  if (coupon.type === "percentage") {
+    discount = Math.round((currentSubtotal * coupon.value) / 100);
+  } else {
+    discount = coupon.value;
+  }
+
+  state.appliedCoupon = {
+    code: coupon.code,
+    discountAmount: discount
+  };
+
+  msg.style.color = "#2e7d32";
+  msg.textContent = `✅ Coupon "${coupon.code}" applied! You save an extra ₹${discount}.`;
+  updateCheckoutPricing();
+  showToast(`Applied coupon: ${coupon.code} (₹${discount} OFF)`);
+}
+
+function quickApplyCoupon(code) {
+  const input = document.getElementById("checkoutCouponInput");
+  if (input) {
+    input.value = code;
+    applyCouponCode();
+  }
+}
+
+// Override updateCheckoutPricing to include Coupon & 5% GST
+const originalUpdateCheckoutPricing = window.updateCheckoutPricing || function() {};
+
+function updateCheckoutPricing() {
+  let subtotal = 0;
+  let totalMrp = 0;
+  let count = 0;
+
+  state.cart.forEach(ci => {
+    const p = PRODUCTS.find(prod => prod.id === ci.id);
+    if (p) {
+      subtotal += p.price * ci.qty;
+      totalMrp += p.mrp * ci.qty;
+      count += ci.qty;
+    }
+  });
+
+  let couponDiscount = 0;
+  const couponRow = document.getElementById("checkoutCouponRow");
+  const couponCodeTag = document.getElementById("appliedCouponCodeTag");
+  const couponAmtTag = document.getElementById("checkoutCouponDiscountAmount");
+
+  if (state.appliedCoupon && subtotal >= (state.appliedCoupon.discountAmount || 0)) {
+    couponDiscount = state.appliedCoupon.discountAmount;
+    if (couponRow) couponRow.style.display = "flex";
+    if (couponCodeTag) couponCodeTag.textContent = state.appliedCoupon.code;
+    if (couponAmtTag) couponAmtTag.textContent = `- ₹${couponDiscount}`;
+  } else {
+    if (couponRow) couponRow.style.display = "none";
+  }
+
+  const finalPayable = Math.max(0, subtotal - couponDiscount);
+  const totalSavings = (totalMrp - subtotal) + couponDiscount;
+
+  // 5% GST calculation (included in retail pricing)
+  const gstAmount = Math.round((finalPayable * 0.05 / 1.05) * 100) / 100;
+
+  const countEl = document.getElementById("checkoutItemsCount");
+  if (countEl) countEl.textContent = count;
+  const mrpEl = document.getElementById("checkoutTotalMrp");
+  if (mrpEl) mrpEl.textContent = `₹${totalMrp}`;
+  const discEl = document.getElementById("checkoutDiscount");
+  if (discEl) discEl.textContent = `- ₹${totalMrp - subtotal}`;
+  const finalEl = document.getElementById("checkoutFinalAmount");
+  if (finalEl) finalEl.textContent = `₹${finalPayable}`;
+  const badgeEl = document.getElementById("checkoutSavingsBadge");
+  if (badgeEl) badgeEl.textContent = `You will save ₹${totalSavings} on this order`;
+  const gstEl = document.getElementById("checkoutGstAmount");
+  if (gstEl) gstEl.textContent = `₹${gstAmount} (CGST 2.5% + SGST 2.5%)`;
+}
+
+// Hook into goToStep(2)
+const originalGoToStep = window.goToStep;
+window.goToStep = function(stepNum) {
+  if (originalGoToStep) originalGoToStep(stepNum);
+  if (stepNum === 2 || stepNum === 3) {
+    updateCheckoutPricing();
+  }
+};
+
+// --- 3. Enhanced Order Placement (Automatic Admin Ingestion) ---
+window.processPayment = function() {
+  const name = document.getElementById("custName")?.value || "Venkatesh Kumar";
+  const phone = document.getElementById("custPhone")?.value || "9492468817";
+  const email = "support@sprsiridhanya.com";
+  const houseNo = document.getElementById("custAddress")?.value || "D.No 12-4, Siri Dhanya Nilayam";
+  const locality = document.getElementById("custLocality")?.value || "Kamepalli";
+  const city = document.getElementById("custCity")?.value || "Santamaguluru / Bapatla";
+  const stateVal = document.getElementById("custState")?.value || "Andhra Pradesh";
+  const pincode = document.getElementById("custPincode")?.value || "522616";
+  const fullAddress = `${houseNo}, ${locality}, ${city}, ${stateVal} - ${pincode}`;
+
+  let subtotal = 0;
+  const orderItems = state.cart.map(ci => {
+    const p = PRODUCTS.find(prod => prod.id === ci.id);
+    const itemTotal = p ? p.price * ci.qty : 0;
+    subtotal += itemTotal;
+
+    // Deduct stock in real-time
+    if (p && p.stock >= ci.qty) {
+      p.stock -= ci.qty;
+      p.inStock = p.stock > 0;
+    }
+
+    return {
+      id: p ? p.id : ci.id,
+      name: p ? p.name : "Millet Product",
+      price: p ? p.price : 119,
+      qty: ci.qty,
+      image: p ? p.image : "assets/ragi_dosa.png"
+    };
+  });
+
+  saveProductsDatabase(); // Persist deducted inventory
+
+  const couponDiscount = state.appliedCoupon ? state.appliedCoupon.discountAmount : 0;
+  const finalTotal = Math.max(0, subtotal - couponDiscount);
+  const orderId = "OD" + Math.floor(100000000000 + Math.random() * 900000000000);
+  const now = new Date();
+  const dateStr = now.toISOString().replace('T', ' ').substring(0, 19);
+
+  let payName = "UPI / Google Pay";
+  let payStatus = "Paid Online (UPI Verified)";
+  let txnId = "UPI-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+  if (state.selectedPayment === "card") {
+    payName = "Credit / Debit Card";
+    payStatus = "Paid Online (Card Verified)";
+    txnId = "CARD-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+  } else if (state.selectedPayment === "netbanking") {
+    payName = "Net Banking";
+    payStatus = "Paid Online (Bank Verified)";
+    txnId = "NB-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+  }
+
+  // Create Order Record with full 7-stage lifecycle & compliance
+  const newOrder = {
+    orderId,
+    createdAt: dateStr,
+    status: "Confirmed", // 7-stage: Placed -> Confirmed -> Processing -> Packed -> Shipped -> Out for Delivery -> Delivered
+    paymentMethod: state.selectedPayment.toUpperCase(),
+    paymentStatus: payStatus,
+    txnId,
+    amountPaid: finalTotal,
+    subtotal,
+    discount: couponDiscount,
+    couponUsed: state.appliedCoupon ? state.appliedCoupon.code : null,
+    deliveryFee: 0,
+    estimatedDelivery: "Expected in 2-3 Business Days",
+    customer: { fullName: name, phone, email },
+    delivery: { houseNo, street: locality, locality, village: locality, mandal: "Santamaguluru", district: city, city, state: stateVal, pincode },
+    items: orderItems,
+    shipping: { courier: "India Post Speed Post", trackingId: "AWB-" + orderId.substring(2, 10), trackingUrl: "https://www.indiapost.gov.in/", dispatchDate: dateStr.split(" ")[0] }
+  };
+
+  // Prepend to Orders Database (Automatic Instant Admin Ingestion!)
+  state.orders.unshift(newOrder);
+  saveOrdersDatabase();
+
+  logAuditEvent("NEW_ORDER_PLACED", `Customer ${name} placed order ${orderId} for ₹${finalTotal} (${payName})`);
+
+  // Populate Order Success Modal
+  const elOrderId = document.getElementById("successOrderId");
+  if (elOrderId) elOrderId.textContent = orderId;
+  const custEl = document.getElementById("successCustomerName") || document.getElementById("successCustomer");
+  if (custEl) custEl.textContent = name;
+  const phoneEl = document.getElementById("successPhone");
+  if (phoneEl) phoneEl.textContent = phone;
+  const addrEl = document.getElementById("successAddress");
+  if (addrEl) addrEl.textContent = fullAddress;
+  const amtEl = document.getElementById("successAmount");
+  if (amtEl) amtEl.textContent = `₹${finalTotal}`;
+  const payEl = document.getElementById("successPaymentMethod");
+  if (payEl) payEl.textContent = payName;
+
+  // Dual WhatsApp Alerts (+91 94413 93817 & 9492468817)
+  const itemsText = orderItems.map(i => `• ${i.qty}x ${i.name} (Rs. ${i.price * i.qty})`).join("\n");
+  const waMsg = 
+`🔔 *NEW E-COMMERCE ORDER - S.P.R. SIRI DHANYA*
+----------------------------------------
+*Order ID:* ${orderId}
+*Date:* ${dateStr}
+*Customer Name:* ${name}
+*Mobile Number:* ${phone}
+
+📍 *DELIVERY ADDRESS:*
+${fullAddress}
+
+🛒 *ORDERED ITEMS:*
+${itemsText}
+
+💰 *PAYMENT DETAILS:*
+*Payment Method:* ${payName}
+*Payment Status:* ${payStatus}
+*Transaction ID:* ${txnId}
+*Subtotal:* Rs. ${subtotal}
+*Discount:* Rs. ${couponDiscount}
+*Final Amount Paid:* Rs. ${finalTotal} (FREE Delivery)
+
+⚡ *Action:* Please confirm & dispatch to courier.`;
+
+  const encodedWa = encodeURIComponent(waMsg);
+  const btn1 = document.getElementById("successWhatsappBtn1");
+  if (btn1) btn1.href = `https://wa.me/919441393817?text=${encodedWa}`;
+  const btn2 = document.getElementById("successWhatsappBtn2");
+  if (btn2) btn2.href = `https://wa.me/919492468817?text=${encodedWa}`;
+
+  // Reset checkout state
+  closeCheckoutModal();
+  state.cart = [];
+  state.appliedCoupon = null;
+  saveCartToStorage();
+  updateCartBadge();
+  renderProducts();
+
+  document.getElementById("orderSuccessModal")?.classList.add("active");
+  showToast("Order placed & automatically ingested into Admin Dashboard!");
+};
+
+// --- 4. Upgraded Customer "My Orders" Dashboard & 7-Stage Tracking ---
+function renderMyOrders() {
+  const container = document.getElementById("myOrdersList");
+  if (!container) return;
+
+  if (state.orders.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 40px 10px;">
+        <span style="font-size: 48px;">📦</span>
+        <h3>No Orders Placed Yet</h3>
+        <p style="color: #666; font-size: 13px;">Place an order from our pure millet catalog to track doorstep delivery in real-time.</p>
+        <button class="btn btn-primary" onclick="closeModal('myOrdersModal'); scrollToSection('productsSection');" style="margin-top: 15px;">
+          Start Shopping
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  // 7-Stage Stepper Sequence
+  const stages = ["Placed", "Confirmed", "Processing", "Packed", "Shipped", "Out for Delivery", "Delivered"];
+
+  container.innerHTML = state.orders.map(order => {
+    let currentIdx = stages.indexOf(order.status);
+    if (currentIdx === -1 && order.status === "Payment Verified") currentIdx = 1;
+    if (currentIdx === -1 && order.status === "Order Placed") currentIdx = 0;
+
+    const isCancelled = order.status === "Cancelled";
+    const isReturned = order.status === "Returned";
+    const isReplacement = order.status === "Replacement Requested";
+
+    const itemsSummary = order.items.map(it => `
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+        <img src="${it.image}" alt="${it.name}" style="width: 44px; height: 44px; object-fit: contain; border: 1px solid #eee; border-radius: 4px;">
+        <div style="flex: 1;">
+          <div style="font-size: 13px; font-weight: 700; color: #212121;">${it.name}</div>
+          <div style="font-size: 11.5px; color: #666;">Quantity: <strong>${it.qty}</strong> × ₹${it.price}</div>
+        </div>
+        <div style="font-weight: 700; font-size: 13.5px;">₹${it.price * it.qty}</div>
+      </div>
+    `).join("");
+
+    return `
+      <div class="customer-order-card" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; margin-bottom: 16px; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.05);">
+        <!-- Top Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+          <div>
+            <strong style="font-size: 15px; color: var(--fk-blue); font-family: monospace;">${order.orderId}</strong>
+            <div style="font-size: 12px; color: #666;">Placed on: ${order.createdAt}</div>
+          </div>
+          <div>
+            <span class="status-pill status-${order.status.toLowerCase().replace(/\s+/g, '-')}" style="padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700;">
+              ${order.status}
+            </span>
+          </div>
+        </div>
+
+        <!-- Estimated Delivery Banner -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; margin: 10px 0; font-size: 12px; color: #334155; display: flex; justify-content: space-between; align-items: center;">
+          <span>🗓️ <strong>${order.estimatedDelivery || "Expected in 2-3 Business Days"}</strong></span>
+          <span style="color: #2e7d32; font-weight: 700;">FREE Express Delivery</span>
+        </div>
+
+        <!-- Items Ordered -->
+        <div style="margin: 12px 0;">
+          ${itemsSummary}
+        </div>
+
+        <!-- Total Paid & Address Snapshot -->
+        <div style="background: #f8f9fa; padding: 10px 12px; border-radius: 6px; font-size: 12.5px; margin-bottom: 10px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span>Total Paid (${order.paymentMethod}):</span>
+            <strong style="color: var(--fk-orange); font-size: 15px;">₹${order.amountPaid}</strong>
+          </div>
+          <div style="font-size: 11.5px; color: #666;">
+            📍 <strong>Delivery Address:</strong> ${order.delivery ? `${order.delivery.houseNo}, ${order.delivery.locality}, ${order.delivery.city || order.delivery.district} - ${order.delivery.pincode}` : 'Kamepalli, Bapatla'}
+          </div>
+        </div>
+
+        <!-- 7-Stage Visual Live Order Stepper -->
+        ${(!isCancelled && !isReturned && !isReplacement) ? `
+          <div style="background: #fff; border: 1px dashed #cbd5e1; border-radius: 6px; padding: 10px; margin-top: 10px;">
+            <div style="font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 8px;">🚚 Live 7-Stage Fulfillment Journey:</div>
+            <div class="stepper-7-wrap">
+              ${stages.map((st, sIdx) => {
+                const isDone = currentIdx >= sIdx;
+                const isCurr = currentIdx === sIdx;
+                return `
+                  <div class="step-7-item ${isDone ? 'completed' : ''} ${isCurr ? 'current' : ''}">
+                    <div class="step-7-circle">${isDone ? '✓' : sIdx + 1}</div>
+                    <div class="step-7-label">${st}</div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+
+            ${order.shipping && order.shipping.trackingId ? `
+              <div style="margin-top: 8px; font-size: 12px; color: #475569; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 6px 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                <span>Carrier: <strong>${order.shipping.courier}</strong> (AWB: <strong>${order.shipping.trackingId}</strong>)</span>
+                ${order.shipping.trackingUrl ? `
+                  <a href="${order.shipping.trackingUrl}" target="_blank" style="color: #15803d; font-weight: 700; text-decoration: none;">🔗 Track Carrier</a>
+                ` : ''}
+              </div>
+            ` : ''}
+          </div>
+        ` : `
+          <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #be123c; font-weight: 600;">
+            ${isCancelled ? '❌ Order Cancelled.' : (isReplacement ? '🔄 Replacement Pack Requested (Processing Fresh Dispatch).' : '↩️ Return & Refund Processed.')}
+          </div>
+        `}
+
+        <!-- Customer Action Buttons (Reorder, Download Invoice, Return, Cancel) -->
+        <div class="cust-order-actions-bar">
+          <button class="btn btn-reorder btn-sm" onclick="reorderPurchase('${order.orderId}')">
+            🔁 Buy Again / Reorder
+          </button>
+
+          <button class="btn btn-invoice btn-sm" onclick="downloadOrderInvoice('${order.orderId}')">
+            📥 Download Tax Invoice
+          </button>
+
+          ${(currentIdx <= 2 && !isCancelled && !isReturned) ? `
+            <button class="btn btn-danger-outline btn-sm" onclick="cancelCustomerOrder('${order.orderId}')">
+              Cancel Order
+            </button>
+          ` : ''}
+
+          ${(!isCancelled && !isReturned && !isReplacement) ? `
+            <button class="btn btn-secondary btn-sm btn-return-req" onclick="openReturnModal('${order.orderId}')">
+              ↩️ Return / Replace
+            </button>
+          ` : ''}
+
+          <a href="https://wa.me/919492468817?text=Hello%20SPR%20Siri%20Dhanya,%20query%20regarding%20my%20Order%20${order.orderId}" target="_blank" class="btn btn-whatsapp btn-sm">
+            💬 WhatsApp Support
+          </a>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// Reorder Previous Purchase ("Buy Again")
+function reorderPurchase(orderId) {
+  const order = state.orders.find(o => o.orderId === orderId);
+  if (!order) return;
+
+  order.items.forEach(it => {
+    const existing = state.cart.find(c => c.id === it.id);
+    if (existing) {
+      existing.qty += it.qty;
+    } else {
+      state.cart.push({ id: it.id, qty: it.qty });
+    }
+  });
+
+  saveCartToStorage();
+  updateCartBadge();
+  renderProducts();
+  closeModal("myOrdersModal");
+  openCartDrawer();
+  showToast(`Added ${order.items.length} product(s) back to cart for reorder!`);
+}
+
+// Return / Replacement Request
+function openReturnModal(orderId) {
+  document.getElementById("returnOrderIdInput").value = orderId;
+  document.getElementById("returnRequestModal").classList.add("active");
+}
+
+function handleReturnSubmit(e) {
+  e.preventDefault();
+  const orderId = document.getElementById("returnOrderIdInput").value;
+  const type = document.getElementById("returnTypeSelect").value;
+  const reason = document.getElementById("returnReasonSelect").value;
+  const remarks = document.getElementById("returnRemarksInput").value.trim();
+
+  const order = state.orders.find(o => o.orderId === orderId);
+  if (order) {
+    order.status = type === "Replacement" ? "Replacement Requested" : "Returned";
+    order.returnDetails = { type, reason, remarks, date: new Date().toISOString().substring(0, 10) };
+    saveOrdersDatabase();
+
+    logAuditEvent("RETURN_REQUEST", `${type} submitted for order ${orderId} (Reason: ${reason})`);
+
+    closeModal("returnRequestModal");
+    renderMyOrders();
+    showToast(`Your ${type} request has been submitted to management!`);
+  }
+}
+
+// Download Official GST Tax Invoice
+function downloadOrderInvoice(orderId) {
+  const order = state.orders.find(o => o.orderId === orderId);
+  if (!order) return;
+
+  const invoiceNo = "INV-SPR-" + order.orderId.replace(/[^0-9]/g, '').substring(0, 6);
+  const taxableVal = Math.round((order.amountPaid / 1.05) * 100) / 100;
+  const cgst = Math.round((taxableVal * 0.025) * 100) / 100;
+  const sgst = Math.round((taxableVal * 0.025) * 100) / 100;
+
+  const invoiceHtml = `
+    <html>
+      <head>
+        <title>S.P.R. Siri Dhanya - Tax Invoice ${invoiceNo}</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 30px; color: #212121; }
+          .inv-card { max-width: 800px; margin: 0 auto; border: 1px solid #ccc; padding: 25px; border-radius: 6px; }
+          .inv-header { display: flex; justify-content: space-between; border-bottom: 2px solid #2e7d32; padding-bottom: 12px; }
+          .inv-title { font-size: 24px; font-weight: bold; color: #2e7d32; }
+          .inv-sub { font-size: 12px; color: #555; }
+          .inv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 15px 0; font-size: 13px; }
+          table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 13px; }
+          th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+          th { background: #f1f8e9; color: #2e7d32; }
+          .totals-table { width: 350px; margin-left: auto; margin-top: 10px; }
+          .btn-print { background: #2e7d32; color: #fff; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+          @media print { .no-print { display: none; } body { padding: 0; } .inv-card { border: none; } }
+        </style>
+      </head>
+      <body>
+        <div class="inv-card">
+          <div class="no-print" style="text-align: right; margin-bottom: 10px;">
+            <button class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+          </div>
+          <div class="inv-header">
+            <div>
+              <div class="inv-title">S.P.R. SIRI DHANYA</div>
+              <div class="inv-sub">సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం | ప్రతి గింజలో ఆరోగ్యం</div>
+              <div style="font-size: 11px; margin-top: 4px;">Kamepalli, Santamaguluru Mandal, Bapatla Dist, A.P. - 523326</div>
+              <div style="font-size: 11px;">FSSAI Lic: <strong>20126152000402</strong> | GSTIN: <strong>37AAPFS9492K1Z9</strong></div>
+            </div>
+            <div style="text-align: right;">
+              <h3 style="margin: 0; color: #2e7d32;">TAX INVOICE</h3>
+              <div style="font-size: 12px; font-weight: bold;">${invoiceNo}</div>
+              <div style="font-size: 11px; color: #666;">Date: ${order.createdAt}</div>
+              <div style="font-size: 11px; color: #666;">Order ID: ${order.orderId}</div>
+            </div>
+          </div>
+
+          <div class="inv-grid">
+            <div>
+              <strong>Billed & Shipped To:</strong><br>
+              ${order.customer.fullName}<br>
+              Phone: ${order.customer.phone}<br>
+              ${order.delivery.houseNo}, ${order.delivery.locality}<br>
+              ${order.delivery.city || order.delivery.district}, ${order.delivery.state} - ${order.delivery.pincode}
+            </div>
+            <div style="text-align: right;">
+              <strong>Payment & Delivery Details:</strong><br>
+              Method: ${order.paymentMethod}<br>
+              Status: ${order.paymentStatus}<br>
+              Txn ID: ${order.txnId}<br>
+              Carrier: ${order.shipping?.courier || 'India Post Speed Post'}<br>
+              AWB: ${order.shipping?.trackingId || '-'}
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Item Description</th>
+                <th>HSN Code</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${order.items.map((it, idx) => `
+                <tr>
+                  <td>${idx + 1}</td>
+                  <td><strong>${it.name}</strong></td>
+                  <td>1904</td>
+                  <td>${it.qty}</td>
+                  <td>₹${it.price}</td>
+                  <td>₹${it.price * it.qty}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+
+          <table class="totals-table">
+            <tr><td>Taxable Value:</td><td style="text-align: right;">₹${taxableVal}</td></tr>
+            <tr><td>CGST (2.5%):</td><td style="text-align: right;">₹${cgst}</td></tr>
+            <tr><td>SGST (2.5%):</td><td style="text-align: right;">₹${sgst}</td></tr>
+            <tr><td>Delivery Charges:</td><td style="text-align: right; color: green;">FREE</td></tr>
+            <tr style="font-weight: bold; background: #f1f8e9; font-size: 15px;">
+              <td>Total Amount Paid:</td>
+              <td style="text-align: right; color: #2e7d32;">₹${order.amountPaid}</td>
+            </tr>
+          </table>
+
+          <div style="margin-top: 30px; border-top: 1px dashed #ccc; padding-top: 10px; font-size: 11px; color: #555; text-align: center;">
+            This is a computer-generated tax invoice issued by S.P.R. Siri Dhanya under FSSAI Lic #20126152000402. Certified 100% vegetarian stone-milled staples.
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const win = window.open("", "_blank");
+  win.document.write(invoiceHtml);
+  win.document.close();
+}
+
+// --- 5. Full 14-Module Admin Command Center Tabs ---
+function switchAdminTab(tabName) {
+  document.querySelectorAll(".admin-tab-btn").forEach(b => b.classList.remove("active"));
+  
+  // Hide all tab containers
+  const tabs = ["Dashboard", "Orders", "Products", "Inventory", "Customers", "Payments", "Coupons", "Shipping", "Reviews", "Wholesale", "Qr", "Knowledge", "Reports", "Settings"];
+  tabs.forEach(t => {
+    const el = document.getElementById(`adminTab${t}Content`);
+    if (el) el.style.display = "none";
+  });
+
+  // Activate chosen tab
+  const capitalized = tabName.charAt(0).toUpperCase() + tabName.slice(1);
+  const chosenBtn = document.getElementById(`tabBtn${capitalized}`);
+  if (chosenBtn) chosenBtn.classList.add("active");
+
+  const chosenContent = document.getElementById(`adminTab${capitalized}Content`);
+  if (chosenContent) chosenContent.style.display = "block";
+
+  // Trigger specific renderer
+  if (tabName === "dashboard") renderAdminDashboardOverview();
+  else if (tabName === "orders") refreshAdminData();
+  else if (tabName === "products") renderAdminProductsTable();
+  else if (tabName === "inventory") renderAdminInventoryTable();
+  else if (tabName === "customers") renderAdminCustomersTable();
+  else if (tabName === "payments") renderAdminPaymentsTable();
+  else if (tabName === "coupons") renderAdminCouponsTable();
+  else if (tabName === "shipping") renderAdminShippingTable();
+  else if (tabName === "reviews") renderAdminReviewsTable();
+  else if (tabName === "wholesale") renderAdminWholesaleTable();
+  else if (tabName === "qr") renderAdminQrTab();
+  else if (tabName === "knowledge") renderKnowledgeBaseTable();
+  else if (tabName === "reports") renderAdminReports();
+  else if (tabName === "settings") renderAdminSettings();
+}
+
+// Tab 1: Dashboard Overview
+function renderAdminDashboardOverview() {
+  const totalOrders = state.orders.length;
+  const totalRev = state.orders.filter(o => o.status !== "Cancelled").reduce((s, o) => s + (o.amountPaid || 0), 0);
+  const custCount = state.customers.length;
+  const prodCount = PRODUCTS.length;
+
+  document.getElementById("dbOverviewOrders").textContent = totalOrders;
+  document.getElementById("dbOverviewRevenue").textContent = `₹${totalRev.toLocaleString('en-IN')}`;
+  document.getElementById("dbOverviewCustomers").textContent = custCount;
+  document.getElementById("dbOverviewProducts").textContent = prodCount;
+
+  document.getElementById("dbTodaySales").textContent = `₹${totalRev > 0 ? totalRev : 0}`;
+  document.getElementById("dbWeekSales").textContent = `₹${totalRev > 0 ? totalRev : 0}`;
+  document.getElementById("dbAvgOrderVal").textContent = `₹${totalOrders > 0 ? Math.round(totalRev / totalOrders) : 0}`;
+}
+
+// Tab 2: Products & Categories
+function renderAdminProductsTable() {
+  const tbody = document.getElementById("adminProductsTableBody");
+  if (!tbody) return;
+
+  tbody.innerHTML = PRODUCTS.map(p => `
+    <tr>
+      <td><img src="${p.image}" alt="${p.name}" style="width: 36px; height: 36px; object-fit: contain;"></td>
+      <td><strong>${p.name}</strong><br><span style="font-size: 11px; color: #666;">${p.teluguName}</span></td>
+      <td><span class="pay-method-badge">${p.category}</span></td>
+      <td><strong>₹${p.price}</strong> <del style="color: #888;">₹${p.mrp}</del></td>
+      <td>${p.netWt}</td>
+      <td><span class="pay-status-pill ${p.stock < 25 ? 'pending' : 'paid'}">${p.stock} units</span></td>
+      <td><span class="status-pill status-${p.stock > 0 ? 'confirmed' : 'cancelled'}">${p.stock > 0 ? 'In Stock' : 'Out of Stock'}</span></td>
+      <td>
+        <button class="btn btn-secondary btn-sm" onclick="openEditProductModal(${p.id})">✏️ Edit</button>
+        <button class="btn btn-danger-outline btn-sm" onclick="deleteProduct(${p.id})">🗑️</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function openAddProductModal() {
+  document.getElementById("productFormModalTitle").textContent = "➕ Add New Millet Product";
+  document.getElementById("editProductId").value = "";
+  document.getElementById("prodFormName").value = "";
+  document.getElementById("prodFormTelugu").value = "";
+  document.getElementById("prodFormCategory").value = "dosa-mix";
+  document.getElementById("prodFormWeight").value = "500 g";
+  document.getElementById("prodFormPrice").value = "";
+  document.getElementById("prodFormMrp").value = "";
+  document.getElementById("prodFormStock").value = "100";
+  document.getElementById("prodFormImage").value = "assets/ragi_dosa.png";
+  document.getElementById("adminProductFormModal").classList.add("active");
+}
+
+function openEditProductModal(id) {
+  const p = PRODUCTS.find(prod => prod.id === id);
+  if (!p) return;
+
+  document.getElementById("productFormModalTitle").textContent = "✏️ Edit Millet Product";
+  document.getElementById("editProductId").value = p.id;
+  document.getElementById("prodFormName").value = p.name;
+  document.getElementById("prodFormTelugu").value = p.teluguName;
+  document.getElementById("prodFormCategory").value = p.category;
+  document.getElementById("prodFormWeight").value = p.netWt;
+  document.getElementById("prodFormPrice").value = p.price;
+  document.getElementById("prodFormMrp").value = p.mrp;
+  document.getElementById("prodFormStock").value = p.stock;
+  document.getElementById("prodFormImage").value = p.image;
+  document.getElementById("adminProductFormModal").classList.add("active");
+}
+
+function handleProductFormSubmit(e) {
+  e.preventDefault();
+  const editId = document.getElementById("editProductId").value;
+  const name = document.getElementById("prodFormName").value.trim();
+  const teluguName = document.getElementById("prodFormTelugu").value.trim();
+  const category = document.getElementById("prodFormCategory").value;
+  const netWt = document.getElementById("prodFormWeight").value.trim();
+  const price = parseInt(document.getElementById("prodFormPrice").value);
+  const mrp = parseInt(document.getElementById("prodFormMrp").value);
+  const stock = parseInt(document.getElementById("prodFormStock").value) || 50;
+  const image = document.getElementById("prodFormImage").value.trim();
+
+  if (editId) {
+    // Update existing product
+    const p = PRODUCTS.find(prod => prod.id == editId);
+    if (p) {
+      p.name = name;
+      p.teluguName = teluguName;
+      p.category = category;
+      p.netWt = netWt;
+      p.price = price;
+      p.mrp = mrp;
+      p.stock = stock;
+      p.inStock = stock > 0;
+      p.image = image;
+      logAuditEvent("PRODUCT_UPDATED", `Updated ${p.name} (Price: ₹${price}, Stock: ${stock})`);
+    }
+  } else {
+    // Add new product
+    const newId = Math.max(...PRODUCTS.map(p => p.id), 0) + 1;
+    const newProd = {
+      id: newId,
+      name,
+      teluguName,
+      category,
+      price,
+      mrp,
+      rating: 4.9,
+      reviewsCount: "1",
+      image,
+      netWt,
+      stock,
+      inStock: stock > 0,
+      assured: true,
+      highlights: ["100% Traditional Grain", "Just Add Water 15 Min", "High Nutrition & Protein"],
+      specs: { "Net Weight": netWt, "Preparation Time": "15 Minutes", "FSSAI License": "20126152000402" }
+    };
+    PRODUCTS.push(newProd);
+    logAuditEvent("PRODUCT_ADDED", `Created new SKU: ${name} (₹${price})`);
+  }
+
+  saveProductsDatabase();
+  closeModal("adminProductFormModal");
+  showToast("Product saved successfully & store catalog synchronized!");
+}
+
+function deleteProduct(id) {
+  const p = PRODUCTS.find(prod => prod.id === id);
+  if (!confirm(`Are you sure you want to delete "${p ? p.name : id}"?`)) return;
+
+  const idx = PRODUCTS.findIndex(prod => prod.id === id);
+  if (idx > -1) {
+    const deleted = PRODUCTS.splice(idx, 1)[0];
+    saveProductsDatabase();
+    logAuditEvent("PRODUCT_DELETED", `Deleted SKU: ${deleted.name}`);
+    showToast("Product removed from catalogue.");
+  }
+}
+
+// Tab 4: Inventory & Low-Stock Alerts
+function renderAdminInventoryTable() {
+  const tbody = document.getElementById("adminInventoryTableBody");
+  if (!tbody) return;
+
+  tbody.innerHTML = PRODUCTS.map(p => `
+    <tr>
+      <td><strong>${p.name}</strong> (${p.netWt})</td>
+      <td><span style="font-size: 14px; font-weight: 700;">${p.stock} Units</span></td>
+      <td><span class="status-pill status-${p.stock > 0 ? 'confirmed' : 'cancelled'}">${p.stock > 0 ? 'Available' : 'Out of Stock'}</span></td>
+      <td>
+        ${p.stock < 25 ? `
+          <span style="background: #ffebee; color: #c62828; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">
+            ⚠️ Low Stock Alert (&lt; 25 units)
+          </span>
+        ` : `
+          <span style="color: #2e7d32; font-weight: 600; font-size: 11px;">✅ Optimal Inventory</span>
+        `}
+      </td>
+      <td>
+        <button class="btn btn-secondary btn-sm" onclick="restockProduct(${p.id}, 25)">+25</button>
+        <button class="btn btn-secondary btn-sm" onclick="restockProduct(${p.id}, 50)">+50</button>
+        <button class="btn btn-primary btn-sm" onclick="restockProduct(${p.id}, 100)">+100</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function restockProduct(id, count) {
+  const p = PRODUCTS.find(prod => prod.id === id);
+  if (p) {
+    p.stock += count;
+    p.inStock = p.stock > 0;
+    saveProductsDatabase();
+    logAuditEvent("RESTOCK_UNITS", `Restocked ${p.name} by +${count} units (Total: ${p.stock})`);
+    showToast(`Restocked ${p.name} by +${count} units.`);
+  }
+}
+
+function quickRestockAll() {
+  PRODUCTS.forEach(p => {
+    p.stock += 50;
+    p.inStock = true;
+  });
+  saveProductsDatabase();
+  logAuditEvent("RESTOCK_ALL", "Restocked all 7 SKUs by +50 units");
+  showToast("Restocked all factory items by +50 units!");
+}
+
+// Tab 5: Customers Management
+function renderAdminCustomersTable() {
+  const tbody = document.getElementById("adminCustomersTableBody");
+  if (!tbody) return;
+
+  tbody.innerHTML = state.customers.map(c => `
+    <tr>
+      <td><strong>${c.name}</strong></td>
+      <td><a href="tel:${c.phone}" style="color: inherit; text-decoration: none;">📞 ${c.phone}</a></td>
+      <td style="color: #666; font-size: 11.5px;">${c.email}</td>
+      <td>${c.city}</td>
+      <td><span class="pay-method-badge">${c.ordersCount} Order(s)</span></td>
+      <td><strong style="color: #2e7d32;">₹${c.totalSpend}</strong></td>
+      <td style="font-size: 11px; color: #666;">${c.lastOrder}</td>
+    </tr>
+  `).join("");
+}
+
+function filterCustomerTable() {
+  const q = document.getElementById("adminCustSearch")?.value.toLowerCase().trim() || "";
+  const tbody = document.getElementById("adminCustomersTableBody");
+  if (!tbody) return;
+
+  const filtered = state.customers.filter(c => 
+    c.name.toLowerCase().includes(q) ||
+    c.phone.includes(q) ||
+    c.city.toLowerCase().includes(q)
+  );
+
+  tbody.innerHTML = filtered.map(c => `
+    <tr>
+      <td><strong>${c.name}</strong></td>
+      <td><a href="tel:${c.phone}" style="color: inherit; text-decoration: none;">📞 ${c.phone}</a></td>
+      <td style="color: #666; font-size: 11.5px;">${c.email}</td>
+      <td>${c.city}</td>
+      <td><span class="pay-method-badge">${c.ordersCount} Order(s)</span></td>
+      <td><strong style="color: #2e7d32;">₹${c.totalSpend}</strong></td>
+      <td style="font-size: 11px; color: #666;">${c.lastOrder}</td>
+    </tr>
+  `).join("");
+}
+
+// Tab 6: Payments & Transactions
+function renderAdminPaymentsTable() {
+  const tbody = document.getElementById("adminPaymentsTableBody");
+  if (!tbody) return;
+
+  tbody.innerHTML = state.orders.map(o => `
+    <tr>
+      <td style="font-family: monospace; font-weight: 700; color: var(--fk-blue);">${o.txnId || 'TXN-ONLINE'}</td>
+      <td style="font-family: monospace; font-size: 11.5px;">${o.orderId}</td>
+      <td><span class="pay-method-badge">${o.paymentMethod}</span></td>
+      <td>${o.customer.fullName} (${o.customer.phone})</td>
+      <td><strong>₹${o.amountPaid}</strong></td>
+      <td style="font-size: 11px;">${o.createdAt}</td>
+      <td><span class="pay-status-pill paid">${o.paymentStatus}</span></td>
+    </tr>
+  `).join("");
+}
+
+// Tab 7: Discounts & Coupons
+function renderAdminCouponsTable() {
+  const tbody = document.getElementById("adminCouponsTableBody");
+  if (!tbody) return;
+
+  tbody.innerHTML = state.coupons.map(c => `
+    <tr>
+      <td style="font-family: monospace; font-weight: 700; color: #2e7d32; font-size: 14px;">${c.code}</td>
+      <td>${c.type === 'percentage' ? 'Percentage (%)' : 'Flat Cash (₹)'}</td>
+      <td><strong>${c.type === 'percentage' ? c.value + '%' : '₹' + c.value}</strong></td>
+      <td>₹${c.minSpend}</td>
+      <td><span class="pay-status-pill paid">${c.status}</span></td>
+      <td>
+        <button class="btn btn-danger-outline btn-sm" onclick="deleteCoupon('${c.code}')">🗑️ Delete</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function openAddCouponModal() {
+  document.getElementById("adminAddCouponModal").classList.add("active");
+}
+
+function handleCreateCouponSubmit(e) {
+  e.preventDefault();
+  const code = document.getElementById("newCouponCode").value.trim().toUpperCase();
+  const type = document.getElementById("newCouponType").value;
+  const value = parseInt(document.getElementById("newCouponValue").value);
+  const minSpend = parseInt(document.getElementById("newCouponMinSpend").value) || 0;
+
+  state.coupons.unshift({ code, type, value, minSpend, status: "Active" });
+  localStorage.setItem(DB_COUPONS_KEY, JSON.stringify(state.coupons));
+  logAuditEvent("COUPON_CREATED", `Created promo coupon: ${code} (${value} ${type})`);
+  closeModal("adminAddCouponModal");
+  renderAdminCouponsTable();
+  showToast(`Promo coupon "${code}" created successfully!`);
+}
+
+function deleteCoupon(code) {
+  if (!confirm(`Delete coupon "${code}"?`)) return;
+  state.coupons = state.coupons.filter(c => c.code !== code);
+  localStorage.setItem(DB_COUPONS_KEY, JSON.stringify(state.coupons));
+  logAuditEvent("COUPON_DELETED", `Removed coupon: ${code}`);
+  renderAdminCouponsTable();
+  showToast(`Coupon "${code}" deleted.`);
+}
+
+// Tab 8: Delivery & Shipping
+function renderAdminShippingTable() {
+  const tbody = document.getElementById("adminShippingTableBody");
+  if (!tbody) return;
+
+  tbody.innerHTML = state.orders.map(o => `
+    <tr>
+      <td style="font-family: monospace; font-weight: 700; color: var(--fk-blue);">${o.orderId}</td>
+      <td><strong>${o.customer.fullName}</strong><br><span style="font-size: 11px; color: #666;">${o.delivery.city || o.delivery.district}</span></td>
+      <td>${o.shipping?.courier || 'India Post Speed Post'}</td>
+      <td style="font-family: monospace;">${o.shipping?.trackingId || 'Pending AWB'}</td>
+      <td style="font-size: 11px;">${o.shipping?.dispatchDate || o.createdAt.split(' ')[0]}</td>
+      <td><span class="status-pill status-${o.status.toLowerCase().replace(/\s+/g, '-')}">${o.status}</span></td>
+      <td>
+        <button class="btn btn-primary btn-sm" onclick="openAdminOrderDetails('${o.orderId}')">Update AWB</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+// Tab 9: Customer Reviews
+function renderAdminReviewsTable() {
+  const tbody = document.getElementById("adminReviewsTableBody");
+  if (!tbody) return;
+
+  tbody.innerHTML = state.reviews.map(r => `
+    <tr>
+      <td><strong>${r.name}</strong></td>
+      <td><span style="color: #f59e0b; font-weight: 700;">${r.rating} ★</span></td>
+      <td>${r.product}</td>
+      <td style="font-size: 12px; color: #555;">${r.comment}</td>
+      <td><span class="pay-status-pill paid">${r.status}</span></td>
+      <td>
+        <button class="btn btn-danger-outline btn-sm" onclick="deleteReview('${r.id}')">🗑️</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function deleteReview(id) {
+  state.reviews = state.reviews.filter(r => r.id !== id);
+  localStorage.setItem(DB_REVIEWS_KEY, JSON.stringify(state.reviews));
+  renderAdminReviewsTable();
+  showToast("Review deleted.");
+}
+
+// Tab 10: Wholesale Accounts
+function renderAdminWholesaleTable() {
+  const tbody = document.getElementById("adminWholesaleTableBody");
+  if (!tbody) return;
+
+  tbody.innerHTML = state.wholesaleAccounts.map(w => `
+    <tr>
+      <td style="font-family: monospace; font-weight: 700; color: #2e7d32;">${w.id}</td>
+      <td><strong>${w.name}</strong></td>
+      <td><span class="pay-method-badge">${w.type}</span></td>
+      <td style="font-family: monospace;">${w.gstin}</td>
+      <td>${w.contact}</td>
+      <td><a href="tel:${w.phone}" style="color: inherit;">📞 ${w.phone}</a></td>
+      <td>${w.city}</td>
+      <td>
+        <span class="status-pill status-${w.status === 'Approved' ? 'confirmed' : 'processing'}">
+          ${w.status}
+        </span>
+      </td>
+      <td>
+        ${w.status !== 'Approved' ? `
+          <button class="btn btn-primary btn-sm" onclick="approveWholesaleAccount('${w.id}')">✅ Approve</button>
+        ` : `
+          <span style="color: green; font-size: 11.5px; font-weight: bold;">Verified B2B</span>
+        `}
+      </td>
+    </tr>
+  `).join("");
+}
+
+function approveWholesaleAccount(id) {
+  const acc = state.wholesaleAccounts.find(w => w.id === id);
+  if (acc) {
+    acc.status = "Approved";
+    localStorage.setItem(DB_WHOLESALE_KEY, JSON.stringify(state.wholesaleAccounts));
+    logAuditEvent("WHOLESALE_APPROVED", `Approved wholesale trade account: ${acc.name} (${acc.gstin})`);
+    renderAdminWholesaleTable();
+    showToast(`Approved trade account for ${acc.name}!`);
+  }
+}
+
+function exportWholesaleCSV() {
+  if (state.wholesaleAccounts.length === 0) {
+    alert("No wholesale leads available.");
+    return;
+  }
+  const headers = ["Account ID", "Business Name", "Type", "GSTIN", "Contact", "Phone", "City", "Status"];
+  const rows = state.wholesaleAccounts.map(w => [w.id, `"${w.name}"`, w.type, w.gstin, `"${w.contact}"`, w.phone, `"${w.city}"`, w.status]);
+  const csv = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+  const link = document.createElement("a");
+  link.href = encodeURI(csv);
+  link.download = "SPR_Siri_Dhanya_Wholesale_Leads.csv";
+  link.click();
+}
+
+// Tab 13: Sales Reports
+function renderAdminReports() {
+  const totalRev = state.orders.filter(o => o.status !== "Cancelled").reduce((s, o) => s + (o.amountPaid || 0), 0);
+  const totalOrders = state.orders.length;
+
+  document.getElementById("reportDailyRevenue").textContent = `₹${totalRev}`;
+  document.getElementById("reportDailyOrders").textContent = `${totalOrders} Orders Today`;
+  document.getElementById("reportWeeklyRevenue").textContent = `₹${totalRev}`;
+  document.getElementById("reportWeeklyOrders").textContent = `${totalOrders} Orders This Week`;
+  document.getElementById("reportMonthlyRevenue").textContent = `₹${totalRev}`;
+  document.getElementById("reportMonthlyOrders").textContent = `${totalOrders} Orders This Month`;
+}
+
+// Tab 14: Settings, Audit Logs & Backup
+function renderAdminSettings() {
+  renderAuditLogs();
+}
+
+function renderAuditLogs() {
+  const box = document.getElementById("adminAuditLogBox");
+  const countEl = document.getElementById("auditLogCount");
+  if (countEl) countEl.textContent = state.auditLogs.length;
+  if (!box) return;
+
+  box.innerHTML = state.auditLogs.map(l => `
+    <div style="margin-bottom: 4px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 2px;">
+      <span style="color: #94a3b8;">[${l.timestamp}]</span>
+      <span style="color: #38bdf8; font-weight: bold;">[${l.event}]</span>
+      <span>${l.details}</span>
+    </div>
+  `).join("");
+}
+
+function exportFullDatabaseJson() {
+  const fullBackup = {
+    exportDate: new Date().toISOString(),
+    fssaiLicense: "20126152000402",
+    company: "S.P.R. Siri Dhanya",
+    products: PRODUCTS,
+    orders: state.orders,
+    customers: state.customers,
+    coupons: state.coupons,
+    reviews: state.reviews,
+    wholesaleAccounts: state.wholesaleAccounts,
+    auditLogs: state.auditLogs,
+    knowledgeBase: state.knowledgeBase,
+    qrCodes: state.qrCodes
+  };
+
+  const blob = new Blob([JSON.stringify(fullBackup, null, 2)], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `SPR_Siri_Dhanya_Master_Backup_${new Date().toISOString().substring(0, 10)}.json`;
+  link.click();
+  showToast("Exported full master database backup (JSON)!");
+}
+
+function importFullDatabaseJson(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.products) localStorage.setItem(DB_PRODUCTS_KEY, JSON.stringify(data.products));
+      if (data.orders) localStorage.setItem(DB_ORDERS_KEY, JSON.stringify(data.orders));
+      if (data.coupons) localStorage.setItem(DB_COUPONS_KEY, JSON.stringify(data.coupons));
+      if (data.reviews) localStorage.setItem(DB_REVIEWS_KEY, JSON.stringify(data.reviews));
+      if (data.wholesaleAccounts) localStorage.setItem(DB_WHOLESALE_KEY, JSON.stringify(data.wholesaleAccounts));
+
+      initMasterDatabase();
+      showToast("Database restored successfully from backup!");
+      refreshAdminData();
+    } catch(err) {
+      alert("Invalid database backup file.");
+    }
+  };
+  reader.readAsText(file);
+}
+
+// --- 6. Wholesale & B2B Portal Handlers ---
+function openWholesalePortalModal() {
+  document.getElementById("wholesalePortalModal")?.classList.add("active");
+  calculateBulkCartonPrice();
+}
+
+function switchWholesaleTab(tab) {
+  document.querySelectorAll("#wholesalePortalModal .admin-tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("wsTabCatalogueContent").style.display = "none";
+  document.getElementById("wsTabRetailerContent").style.display = "none";
+  document.getElementById("wsTabDistributorContent").style.display = "none";
+  document.getElementById("wsTabBulkContent").style.display = "none";
+
+  if (tab === "catalogue") {
+    document.getElementById("wsTabBtnCatalogue").classList.add("active");
+    document.getElementById("wsTabCatalogueContent").style.display = "block";
+  } else if (tab === "retailer") {
+    document.getElementById("wsTabBtnRetailer").classList.add("active");
+    document.getElementById("wsTabRetailerContent").style.display = "block";
+  } else if (tab === "distributor") {
+    document.getElementById("wsTabBtnDistributor").classList.add("active");
+    document.getElementById("wsTabDistributorContent").style.display = "block";
+  } else if (tab === "bulk") {
+    document.getElementById("wsTabBtnBulk").classList.add("active");
+    document.getElementById("wsTabBulkContent").style.display = "block";
+    calculateBulkCartonPrice();
+  }
+}
+
+function handleRetailerRegistration(e) {
+  e.preventDefault();
+  const name = document.getElementById("retShopName").value.trim();
+  const gstin = document.getElementById("retGstin").value.trim();
+  const contact = document.getElementById("retContactPerson").value.trim();
+  const phone = document.getElementById("retPhone").value.trim();
+  const city = document.getElementById("retCity").value.trim();
+
+  const newAcc = {
+    id: "WS-RET-" + Math.floor(100 + Math.random() * 900),
+    name,
+    type: "Retailer (Supermarket)",
+    gstin,
+    contact,
+    phone,
+    city,
+    status: "Pending Admin Approval"
+  };
+
+  state.wholesaleAccounts.unshift(newAcc);
+  localStorage.setItem(DB_WHOLESALE_KEY, JSON.stringify(state.wholesaleAccounts));
+
+  logAuditEvent("RETAILER_APPLIED", `Supermarket ${name} (${phone}) registered for B2B pricing`);
+
+  // WhatsApp Alert to both numbers
+  const alertMsg = `🤝 *NEW RETAILER B2B REGISTRATION*\nShop: ${name}\nGSTIN: ${gstin}\nContact: ${contact} (${phone})\nCity: ${city}\nPlease approve in Admin Dashboard.`;
+  window.open(`https://wa.me/919492468817?text=${encodeURIComponent(alertMsg)}`, "_blank");
+
+  closeModal("wholesalePortalModal");
+  showToast("Application submitted! Admin will verify your GSTIN for wholesale rates.");
+}
+
+function handleDistributorRegistration(e) {
+  e.preventDefault();
+  const name = document.getElementById("distAgencyName").value.trim();
+  const territory = document.getElementById("distTerritory").value.trim();
+  const contact = document.getElementById("distContact").value.trim();
+  const investment = document.getElementById("distInvestment").value;
+
+  const newDist = {
+    id: "WS-DIST-" + Math.floor(100 + Math.random() * 900),
+    name,
+    type: "Regional Distributor",
+    gstin: "Pending Verification",
+    contact,
+    phone: contact,
+    city: territory,
+    status: "Pending Admin Approval"
+  };
+
+  state.wholesaleAccounts.unshift(newDist);
+  localStorage.setItem(DB_WHOLESALE_KEY, JSON.stringify(state.wholesaleAccounts));
+
+  const alertMsg = `🚚 *NEW DISTRIBUTOR ENQUIRY*\nFirm: ${name}\nTerritory: ${territory}\nContact: ${contact}\nInvestment: ${investment}\nPlease connect immediately.`;
+  window.open(`https://wa.me/919441393817?text=${encodeURIComponent(alertMsg)}`, "_blank");
+
+  closeModal("wholesalePortalModal");
+  showToast("Distributor enquiry sent directly to factory directors!");
+}
+
+function calculateBulkCartonPrice() {
+  const sel = document.getElementById("bulkCartonQtySelect");
+  const qty = parseInt(sel ? sel.value : 1);
+  let rate = 2490 * qty;
+  if (qty >= 10) rate = 23500; // special pallet pricing
+  const el = document.getElementById("bulkCalculatedAmount");
+  if (el) el.textContent = `₹${rate.toLocaleString('en-IN')}`;
+}
+
+function proceedBulkOrderCheckout() {
+  const sel = document.getElementById("bulkCartonQtySelect");
+  const qty = parseInt(sel ? sel.value : 1);
+
+  // Add Wholesale Master Carton to Cart
+  const wholesaleProd = PRODUCTS.find(p => p.id === 7) || PRODUCTS[PRODUCTS.length - 1];
+  const existing = state.cart.find(c => c.id === wholesaleProd.id);
+  if (existing) existing.qty = qty;
+  else state.cart.push({ id: wholesaleProd.id, qty });
+
+  saveCartToStorage();
+  updateCartBadge();
+  closeModal("wholesalePortalModal");
+  openCheckoutModal();
+  showToast(`Added ${qty} Master Carton(s) to Cart! Proceed to B2B checkout.`);
+}
+
+function downloadSampleB2bInvoice() {
+  const sampleOrder = state.orders.find(o => o.items.some(i => i.id === 7)) || state.orders[0];
+  downloadOrderInvoice(sampleOrder.orderId);
+}
+
+// --- 7. Legal & Business Compliance Policies ---
+function openPolicyModal(tab) {
+  document.getElementById("policyModal")?.classList.add("active");
+  switchPolicyTab(tab);
+}
+
+function switchPolicyTab(tab) {
+  document.querySelectorAll("#policyModal .admin-tab-btn").forEach(b => b.classList.remove("active"));
+  const box = document.getElementById("policyContentBox");
+  if (!box) return;
+
+  if (tab === "privacy") {
+    document.getElementById("polTabPrivacy")?.classList.add("active");
+    box.innerHTML = `
+      <h4>🔒 S.P.R. SIRI DHANYA - PRIVACY POLICY</h4>
+      <p>Last Updated: November 2026</p>
+      <p>S.P.R. Siri Dhanya is committed to safeguarding your personal and transactional privacy. When you place an order on our e-commerce platform, we collect only necessary fulfillment data:</p>
+      <ul>
+        <li><strong>Personal Information:</strong> Full name, 10-digit mobile number, and email address for order notifications and dispatch alerts.</li>
+        <li><strong>Delivery Information:</strong> Accurate postal address, street, village/town, mandal, district, state, and 6-digit PIN code.</li>
+        <li><strong>Payment Data:</strong> All payments are processed through RBI-approved secure online gateways with 256-bit encryption. S.P.R. Siri Dhanya never stores your credit/debit card CVV, PINs, or bank passwords.</li>
+        <li><strong>Zero Third-Party Selling:</strong> We never sell, rent, or trade your personal information to third-party advertisers.</li>
+      </ul>
+      <p>For data privacy queries or account deletion, write to us at support@sprsiridhanya.com or call 9492468817.</p>
+    `;
+  } else if (tab === "terms") {
+    document.getElementById("polTabTerms")?.classList.add("active");
+    box.innerHTML = `
+      <h4>⚖️ TERMS & CONDITIONS OF SALE</h4>
+      <p>By purchasing from S.P.R. Siri Dhanya, you agree to the following food enterprise terms:</p>
+      <ul>
+        <li><strong>Product Authenticity:</strong> All instant millet dosa mixes and multi-grain attas are manufactured and stone-milled in Kamepalli, Santamaguluru Mandal, Bapatla District, A.P., in compliance with FSSAI regulations.</li>
+        <li><strong>Pricing & Taxes:</strong> All retail prices listed on our platform are inclusive of applicable 5% Goods and Services Tax (GST: 2.5% CGST + 2.5% SGST).</li>
+        <li><strong>Order Fulfillment:</strong> Orders are verified and dispatched within 24 to 48 business hours. Tracking AWBs are provided immediately.</li>
+        <li><strong>Wholesale Accounts:</strong> B2B wholesale pricing is restricted to verified supermarkets and registered trade partners with valid GSTINs.</li>
+      </ul>
+    `;
+  } else if (tab === "refund") {
+    document.getElementById("polTabRefund")?.classList.add("active");
+    box.innerHTML = `
+      <h4>↩️ RETURN, REPLACEMENT & REFUND POLICY</h4>
+      <p>Because S.P.R. Siri Dhanya produces consumable packaged food staples, strict safety standards apply:</p>
+      <ul>
+        <li><strong>Damaged or Compromised Packs:</strong> If your consignment arrives with damaged pouches or broken seals, you are eligible for an immediate, 100% FREE replacement pack dispatched with priority.</li>
+        <li><strong>Replacement Window:</strong> Please submit your request via the "My Orders" dashboard or WhatsApp within <strong>7 days</strong> of delivery.</li>
+        <li><strong>100% Refund Guarantee:</strong> If a replacement is unavailable, we process a complete refund directly to your original payment method (UPI / Bank Account / Card) within 3 to 5 banking business days.</li>
+      </ul>
+    `;
+  } else if (tab === "shipping") {
+    document.getElementById("polTabShipping")?.classList.add("active");
+    box.innerHTML = `
+      <h4>🚚 SHIPPING & DELIVERY POLICY</h4>
+      <ul>
+        <li><strong>FREE Express Delivery:</strong> All consumer retail orders across Andhra Pradesh, Telangana, and pan-India qualify for 100% FREE express delivery.</li>
+        <li><strong>Courier Partners:</strong> Consignments are dispatched via <strong>India Post Speed Post</strong>, <strong>Delhivery Surface</strong>, and <strong>DTDC Express</strong>.</li>
+        <li><strong>Delivery Timelines:</strong>
+          <ul>
+            <li>Andhra Pradesh & Telangana: 1 to 2 business days.</li>
+            <li>South India (Karnataka, Tamil Nadu): 2 to 3 business days.</li>
+            <li>Rest of India: 3 to 5 business days.</li>
+          </ul>
+        </li>
+      </ul>
+    `;
+  } else if (tab === "fssai") {
+    document.getElementById("polTabFssai")?.classList.add("active");
+    box.innerHTML = `
+      <h4>🛡️ FSSAI CERTIFICATION & FOOD LABELLING DECLARATIONS</h4>
+      <ul>
+        <li><strong>FSSAI License Number:</strong> <code>20126152000402</code></li>
+        <li><strong>Manufacturing Facility:</strong> Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326.</li>
+        <li><strong>Dietary Classification:</strong> 100% Pure Vegetarian (Green Dot Vegetarian Logo on all packaging).</li>
+        <li><strong>Preservative Free:</strong> 100% natural grains, stone-milled, zero artificial colors, zero synthetic chemical preservatives, zero maida.</li>
+        <li><strong>Shelf Life:</strong> 6 to 9 months from date of manufacture when stored in cool, dry conditions away from moisture.</li>
+      </ul>
+    `;
+  }
+}
+
+
+// =========================================================================
+// === MASTER INITIALIZATION HOOK ===
+// =========================================================================
+document.addEventListener("DOMContentLoaded", function() {
+  if (typeof initMasterDatabase === "function") initMasterDatabase();
+  if (typeof initExtraDatabases === "function") initExtraDatabases();
+  if (typeof renderMyOrders === "function") renderMyOrders();
+});

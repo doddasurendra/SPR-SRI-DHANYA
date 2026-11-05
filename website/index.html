@@ -70,8 +70,15 @@
           👑 Admin Portal
         </button>
 
-        <!-- B2B Wholesale link -->
-        <a href="#b2b" class="fk-nav-link" onclick="filterByCategory('b2b')">Become a Retailer</a>
+        <!-- Wholesale & B2B Portal Button -->
+        <button class="fk-nav-btn wholesale-nav-btn" onclick="openWholesalePortalModal()" title="Wholesale & B2B Supermarket Portal">
+          <span class="nav-icon">🤝</span> Wholesale Portal
+        </button>
+
+        <!-- Legal & Policies Button -->
+        <button class="fk-nav-btn policy-nav-btn" onclick="openPolicyModal('privacy')" title="Official Business Policies & Compliance">
+          <span class="nav-icon">📜</span> Policies
+        </button>
 
         <!-- More Dropdown -->
         <div class="fk-dropdown">
@@ -550,7 +557,27 @@
           <!-- Populated by app.js -->
         </div>
 
-        <div class="order-email-notification">
+        <!-- Coupon Discount Code Input Section -->
+        <div class="checkout-coupon-card" style="background: #f1f8e9; border: 1px dashed #81c784; border-radius: 6px; padding: 12px; margin: 12px 0;">
+          <div style="font-size: 13px; font-weight: 700; color: #2e7d32; margin-bottom: 6px;">🏷️ HAVE A PROMO COUPON CODE?</div>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="checkoutCouponInput" placeholder="Enter coupon code (e.g. SIRIDHANYA10, HEALTH50)" style="flex: 1; padding: 7px 10px; font-size: 13px; text-transform: uppercase; border: 1px solid #ccc; border-radius: 4px;">
+            <button type="button" class="btn btn-primary btn-sm" onclick="applyCouponCode()">Apply Coupon</button>
+          </div>
+          <div id="couponStatusMessage" style="font-size: 12px; font-weight: 600; margin-top: 5px;"></div>
+          <div style="display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; font-size: 11px;">
+            <span style="color: #555;">Popular:</span>
+            <button type="button" class="coupon-chip" onclick="quickApplyCoupon('SIRIDHANYA10')" style="background: #fff; border: 1px solid #a5d6a7; padding: 2px 8px; border-radius: 10px; cursor: pointer; color: #2e7d32;">SIRIDHANYA10 (10% OFF)</button>
+            <button type="button" class="coupon-chip" onclick="quickApplyCoupon('HEALTH50')" style="background: #fff; border: 1px solid #a5d6a7; padding: 2px 8px; border-radius: 10px; cursor: pointer; color: #2e7d32;">HEALTH50 (₹50 OFF)</button>
+            <button type="button" class="coupon-chip" onclick="quickApplyCoupon('COMBO100')" style="background: #fff; border: 1px solid #a5d6a7; padding: 2px 8px; border-radius: 10px; cursor: pointer; color: #2e7d32;">COMBO100 (₹100 OFF)</button>
+          </div>
+        </div>
+
+        <!-- Applicable Tax & Legal Declarations -->
+        <div style="background: #f8f9fa; border: 1px solid #eee; border-radius: 4px; padding: 8px 12px; font-size: 11.5px; color: #555; margin-bottom: 12px;">
+          ⚖️ <strong>GST & FSSAI Compliant:</strong> Includes 5% Packaged Food GST (CGST 2.5% + SGST 2.5%). FSSAI Central/State Lic # <strong>20126152000402</strong>.
+        </div>
+<div class="order-email-notification">
           <span>Order confirmation & invoice will be sent to WhatsApp number: <strong id="summaryPhone">9492468817</strong></span>
         </div>
 
@@ -687,9 +714,17 @@
               <span>Discount</span>
               <span id="checkoutDiscount">- ₹0</span>
             </div>
+            <div class="price-row text-success" id="checkoutCouponRow" style="display: none;">
+              <span>Coupon Discount (<span id="appliedCouponCodeTag">NONE</span>)</span>
+              <span id="checkoutCouponDiscountAmount">- ₹0</span>
+            </div>
             <div class="price-row text-success">
               <span>Delivery Charges</span>
               <span><del>₹40</del> FREE</span>
+            </div>
+            <div class="price-row" style="font-size: 11.5px; color: #777;">
+              <span>Applicable GST (5% Included)</span>
+              <span id="checkoutGstAmount">₹0</span>
             </div>
             <div class="price-row total-row">
               <span>Total Payable</span>
@@ -1000,17 +1035,22 @@
         </div>
       </div>
 
-      <!-- Admin Navigation Tabs -->
-      <div class="admin-tabs-nav">
-        <button class="admin-tab-btn active" id="tabBtnOrders" onclick="switchAdminTab('orders')">
-          📋 Orders Management (<span id="adminOrdersTabCount">0</span>)
-        </button>
-        <button class="admin-tab-btn" id="tabBtnQr" onclick="switchAdminTab('qr')">
-          📱 QR Code Generator & Downloads
-        </button>
-        <button class="admin-tab-btn" id="tabBtnKnowledge" onclick="switchAdminTab('knowledge')">
-          🧠 Business Knowledge Base (AI RAG)
-        </button>
+      <!-- Admin Command Center 14-Module Navigation Bar -->
+      <div class="admin-tabs-nav admin-tabs-scrollable" style="overflow-x: auto; white-space: nowrap; padding-bottom: 6px;">
+        <button class="admin-tab-btn active" id="tabBtnDashboard" onclick="switchAdminTab('dashboard')">📊 Dashboard</button>
+        <button class="admin-tab-btn" id="tabBtnOrders" onclick="switchAdminTab('orders')">📋 Orders (<span id="adminOrdersTabCount">0</span>)</button>
+        <button class="admin-tab-btn" id="tabBtnProducts" onclick="switchAdminTab('products')">📦 Products & Categories</button>
+        <button class="admin-tab-btn" id="tabBtnInventory" onclick="switchAdminTab('inventory')">📈 Inventory & Stock</button>
+        <button class="admin-tab-btn" id="tabBtnCustomers" onclick="switchAdminTab('customers')">👥 Customers</button>
+        <button class="admin-tab-btn" id="tabBtnPayments" onclick="switchAdminTab('payments')">💳 Payments</button>
+        <button class="admin-tab-btn" id="tabBtnCoupons" onclick="switchAdminTab('coupons')">🏷️ Discounts & Coupons</button>
+        <button class="admin-tab-btn" id="tabBtnShipping" onclick="switchAdminTab('shipping')">🚚 Delivery & Shipping</button>
+        <button class="admin-tab-btn" id="tabBtnReviews" onclick="switchAdminTab('reviews')">⭐ Reviews</button>
+        <button class="admin-tab-btn" id="tabBtnWholesale" onclick="switchAdminTab('wholesale')">🤝 Wholesale Accounts</button>
+        <button class="admin-tab-btn" id="tabBtnQr" onclick="switchAdminTab('qr')">📱 QR Codes</button>
+        <button class="admin-tab-btn" id="tabBtnKnowledge" onclick="switchAdminTab('knowledge')">🧠 Knowledge Base (RAG)</button>
+        <button class="admin-tab-btn" id="tabBtnReports" onclick="switchAdminTab('reports')">📊 Reports</button>
+        <button class="admin-tab-btn" id="tabBtnSettings" onclick="switchAdminTab('settings')">⚙️ Settings, Audit & Backup</button>
       </div>
 
       <div id="adminTabOrdersContent">
@@ -1132,7 +1172,388 @@
         <span id="adminPaginationInfo">Showing 1 to 10 of 10 orders</span>
       </div>
       </div>
-      <!-- End of adminTabOrdersContent -->
+      </div>
+<!-- End of adminTabOrdersContent -->
+
+      <!-- TAB: DASHBOARD OVERVIEW -->
+      <div id="adminTabDashboardContent" style="display: none;">
+        <div class="admin-kpi-grid">
+          <div class="kpi-card total-orders">
+            <div class="kpi-icon">📋</div>
+            <div class="kpi-val" id="dbOverviewOrders">0</div>
+            <div class="kpi-label">Total Store Orders</div>
+          </div>
+          <div class="kpi-card total-sales">
+            <div class="kpi-icon">💰</div>
+            <div class="kpi-val" id="dbOverviewRevenue">₹0</div>
+            <div class="kpi-label">Total Net Revenue</div>
+          </div>
+          <div class="kpi-card delivered">
+            <div class="kpi-icon">👥</div>
+            <div class="kpi-val" id="dbOverviewCustomers">0</div>
+            <div class="kpi-label">Active Customers</div>
+          </div>
+          <div class="kpi-card processing">
+            <div class="kpi-icon">📦</div>
+            <div class="kpi-val" id="dbOverviewProducts">7</div>
+            <div class="kpi-label">Active SKUs / Products</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-top: 16px;">
+          <div class="detail-card">
+            <h4>📈 REVENUE & SALES PERFORMANCE BREAKDOWN</h4>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px;">
+              <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; text-align: center;">
+                <div style="font-size: 11px; color: #666;">Today's Sales</div>
+                <strong style="font-size: 16px; color: var(--fk-blue);" id="dbTodaySales">₹0</strong>
+              </div>
+              <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; text-align: center;">
+                <div style="font-size: 11px; color: #666;">This Week</div>
+                <strong style="font-size: 16px; color: #2e7d32;" id="dbWeekSales">₹0</strong>
+              </div>
+              <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; text-align: center;">
+                <div style="font-size: 11px; color: #666;">Average Order Value</div>
+                <strong style="font-size: 16px; color: var(--fk-orange);" id="dbAvgOrderVal">₹0</strong>
+              </div>
+            </div>
+            <div style="margin-top: 16px; font-size: 12px; color: #555;">
+              ⚡ <strong>Real-Time Sync:</strong> Automatic order ingestion updates sales, inventory deduction, and customer profiles instantaneously.
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <h4>⚡ QUICK STORE SHORTCUTS</h4>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+              <button class="btn btn-primary btn-sm" onclick="switchAdminTab('products'); openAddProductModal();">➕ Add New Product</button>
+              <button class="btn btn-secondary btn-sm" onclick="switchAdminTab('coupons'); openAddCouponModal();">🏷️ Create Discount Coupon</button>
+              <button class="btn btn-secondary btn-sm" onclick="switchAdminTab('wholesale');">🤝 Review Wholesale Applications</button>
+              <button class="btn btn-secondary btn-sm" onclick="exportOrdersCSV();">📥 Download Orders CSV</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: PRODUCTS & CATEGORIES -->
+      <div id="adminTabProductsContent" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h4 style="margin: 0;">📦 PRODUCT CATALOGUE & INVENTORY MANAGEMENT</h4>
+            <p style="font-size: 12px; color: #666; margin: 0;">Add, modify pricing, update descriptions, and manage categories.</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-primary btn-sm" onclick="openAddProductModal()">➕ Add Product</button>
+            <button class="btn btn-secondary btn-sm" onclick="openCategoryManagerModal()">📁 Categories</button>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-orders-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>SKU Name</th>
+                <th>Category</th>
+                <th>Price / MRP</th>
+                <th>Net Wt</th>
+                <th>Live Stock</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminProductsTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: INVENTORY & LOW-STOCK ALERTS -->
+      <div id="adminTabInventoryContent" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h4 style="margin: 0;">📈 LIVE FACTORY INVENTORY & RESTOCKING</h4>
+            <p style="font-size: 12px; color: #666; margin: 0;">Monitors factory inventory in Kamepalli. Flags low-stock items automatically (< 25 units).</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="quickRestockAll()">⚡ Restock All Items (+50)</button>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-orders-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Current Units</th>
+                <th>Status</th>
+                <th>Threshold Alert</th>
+                <th>Quick Restock Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminInventoryTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: CUSTOMER MANAGEMENT -->
+      <div id="adminTabCustomersContent" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h4 style="margin: 0;">👥 REGISTERED CUSTOMER DIRECTORY</h4>
+            <p style="font-size: 12px; color: #666; margin: 0;">Customer profiles, order frequency, lifetime spending, and delivery addresses.</p>
+          </div>
+          <input type="text" id="adminCustSearch" placeholder="Search customer name, phone, city..." oninput="filterCustomerTable()" style="font-size: 12px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; width: 250px;">
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-orders-table">
+            <thead>
+              <tr>
+                <th>Customer Name</th>
+                <th>Mobile Number</th>
+                <th>Email</th>
+                <th>City & State</th>
+                <th>Total Orders</th>
+                <th>Lifetime Spend</th>
+                <th>Last Order Date</th>
+              </tr>
+            </thead>
+            <tbody id="adminCustomersTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: PAYMENTS & TRANSACTIONS -->
+      <div id="adminTabPaymentsContent" style="display: none;">
+        <div style="margin-bottom: 12px;">
+          <h4 style="margin: 0;">💳 PAYMENT TRANSACTIONS & RECONCILIATION</h4>
+          <p style="font-size: 12px; color: #666; margin: 0;">Online transaction records (UPI, Cards, Net Banking) and gateway verification status.</p>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-orders-table">
+            <thead>
+              <tr>
+                <th>Txn ID</th>
+                <th>Order ID</th>
+                <th>Payment Mode</th>
+                <th>Customer</th>
+                <th>Amount Paid</th>
+                <th>Date & Time</th>
+                <th>Gateway Status</th>
+              </tr>
+            </thead>
+            <tbody id="adminPaymentsTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: DISCOUNTS & COUPONS -->
+      <div id="adminTabCouponsContent" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h4 style="margin: 0;">🏷️ PROMOTIONAL DISCOUNTS & COUPONS MANAGER</h4>
+            <p style="font-size: 12px; color: #666; margin: 0;">Active discount codes applied at checkout.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openAddCouponModal()">➕ Create New Coupon</button>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-orders-table">
+            <thead>
+              <tr>
+                <th>Coupon Code</th>
+                <th>Discount Type</th>
+                <th>Value</th>
+                <th>Min Spend</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminCouponsTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: SHIPPING & DELIVERY -->
+      <div id="adminTabShippingContent" style="display: none;">
+        <div style="margin-bottom: 12px;">
+          <h4 style="margin: 0;">🚚 SHIPPING, CARRIERS & TRACKING DISPATCH</h4>
+          <p style="font-size: 12px; color: #666; margin: 0;">Real-time shipment assignments (India Post, Delhivery, DTDC) and customer SMS/WhatsApp tracking alerts.</p>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-orders-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Recipient & City</th>
+                <th>Carrier / Courier</th>
+                <th>Tracking AWB</th>
+                <th>Dispatch Date</th>
+                <th>Delivery Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminShippingTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: CUSTOMER REVIEWS -->
+      <div id="adminTabReviewsContent" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h4 style="margin: 0;">⭐ CUSTOMER RATINGS & TESTIMONIALS</h4>
+            <p style="font-size: 12px; color: #666; margin: 0;">Review, approve, or feature customer feedback on the homepage.</p>
+          </div>
+          <span style="font-size: 12px; font-weight: 700; color: #2e7d32;">Store Average Rating: 4.9 ★ (12,400+ Families)</span>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-orders-table">
+            <thead>
+              <tr>
+                <th>Reviewer</th>
+                <th>Rating</th>
+                <th>Product</th>
+                <th>Review Comments</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminReviewsTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: WHOLESALE ACCOUNTS APPROVAL -->
+      <div id="adminTabWholesaleContent" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h4 style="margin: 0;">🤝 RETAILER & DISTRIBUTOR B2B APPLICATIONS</h4>
+            <p style="font-size: 12px; color: #666; margin: 0;">Review trade applications, verify GSTINs, and grant wholesale B2B pricing approval.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="exportWholesaleCSV()">📥 Export B2B Leads</button>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-orders-table">
+            <thead>
+              <tr>
+                <th>Account ID</th>
+                <th>Business Name</th>
+                <th>Type</th>
+                <th>GSTIN</th>
+                <th>Contact Person</th>
+                <th>Phone</th>
+                <th>Territory / City</th>
+                <th>Approval Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminWholesaleTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: SALES REPORTS -->
+      <div id="adminTabReportsContent" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h4 style="margin: 0;">📊 STORE FINANCIAL & SALES REPORTS</h4>
+            <p style="font-size: 12px; color: #666; margin: 0;">Comprehensive breakdown for accounting, GST filings, and business analytics.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="exportOrdersCSV()">📥 Export Detailed Orders CSV</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px;">
+          <div class="detail-card">
+            <h4>📅 DAILY REPORT</h4>
+            <p style="font-size: 12px; color: #666;">Today's real-time orders & revenue</p>
+            <div style="font-size: 20px; font-weight: 800; color: var(--fk-blue);" id="reportDailyRevenue">₹0</div>
+            <div style="font-size: 11.5px; color: #777;" id="reportDailyOrders">0 Orders</div>
+          </div>
+          <div class="detail-card">
+            <h4>📅 WEEKLY REPORT</h4>
+            <p style="font-size: 12px; color: #666;">Last 7 business days performance</p>
+            <div style="font-size: 20px; font-weight: 800; color: #2e7d32;" id="reportWeeklyRevenue">₹0</div>
+            <div style="font-size: 11.5px; color: #777;" id="reportWeeklyOrders">0 Orders</div>
+          </div>
+          <div class="detail-card">
+            <h4>📅 MONTHLY REPORT</h4>
+            <p style="font-size: 12px; color: #666;">Current calendar month totals</p>
+            <div style="font-size: 20px; font-weight: 800; color: var(--fk-orange);" id="reportMonthlyRevenue">₹0</div>
+            <div style="font-size: 11.5px; color: #777;" id="reportMonthlyOrders">0 Orders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: SETTINGS, AUDIT LOGS & BACKUP -->
+      <div id="adminTabSettingsContent" style="display: none;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <!-- Left: Website Settings & Declarations -->
+          <div class="detail-card">
+            <h4>⚙️ OFFICIAL STORE SETTINGS & COMPLIANCE</h4>
+            <div class="form-group" style="margin-top: 10px;">
+              <label>Store Business Name</label>
+              <input type="text" id="settingStoreName" value="S.P.R. Siri Dhanya" readonly>
+            </div>
+            <div class="form-group">
+              <label>Official Support Management Line 1</label>
+              <input type="text" id="settingPhone1" value="+91 94413 93817" readonly>
+            </div>
+            <div class="form-group">
+              <label>Official Support Management Line 2</label>
+              <input type="text" id="settingPhone2" value="9492468817" readonly>
+            </div>
+            <div class="form-group">
+              <label>FSSAI Central / State License Number</label>
+              <input type="text" id="settingFssai" value="20126152000402" readonly>
+            </div>
+            <div class="form-group">
+              <label>Factory Address</label>
+              <input type="text" id="settingAddress" value="Kamepalli, Santamaguluru Mandal, Bapatla District, A.P. - 523326" readonly>
+            </div>
+            <div style="margin-top: 12px; padding: 10px; background: #e8f5e9; border-radius: 4px; font-size: 12px; color: #2e7d32;">
+              ✅ <strong>Security & Compliance:</strong> HTTPS Enforced • Role-Based Access Control Active.
+            </div>
+          </div>
+
+          <!-- Right: Audit Logs & Database Backup -->
+          <div class="detail-card">
+            <h4>💾 DATABASE BACKUP & AUDIT TRAIL</h4>
+            <p style="font-size: 12px; color: #666;">Export or restore complete database snapshots including products, orders, customers, and audit events.</p>
+            
+            <div style="display: flex; gap: 10px; margin: 12px 0;">
+              <button class="btn btn-primary btn-sm" onclick="exportFullDatabaseJson()">📤 Export Database Backup (JSON)</button>
+              <label class="btn btn-secondary btn-sm" style="cursor: pointer;">
+                📥 Restore Backup (JSON)
+                <input type="file" id="dbRestoreFileInput" accept=".json" onchange="importFullDatabaseJson(event)" style="display: none;">
+              </label>
+            </div>
+
+            <h5 style="margin: 14px 0 6px 0; font-size: 13px;">📋 Recent System Audit Logs (<span id="auditLogCount">0</span>)</h5>
+            <div id="adminAuditLogBox" style="background: #111827; color: #4ade80; font-family: monospace; font-size: 11px; padding: 10px; border-radius: 6px; height: 180px; overflow-y: auto;">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </div>
+
 
       <!-- ============================================== -->
       <!-- TAB 2: QR CODE GENERATOR & DASHBOARD (FEATURE) -->
@@ -1749,6 +2170,385 @@
         <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
           <button type="button" class="btn btn-secondary" onclick="closeModal('addKnowledgeArticleModal')">Cancel</button>
           <button type="submit" class="btn btn-primary">Save & Re-Index Knowledge Base</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  
+  <!-- ======================================================== -->
+  <!-- MODAL: RETURN OR REPLACEMENT REQUEST (CUSTOMER DASHBOARD) -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="returnRequestModal">
+    <div class="modal-card" style="max-width: 520px; border-top: 5px solid var(--fk-orange);">
+      <button class="modal-close" onclick="closeModal('returnRequestModal')">✕</button>
+      <h3>↩️ Return or Replacement Request</h3>
+      <p style="font-size: 12px; color: #666; margin-bottom: 12px;">
+        100% Customer Satisfaction Guarantee. We promptly replace transit-damaged or defective packs.
+      </p>
+
+      <form onsubmit="handleReturnSubmit(event)">
+        <div class="form-group">
+          <label>Order ID</label>
+          <input type="text" id="returnOrderIdInput" readonly style="font-weight: 700; background: #f8f9fa;">
+        </div>
+
+        <div class="form-group">
+          <label>Request Type *</label>
+          <select id="returnTypeSelect" required>
+            <option value="Replacement">Replacement (Free Priority Dispatch of Fresh Pack)</option>
+            <option value="Return & Refund">Return & 100% Refund to Original Payment Source</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Reason for Request *</label>
+          <select id="returnReasonSelect" required>
+            <option value="Damaged in Transit">Package / Pouch Damaged in Courier Transit</option>
+            <option value="Packaging Seal Broken">Airtight Pouch Seal Compromised</option>
+            <option value="Incorrect Item Received">Wrong Product / Variant Received</option>
+            <option value="Taste or Quality Concern">Taste or Quality Query</option>
+            <option value="Other">Other Query</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Customer Remarks / Issue Details *</label>
+          <textarea id="returnRemarksInput" rows="3" placeholder="Please describe the condition of the pack..." required style="width: 100%; font-size: 12px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+        </div>
+
+        <div style="background: #eef5ff; padding: 8px 12px; border-radius: 4px; font-size: 11.5px; color: #1565c0; margin-bottom: 12px;">
+          ℹ️ Our customer care team (+91 94413 93817 / 9492468817) will verify your request within 24 hours.
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('returnRequestModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Return Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: WHOLESALE & B2B SUPERMARKET PORTAL               -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="wholesalePortalModal">
+    <div class="modal-card" style="max-width: 900px; border-top: 5px solid #2e7d32;">
+      <button class="modal-close" onclick="closeModal('wholesalePortalModal')">✕</button>
+
+      <div style="display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 14px;">
+        <span style="font-size: 28px;">🤝</span>
+        <div>
+          <h3 style="margin: 0; font-size: 19px;">S.P.R. SIRI DHANYA — WHOLESALE & B2B DISTRIBUTOR PORTAL</h3>
+          <p style="margin: 2px 0 0 0; font-size: 12.5px; color: #666;">
+            Direct Factory Supply for Supermarkets, Retail Chains & Regional Distributors • 20% - 25% Trade Profit Margins
+          </p>
+        </div>
+      </div>
+
+      <!-- Wholesale Portal Tabs -->
+      <div class="admin-tabs-nav" style="margin-bottom: 14px;">
+        <button class="admin-tab-btn active" id="wsTabBtnCatalogue" onclick="switchWholesaleTab('catalogue')">📦 B2B Catalogue & Pricing</button>
+        <button class="admin-tab-btn" id="wsTabBtnRetailer" onclick="switchWholesaleTab('retailer')">🏪 Retailer Registration</button>
+        <button class="admin-tab-btn" id="wsTabBtnDistributor" onclick="switchWholesaleTab('distributor')">🚚 Distributor Registration</button>
+        <button class="admin-tab-btn" id="wsTabBtnBulk" onclick="switchWholesaleTab('bulk')">🛒 Bulk Order & Tax Invoice</button>
+      </div>
+
+      <!-- Sub-Tab 1: B2B Catalogue & Tier Margins -->
+      <div id="wsTabCatalogueContent">
+        <div style="background: #e8f5e9; border: 1px solid #c8e6c9; padding: 12px; border-radius: 6px; margin-bottom: 14px;">
+          <h4 style="margin: 0 0 4px 0; color: #2e7d32; font-size: 14px;">🌟 SUPERMARKET PROFIT STRUCTURE (MINIMUM ORDER QUANTITY: 1 CARTON = 24 PACKS)</h4>
+          <p style="font-size: 12px; color: #444; margin: 0;">
+            Direct factory dispatch from Kamepalli with official GST tax invoice. Retailers enjoy high-turnover healthy millet staples.
+          </p>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-orders-table">
+            <thead>
+              <tr>
+                <th>Product SKU</th>
+                <th>Pack Size</th>
+                <th>Retail MRP</th>
+                <th>Wholesale Unit Price</th>
+                <th>Carton Price (24 Units)</th>
+                <th>Retailer Profit Margin</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>S.P.R. Instant Ragi Dosa Mix</strong></td>
+                <td>500 g</td>
+                <td>₹149</td>
+                <td><strong style="color: #2e7d32;">₹103.75</strong></td>
+                <td>₹2,490 / Carton</td>
+                <td><span class="pay-status-pill paid">30% Margin (₹45.25 / pack)</span></td>
+              </tr>
+              <tr>
+                <td><strong>S.P.R. Instant Jowar Dosa Mix</strong></td>
+                <td>500 g</td>
+                <td>₹149</td>
+                <td><strong style="color: #2e7d32;">₹103.75</strong></td>
+                <td>₹2,490 / Carton</td>
+                <td><span class="pay-status-pill paid">30% Margin (₹45.25 / pack)</span></td>
+              </tr>
+              <tr>
+                <td><strong>S.P.R. Instant Pesara Dosa Mix</strong></td>
+                <td>500 g</td>
+                <td>₹159</td>
+                <td><strong style="color: #2e7d32;">₹112.50</strong></td>
+                <td>₹2,700 / Carton</td>
+                <td><span class="pay-status-pill paid">29% Margin (₹46.50 / pack)</span></td>
+              </tr>
+              <tr>
+                <td><strong>S.P.R. Instant Korra Dosa Mix</strong></td>
+                <td>500 g</td>
+                <td>₹160</td>
+                <td><strong style="color: #2e7d32;">₹112.50</strong></td>
+                <td>₹2,700 / Carton</td>
+                <td><span class="pay-status-pill paid">30% Margin (₹47.50 / pack)</span></td>
+              </tr>
+              <tr>
+                <td><strong>S.P.R. Multi Grain Atta</strong></td>
+                <td>1 KG</td>
+                <td>₹185</td>
+                <td><strong style="color: #2e7d32;">₹130.00</strong></td>
+                <td>₹1,560 / 12 KG Bag</td>
+                <td><span class="pay-status-pill paid">30% Margin (₹55.00 / KG)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Sub-Tab 2: Retailer Registration -->
+      <div id="wsTabRetailerContent" style="display: none;">
+        <form onsubmit="handleRetailerRegistration(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Supermarket / Shop Name *</label>
+              <input type="text" id="retShopName" placeholder="e.g. Sri Balaji Supermarket" required>
+            </div>
+            <div class="form-group">
+              <label>GSTIN / Trade License Number *</label>
+              <input type="text" id="retGstin" placeholder="e.g. 37AAPFS9492K1Z9" required>
+            </div>
+            <div class="form-group">
+              <label>Proprietor / Contact Person *</label>
+              <input type="text" id="retContactPerson" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+              <label>WhatsApp / Mobile Number *</label>
+              <input type="tel" id="retPhone" placeholder="10-digit mobile" required>
+            </div>
+            <div class="form-group">
+              <label>Business Email *</label>
+              <input type="email" id="retEmail" placeholder="shop@gmail.com" required>
+            </div>
+            <div class="form-group">
+              <label>City / Town & District *</label>
+              <input type="text" id="retCity" placeholder="e.g. Guntur / Bapatla" required>
+            </div>
+            <div class="form-group full-width">
+              <label>Full Shop Address & PIN Code *</label>
+              <input type="text" id="retAddress" placeholder="Shop No, Main Road, Landmark, PIN Code" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary full-width" style="margin-top: 14px; padding: 12px; font-weight: 700;">
+            📝 Submit Retailer Application for Wholesale Pricing Approval
+          </button>
+        </form>
+      </div>
+
+      <!-- Sub-Tab 3: Distributor Registration -->
+      <div id="wsTabDistributorContent" style="display: none;">
+        <form onsubmit="handleDistributorRegistration(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Distribution Agency Name *</label>
+              <input type="text" id="distAgencyName" placeholder="e.g. Krishna-Guntur Millet Distributors" required>
+            </div>
+            <div class="form-group">
+              <label>Coverage Territory / Districts *</label>
+              <input type="text" id="distTerritory" placeholder="e.g. Bapatla, Guntur, Prakasam" required>
+            </div>
+            <div class="form-group">
+              <label>Warehouse / Godown Space (Sq. Ft.) *</label>
+              <input type="text" id="distGodownSpace" placeholder="e.g. 1,500 Sq Ft" required>
+            </div>
+            <div class="form-group">
+              <label>Transport / Delivery Vehicles *</label>
+              <input type="text" id="distVehicles" placeholder="e.g. 2 Vans / 3 Autos" required>
+            </div>
+            <div class="form-group">
+              <label>Authorized Person & Phone *</label>
+              <input type="text" id="distContact" placeholder="Name & 10-digit phone" required>
+            </div>
+            <div class="form-group">
+              <label>Monthly Investment Capacity *</label>
+              <select id="distInvestment">
+                <option value="₹2 - ₹5 Lakhs">₹2 - ₹5 Lakhs</option>
+                <option value="₹5 - ₹10 Lakhs">₹5 - ₹10 Lakhs</option>
+                <option value="₹10 Lakhs+">₹10 Lakhs+ (Exclusive Regional Hub)</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary full-width" style="margin-top: 14px; padding: 12px; font-weight: 700;">
+            🚚 Register as Authorized Regional Distributor
+          </button>
+        </form>
+      </div>
+
+      <!-- Sub-Tab 4: Bulk Order Placement & B2B Invoice -->
+      <div id="wsTabBulkContent" style="display: none;">
+        <div style="background: #f8f9fa; border: 1px solid #ddd; padding: 14px; border-radius: 6px;">
+          <h4>📦 INSTANT B2B BULK CARTON PURCHASE</h4>
+          <p style="font-size: 12px; color: #666;">Select quantity of Master Cartons (24 packs per carton) for direct factory billing.</p>
+
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin: 14px 0;">
+            <div>
+              <label style="font-size: 12px; font-weight: 700;">Select Master Carton Quantity (MOQ: 1 Carton):</label>
+              <select id="bulkCartonQtySelect" onchange="calculateBulkCartonPrice()" style="width: 100%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; margin-top: 4px;">
+                <option value="1">1 Master Carton (24 Packs) - ₹2,490</option>
+                <option value="2">2 Master Cartons (48 Packs) - ₹4,980</option>
+                <option value="5">5 Master Cartons (120 Packs) - ₹12,450 (Free Transport)</option>
+                <option value="10">10 Master Cartons (240 Packs) - ₹23,500 (Bulk Discount)</option>
+              </select>
+            </div>
+            <div style="background: #fff; border: 1px solid #eee; padding: 12px; border-radius: 6px; text-align: center;">
+              <div style="font-size: 11px; color: #666;">Total B2B Amount (incl. 5% GST):</div>
+              <strong style="font-size: 20px; color: #2e7d32;" id="bulkCalculatedAmount">₹2,490</strong>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-primary" onclick="proceedBulkOrderCheckout()">🛒 Place Bulk Order via Portal</button>
+            <button class="btn btn-secondary" onclick="downloadSampleB2bInvoice()">📥 Download Sample B2B Tax Invoice</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: LEGAL, COMPLIANCE & BUSINESS POLICIES            -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="policyModal">
+    <div class="modal-card" style="max-width: 820px; border-top: 5px solid var(--fk-blue);">
+      <button class="modal-close" onclick="closeModal('policyModal')">✕</button>
+
+      <div style="display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 12px;">
+        <span style="font-size: 26px;">📜</span>
+        <div>
+          <h3 style="margin: 0; font-size: 18px;">LEGAL, COMPLIANCE & BUSINESS POLICIES</h3>
+          <p style="margin: 2px 0 0 0; font-size: 12px; color: #666;">FSSAI Licensed • GST Registered • 100% Transparent Food Business Standards</p>
+        </div>
+      </div>
+
+      <div class="admin-tabs-nav" style="margin-bottom: 12px;">
+        <button class="admin-tab-btn active" id="polTabPrivacy" onclick="switchPolicyTab('privacy')">Privacy Policy</button>
+        <button class="admin-tab-btn" id="polTabTerms" onclick="switchPolicyTab('terms')">Terms & Conditions</button>
+        <button class="admin-tab-btn" id="polTabRefund" onclick="switchPolicyTab('refund')">Return & Refund</button>
+        <button class="admin-tab-btn" id="polTabShipping" onclick="switchPolicyTab('shipping')">Shipping Policy</button>
+        <button class="admin-tab-btn" id="polTabFssai" onclick="switchPolicyTab('fssai')">FSSAI & Declarations</button>
+      </div>
+
+      <div id="policyContentBox" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; max-height: 380px; overflow-y: auto; font-size: 13px; line-height: 1.6; color: #333;">
+        <!-- Populated dynamically based on active tab -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: ADMIN ADD / EDIT PRODUCT                         -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="adminProductFormModal">
+    <div class="modal-card" style="max-width: 600px;">
+      <button class="modal-close" onclick="closeModal('adminProductFormModal')">✕</button>
+      <h3 id="productFormModalTitle">➕ Add New Millet Product</h3>
+      
+      <form onsubmit="handleProductFormSubmit(event)">
+        <input type="hidden" id="editProductId">
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Product Title (English) *</label>
+            <input type="text" id="prodFormName" placeholder="e.g. S.P.R. Instant Samalu Dosa Mix (500 g)" required>
+          </div>
+          <div class="form-group full-width">
+            <label>Product Title (Telugu) *</label>
+            <input type="text" id="prodFormTelugu" placeholder="e.g. సామల దోశ మిక్స్ (Little Millet)" required>
+          </div>
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="prodFormCategory" required>
+              <option value="dosa-mix">Instant Dosa Mix</option>
+              <option value="atta">Multi Grain Atta</option>
+              <option value="combos">Family Combos</option>
+              <option value="wholesale">Wholesale Master Carton</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Net Weight *</label>
+            <input type="text" id="prodFormWeight" placeholder="500 g / 1 KG" required>
+          </div>
+          <div class="form-group">
+            <label>Selling Price (₹) *</label>
+            <input type="number" id="prodFormPrice" placeholder="119" required>
+          </div>
+          <div class="form-group">
+            <label>MRP Price (₹) *</label>
+            <input type="number" id="prodFormMrp" placeholder="149" required>
+          </div>
+          <div class="form-group">
+            <label>Initial Stock Units *</label>
+            <input type="number" id="prodFormStock" placeholder="100" required>
+          </div>
+          <div class="form-group">
+            <label>Image Asset Path *</label>
+            <input type="text" id="prodFormImage" placeholder="assets/ragi_dosa.png" required>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('adminProductFormModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: ADMIN ADD COUPON                                 -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="adminAddCouponModal">
+    <div class="modal-card" style="max-width: 480px;">
+      <button class="modal-close" onclick="closeModal('adminAddCouponModal')">✕</button>
+      <h3>🏷️ Create Promo Discount Coupon</h3>
+      
+      <form onsubmit="handleCreateCouponSubmit(event)">
+        <div class="form-group">
+          <label>Coupon Code (All Caps) *</label>
+          <input type="text" id="newCouponCode" placeholder="e.g. DIWALI20" style="text-transform: uppercase;" required>
+        </div>
+        <div class="form-group">
+          <label>Discount Type *</label>
+          <select id="newCouponType" required>
+            <option value="percentage">Percentage Discount (%)</option>
+            <option value="flat">Flat Cash Discount (₹)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Discount Value *</label>
+          <input type="number" id="newCouponValue" placeholder="10 (for 10%) or 50 (for ₹50)" required>
+        </div>
+        <div class="form-group">
+          <label>Minimum Order Amount (₹) *</label>
+          <input type="number" id="newCouponMinSpend" placeholder="200" required>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('adminAddCouponModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create & Activate Coupon</button>
         </div>
       </form>
     </div>
