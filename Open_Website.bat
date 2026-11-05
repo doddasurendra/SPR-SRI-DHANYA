@@ -1,0 +1,3 @@
+@echo off
+echo Starting SPR Siri Dhanya Flipkart Store...
+start "" "%~dp0website\index.html"

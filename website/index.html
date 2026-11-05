@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPR Siri Dhanya | Online Store - Traditional Millets & Instant Food</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Telugu:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Flipkart-style Announcement / Sub-bar -->
+  <div class="top-announcement">
+    <div class="container announcement-inner">
+      <span>🎉 <strong>Special Launch Offer:</strong> Flat 20% Off on all Instant Dosa Mixes & Multi Grain Atta! Free Delivery on orders above ₹299</span>
+      <div class="top-contacts">
+        <span class="phone-link">📞 Call / WhatsApp: <a href="tel:9441393817">+91 94413 93817</a> | <a href="tel:9492468817">9492468817</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Flipkart Header -->
+  <header class="fk-header">
+    <div class="container fk-header-inner">
+      <!-- Logo -->
+      <a href="#" class="fk-logo" onclick="resetFilters()">
+        <div class="brand-text">
+          <span class="logo-main">SPR Siri Dhanya</span>
+          <span class="logo-sub">Explore <span class="plus-text">Health</span> <span class="plus-icon">🌿</span></span>
+        </div>
+      </a>
+
+      <!-- Search Bar -->
+      <div class="fk-search-wrap">
+        <input type="text" id="searchInput" placeholder="Search for millets, instant dosa mix, atta, and traditional foods..." oninput="handleSearch()">
+        <button class="search-btn" onclick="handleSearch()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Header Action Items -->
+      <div class="fk-header-actions">
+        <!-- Scan QR Button -->
+        <button class="fk-nav-btn qr-nav-btn" onclick="openQrScannerModal()" title="Scan QR Code">
+          <span class="nav-icon">📷</span> Scan QR
+        </button>
+
+        <!-- Official PDF Catalogue Button -->
+        <button class="fk-nav-btn pdf-nav-btn" onclick="openPdfCatalogueModal()" title="Download Official 8-Page PDF Catalogue">
+          <span class="nav-icon">📄</span> PDF Catalogue
+        </button>
+
+        <!-- Universal Voice AI Agent -->
+        <button class="fk-nav-btn voice-nav-btn" onclick="toggleVoiceAgent()" title="Talk to Siri Dhanya Voice AI Agent">
+          <span class="nav-icon">🎙️</span> Voice AI
+        </button>
+
+        <!-- My Orders Button -->
+        <button class="fk-nav-btn my-orders-btn" onclick="openMyOrdersModal()">
+          <span class="nav-icon">📦</span> My Orders <span class="orders-badge" id="myOrdersBadge">0</span>
+        </button>
+
+        <!-- Admin Portal Access (Password Protected) -->
+        <button class="fk-admin-badge-btn" onclick="openAdminModalAuth()">
+          👑 Admin Portal
+        </button>
+
+        <!-- B2B Wholesale link -->
+        <a href="#b2b" class="fk-nav-link" onclick="filterByCategory('b2b')">Become a Retailer</a>
+
+        <!-- More Dropdown -->
+        <div class="fk-dropdown">
+          <span class="fk-nav-link dropdown-trigger">
+            More 
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </span>
+          <div class="dropdown-menu">
+            <a href="javascript:void(0)" onclick="openMyOrdersModal()"><span class="menu-icon">📦</span> Track Customer Orders</a>
+            <a href="javascript:void(0)" onclick="openAdminModalAuth()"><span class="menu-icon">👑</span> Admin Portal (Login)</a>
+            <a href="javascript:void(0)" onclick="openPdfCatalogueModal()"><span class="menu-icon">📄</span> Official 8-Page PDF Catalogues</a>
+            <a href="javascript:void(0)" onclick="openQrScannerModal()"><span class="menu-icon">📷</span> Scan QR Code</a>
+            <a href="javascript:void(0)" onclick="toggleVoiceAgent()"><span class="menu-icon">🎙️</span> Universal Voice Assistant</a>
+            <a href="javascript:void(0)" onclick="openContactModal()"><span class="menu-icon">📞</span> 24x7 Customer Care (+91 94413 93817 / 9492468817)</a>
+            <a href="../SPR_Siri_Dhanya_Catalogue_Telugu.pdf" target="_blank"><span class="menu-icon">📥</span> Download Telugu Catalogue PDF</a>
+            <a href="../SPR_Siri_Dhanya_Catalogue_English.pdf" target="_blank"><span class="menu-icon">📥</span> Download English Catalogue PDF</a>
+            <a href="javascript:void(0)" onclick="openFssaiModal()"><span class="menu-icon">🛡️</span> FSSAI Certified: 20126152000402</a>
+          </div>
+        </div>
+
+        <!-- Cart Button -->
+        <div class="fk-cart-btn" onclick="openCartDrawer()">
+          <div class="cart-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span class="cart-badge" id="cartBadge">0</span>
+          </div>
+          <span class="cart-text">Cart</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Category Nav Bar (Row of Categories with icons) -->
+  <nav class="fk-category-bar">
+    <div class="container category-bar-inner">
+      <div class="category-item active" onclick="filterByCategory('all')">
+        <div class="cat-icon">🌾</div>
+        <span>All Products</span>
+      </div>
+      <div class="category-item" onclick="filterByCategory('dosa-mix')">
+        <div class="cat-icon">🥞</div>
+        <span>Instant Dosa Mixes</span>
+      </div>
+      <div class="category-item" onclick="filterByCategory('atta')">
+        <div class="cat-icon">🥖</div>
+        <span>Multi Grain Atta</span>
+      </div>
+      <div class="category-item" onclick="filterByCategory('combos')">
+        <div class="cat-icon">🎁</div>
+        <span>Value Combos</span>
+      </div>
+      <div class="category-item" onclick="filterByCategory('b2b')">
+        <div class="cat-icon">🏬</div>
+        <span>Supermarket Wholesale</span>
+      </div>
+      <div class="category-item" onclick="scrollToSection('instant-features')">
+        <div class="cat-icon">⚡</div>
+        <span>15-Min Ready Tech</span>
+      </div>
+      <div class="category-item" onclick="scrollToSection('reviews')">
+        <div class="cat-icon">⭐</div>
+        <span>Customer Reviews</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container main-content">
+
+    <!-- Promotional Hero Slider / Banners -->
+    <section class="hero-slider">
+      <div class="slider-track" id="sliderTrack">
+        <!-- Slide 1 -->
+        <div class="slide slide-1">
+          <div class="slide-content">
+            <span class="slide-badge">TRADITIONAL HERITAGE NUTRITION</span>
+            <h2>S.P.R. SIRI DHANYA</h2>
+            <p class="slide-slogan">సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం | ప్రతి గింజలో ఆరోగ్యం</p>
+            <div class="slide-highlights">
+              <span>✔ 100% Pure Millets</span>
+              <span>✔ Ready in 15 Minutes</span>
+              <span>✔ No Soaking • No Grinding</span>
+            </div>
+            <div class="slide-actions">
+              <button class="btn btn-primary" onclick="filterByCategory('dosa-mix')">Shop Dosa Mixes</button>
+              <button class="btn btn-secondary" onclick="filterByCategory('atta')">Explore 7-Grain Atta</button>
+            </div>
+          </div>
+          <div class="slide-visual">
+            <img src="assets/brand_poster_logo.png" alt="SPR Siri Dhanya Showcase">
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide slide-2">
+          <div class="slide-content">
+            <span class="slide-badge gold">7 SUPER GRAINS FUSION</span>
+            <h2>S.P.R. MULTI GRAIN ATTA</h2>
+            <p class="slide-slogan">Cotton-Soft Rotis All Day • Wheat, Ragi, Bajra, Jowar, Soy, Oats, Chana</p>
+            <div class="slide-highlights">
+              <span>✔ High Protein & Fibre</span>
+              <span>✔ Fast Digestive Formula</span>
+              <span>✔ 100% Chemical & Maida Free</span>
+            </div>
+            <div class="slide-actions">
+              <button class="btn btn-primary" onclick="openProductQuickview(5)">Buy Multi Grain Atta ₹150</button>
+            </div>
+          </div>
+          <div class="slide-visual">
+            <img src="assets/multi_grain_atta.png" alt="SPR Multi Grain Atta">
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide slide-3">
+          <div class="slide-content">
+            <span class="slide-badge green">HIGH PROTEIN & ZERO CHOLESTEROL</span>
+            <h2>INSTANT PESARA & KORRA DOSA</h2>
+            <p class="slide-slogan">Authentic Andhra Pesarattu & Positive Siridhanya Foxtail Millet Crispy Dosas</p>
+            <div class="slide-highlights">
+              <span>✔ Just Add Water & Roast</span>
+              <span>✔ Low GI - Ideal for Diabetics</span>
+              <span>✔ Kids Love The Golden Crunch</span>
+            </div>
+            <div class="slide-actions">
+              <button class="btn btn-primary" onclick="filterByCategory('dosa-mix')">Explore Breakfast Range</button>
+            </div>
+          </div>
+          <div class="slide-visual">
+            <img src="assets/pesara_dosa.png" alt="SPR Pesara Dosa Mix">
+          </div>
+        </div>
+      </div>
+
+      <!-- Slider Controls -->
+      <div class="slider-dots">
+        <span class="dot active" onclick="goToSlide(0)"></span>
+        <span class="dot" onclick="goToSlide(1)"></span>
+        <span class="dot" onclick="goToSlide(2)"></span>
+      </div>
+    </section>
+
+    <!-- Deal of the Day Banner -->
+    <div class="deal-strip">
+      <div class="deal-info">
+        <span class="deal-tag">⚡ DEAL OF THE DAY</span>
+        <span class="deal-timer">Time Left: <strong id="dealTimer">14h : 28m : 45s</strong></span>
+      </div>
+      <div class="deal-trust-badges">
+        <span>🛡️ 100% Genuine Products</span>
+        <span>🚚 Fast Dispatch (24-48 Hrs)</span>
+        <span>💳 Instant Online Payment (UPI, Credit/Debit Cards, Net Banking)</span>
+      </div>
+    </div>
+
+    <!-- 15-Minute Instant Advantage Strip -->
+    <section class="instant-advantage" id="instant-features">
+      <div class="advantage-header">
+        <h3>The 15-Minute Zero Hassle Advantage</h3>
+        <p>Why modern families and retail shoppers choose S.P.R. Siri Dhanya instant mixes</p>
+      </div>
+      <div class="advantage-grid">
+        <div class="adv-card">
+          <div class="adv-icon">💧</div>
+          <strong>Just Add Water</strong>
+          <span>Single step mixing</span>
+        </div>
+        <div class="adv-card">
+          <div class="adv-icon">⏱️</div>
+          <strong>Ready in 15 Min</strong>
+          <span>Instant fresh cooking</span>
+        </div>
+        <div class="adv-card">
+          <div class="adv-icon">🚿</div>
+          <strong>No Washing</strong>
+          <span>Pre-sanitized grains</span>
+        </div>
+        <div class="adv-card">
+          <div class="adv-icon">⏳</div>
+          <strong>No Soaking</strong>
+          <span>No overnight waiting</span>
+        </div>
+        <div class="adv-card">
+          <div class="adv-icon">🥣</div>
+          <strong>No Grinding</strong>
+          <span>Zero noisy blender mess</span>
+        </div>
+        <div class="adv-card">
+          <div class="adv-icon">🧪</div>
+          <strong>No Fermentation</strong>
+          <span>Cook immediately</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Store Layout: Sidebar Filters + Product Grid -->
+    <div class="store-layout">
+      <!-- Left Sidebar (Flipkart Style Filters) -->
+      <aside class="fk-sidebar">
+        <div class="filter-header">
+          <h3>Filters</h3>
+          <button class="clear-filter-btn" onclick="resetFilters()">CLEAR ALL</button>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="filter-group">
+          <h4>CATEGORIES</h4>
+          <label class="filter-radio">
+            <input type="radio" name="catFilter" value="all" checked onchange="filterByCategory('all')">
+            <span>All Products</span>
+          </label>
+          <label class="filter-radio">
+            <input type="radio" name="catFilter" value="dosa-mix" onchange="filterByCategory('dosa-mix')">
+            <span>Instant Dosa Mixes (4)</span>
+          </label>
+          <label class="filter-radio">
+            <input type="radio" name="catFilter" value="atta" onchange="filterByCategory('atta')">
+            <span>Multi Grain Atta (1)</span>
+          </label>
+          <label class="filter-radio">
+            <input type="radio" name="catFilter" value="combos" onchange="filterByCategory('combos')">
+            <span>Combos & Multipacks (1)</span>
+          </label>
+          <label class="filter-radio">
+            <input type="radio" name="catFilter" value="b2b" onchange="filterByCategory('b2b')">
+            <span>Wholesale Slabs (1)</span>
+          </label>
+        </div>
+
+        <!-- Price Range Filter -->
+        <div class="filter-group">
+          <h4>PRICE RANGE</h4>
+          <label class="filter-checkbox">
+            <input type="checkbox" id="price120" onchange="applyFilters()">
+            <span>Under ₹120</span>
+          </label>
+          <label class="filter-checkbox">
+            <input type="checkbox" id="price140" onchange="applyFilters()">
+            <span>₹120 - ₹140</span>
+          </label>
+          <label class="filter-checkbox">
+            <input type="checkbox" id="priceAbove" onchange="applyFilters()">
+            <span>₹140 and above</span>
+          </label>
+        </div>
+
+        <!-- Assured Quality Filter -->
+        <div class="filter-group">
+          <h4>ASSURANCE</h4>
+          <label class="filter-checkbox">
+            <input type="checkbox" id="sprAssuredOnly" onchange="applyFilters()">
+            <span class="assured-badge-label"><span class="spr-assured-pill">SPR <i>Assured</i></span></span>
+          </label>
+        </div>
+
+        <!-- Customer Rating Filter -->
+        <div class="filter-group">
+          <h4>CUSTOMER RATINGS</h4>
+          <label class="filter-checkbox">
+            <input type="checkbox" id="rating4" onchange="applyFilters()">
+            <span>4★ & above</span>
+          </label>
+        </div>
+
+        <!-- Help & Helpline card -->
+        <div class="sidebar-help-card">
+          <h4>Need Direct Help?</h4>
+          <p>Talk to our factory team for bulk orders or customized distribution inquiries.</p>
+          <a href="tel:9492468817" class="sidebar-call-btn">📞 9492468817</a>
+        </div>
+      </aside>
+
+      <!-- Right Main Content Area -->
+      <section class="products-section">
+        <!-- Sorting bar -->
+        <div class="sort-bar">
+          <span class="results-count" id="resultsCount">Showing all products</span>
+          <div class="sort-options">
+            <span class="sort-label">Sort By:</span>
+            <button class="sort-btn active" data-sort="popularity" onclick="setSort('popularity', this)">Popularity</button>
+            <button class="sort-btn" data-sort="price-low" onclick="setSort('price-low', this)">Price -- Low to High</button>
+            <button class="sort-btn" data-sort="price-high" onclick="setSort('price-high', this)">Price -- High to Low</button>
+            <button class="sort-btn" data-sort="rating" onclick="setSort('rating', this)">Customer Rating</button>
+          </div>
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div class="product-grid" id="productGrid">
+          <!-- Dynamically populated by app.js -->
+        </div>
+      </section>
+    </div>
+
+    <!-- Customer Reviews & Testimonials Section -->
+    <section class="reviews-section" id="reviews">
+      <div class="reviews-header">
+        <h3>Customer Reviews & Ratings (వినియోగదారుల అభిప్రాయాలు)</h3>
+        <p>Rated 4.9/5 by 12,000+ families and 400+ supermarkets across Andhra Pradesh & Telangana</p>
+      </div>
+
+      <div class="reviews-grid">
+        <div class="review-box">
+          <div class="review-stars">★★★★★ <span class="review-verified">✔ Verified Buyer</span></div>
+          <h4 class="review-title">"Zero hassle in morning breakfast!"</h4>
+          <p class="review-body">
+            "No more overnight soaking or messy mixer grinding. The Ragi and Korra dosas come out delightfully crispy and savory in just 15 minutes. My school-going children love it!"
+          </p>
+          <div class="reviewer-meta">
+            <strong>Lakshmi Prasanna</strong> • Guntur, AP
+          </div>
+        </div>
+
+        <div class="review-box">
+          <div class="review-stars">★★★★★ <span class="review-verified">✔ Store Owner</span></div>
+          <h4 class="review-title">"Fastest shelf turnover product"</h4>
+          <p class="review-body">
+            "SPR Siri Dhanya Instant Dosa Mixes are flying off our shelves. The packaging looks super premium and customers repeatedly ask for Jowar and Pesara mixes every week."
+          </p>
+          <div class="reviewer-meta">
+            <strong>Rajesh Varma</strong> • Supermarket Manager, Vijayawada
+          </div>
+        </div>
+
+        <div class="review-box">
+          <div class="review-stars">★★★★★ <span class="review-verified">✔ Diabetic Diet User</span></div>
+          <h4 class="review-title">"The softest rotis with 7 grains"</h4>
+          <p class="review-body">
+            "The Multi Grain Atta makes rotis that remain soft till dinner. Helps manage post-meal sugar spikes gently. Highly recommend for any health-conscious home."
+          </p>
+          <div class="reviewer-meta">
+            <strong>Venkateswara Rao</strong> • Ongole, AP
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Supermarket & B2B Partnership Banner -->
+    <section class="b2b-banner" id="b2b">
+      <div class="b2b-content">
+        <span class="b2b-pill">FOR SUPERMARKETS & DISTRIBUTORS</span>
+        <h2>Grow Your Store Revenue with High-Turnover Millet Staples</h2>
+        <p>Get lucrative trade discounts, airtight standing zip pouches, fresh factory dispatches, and point-of-sale display branding.</p>
+        <div class="b2b-features">
+          <div>📦 Low MOQ for Retailers</div>
+          <div>💰 High Retailer Margins</div>
+          <div>🚚 24-48 Hr Dispatch</div>
+          <div>🛡️ 100% FSSAI Certified</div>
+        </div>
+        <div class="b2b-buttons">
+          <button class="btn btn-warning" onclick="openWholesaleInquiry()">Inquire Wholesale Prices</button>
+          <a href="https://wa.me/919492468817?text=Hi%20SPR%20Siri%20Dhanya,%20I%20am%20interested%20in%20Supermarket%20Wholesale%20Distribution." target="_blank" class="btn btn-whatsapp">
+            💬 WhatsApp B2B Desk (9492468817)
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Product Detail / Quickview Modal -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-card product-modal-card">
+      <button class="modal-close" onclick="closeProductModal()">✕</button>
+      <div class="modal-product-body" id="modalProductContent">
+        <!-- Rendered by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer (Right Side) -->
+  <div class="drawer-overlay" id="cartDrawerOverlay" onclick="closeCartDrawer()"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <h3>My Cart (<span id="cartCountTitle">0</span> Items)</h3>
+      </div>
+      <button class="drawer-close" onclick="closeCartDrawer()">✕</button>
+    </div>
+
+    <div class="cart-items-wrap" id="cartItemsList">
+      <!-- Populated by app.js -->
+    </div>
+
+    <div class="cart-summary-footer" id="cartFooter">
+      <div class="cart-savings-strip" id="cartSavingsNotice">
+        You will save <strong id="cartSavingsAmount">₹0</strong> on this order!
+      </div>
+      <div class="cart-total-row">
+        <div>
+          <span class="total-label">Total Amount:</span>
+          <div class="total-price" id="cartTotalAmount">₹0</div>
+        </div>
+        <button class="btn btn-checkout" onclick="openCheckoutModal()">PLACE ORDER</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Flipkart-Style Checkout Modal with Complete Payment Methods -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-card checkout-modal-card">
+      <button class="modal-close" onclick="closeCheckoutModal()">✕</button>
+      
+      <!-- Checkout Stepper Bar -->
+      <div class="checkout-stepper">
+        <div class="step-item active" id="stepIndicator1">
+          <span class="step-circle">1</span>
+          <span class="step-label">Delivery Address</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step-item" id="stepIndicator2">
+          <span class="step-circle">2</span>
+          <span class="step-label">Order Summary</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step-item" id="stepIndicator3">
+          <span class="step-circle">3</span>
+          <span class="step-label">Payment Options</span>
+        </div>
+      </div>
+
+      <!-- Checkout Step 1: Address -->
+      <div class="checkout-step-content" id="checkoutStep1">
+        <h4 class="step-heading">1. ENTER DELIVERY ADDRESS</h4>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="custName" placeholder="Enter full name" value="Venkatesh Kumar">
+          </div>
+          <div class="form-group">
+            <label>10-digit Mobile Number *</label>
+            <input type="tel" id="custPhone" placeholder="Mobile number" value="9492468817">
+          </div>
+          <div class="form-group">
+            <label>Pincode *</label>
+            <input type="text" id="custPincode" placeholder="6-digit PIN code" value="522616">
+          </div>
+          <div class="form-group">
+            <label>Locality / Town *</label>
+            <input type="text" id="custLocality" placeholder="Locality" value="Kamepalli">
+          </div>
+          <div class="form-group full-width">
+            <label>Flat, House No., Building, Apartment *</label>
+            <input type="text" id="custAddress" placeholder="Address" value="Plot 42, Siri Dhanya Nilayam">
+          </div>
+          <div class="form-group">
+            <label>City / District *</label>
+            <input type="text" id="custCity" placeholder="City" value="Santamaguluru / Bapatla">
+          </div>
+          <div class="form-group">
+            <label>State *</label>
+            <select id="custState">
+              <option value="Andhra Pradesh" selected>Andhra Pradesh</option>
+              <option value="Telangana">Telangana</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Tamil Nadu">Tamil Nadu</option>
+              <option value="Maharashtra">Maharashtra</option>
+              <option value="Other">Other States</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="step-action-bar">
+          <button class="btn btn-primary" onclick="goToStep(2)">DELIVER HERE & CONTINUE</button>
+        </div>
+      </div>
+
+      <!-- Checkout Step 2: Order Summary -->
+      <div class="checkout-step-content" id="checkoutStep2" style="display: none;">
+        <h4 class="step-heading">2. ORDER SUMMARY</h4>
+        <div class="order-summary-box" id="checkoutSummaryItems">
+          <!-- Populated by app.js -->
+        </div>
+
+        <div class="order-email-notification">
+          <span>Order confirmation & invoice will be sent to WhatsApp number: <strong id="summaryPhone">9492468817</strong></span>
+        </div>
+
+        <div class="step-action-bar">
+          <button class="btn btn-secondary" onclick="goToStep(1)">BACK</button>
+          <button class="btn btn-primary" onclick="goToStep(3)">CONTINUE TO PAYMENT</button>
+        </div>
+      </div>
+
+      <!-- Checkout Step 3: Flipkart Exact Payment Methods -->
+      <div class="checkout-step-content" id="checkoutStep3" style="display: none;">
+        <div class="payment-layout">
+          <!-- Left side: Payment Methods List (Flipkart Style Accordion) -->
+          <div class="payment-methods-tabs">
+            <h4 class="step-heading">3. SELECT PAYMENT METHOD</h4>
+
+            <!-- UPI Option -->
+            <div class="pay-option" onclick="selectPayMethod('upi')">
+              <label class="pay-radio-label">
+                <input type="radio" name="payOption" id="radioUpi" checked>
+                <div class="pay-label-content">
+                  <div class="pay-title-row">
+                    <span class="pay-title">UPI (Google Pay, PhonePe, Paytm, BHIM)</span>
+                    <span class="pay-icon-tag">⚡ Fast & Recommended</span>
+                  </div>
+                  <p class="pay-desc">Pay directly from your bank account instantly with zero charges</p>
+                </div>
+              </label>
+
+              <div class="pay-subpanel" id="panelUpi">
+                <div class="upi-apps-row">
+                  <button class="upi-app-btn active" onclick="setUpiApp('gpay')">
+                    <span class="upi-badge-logo gpay">GPay</span>
+                    <span>Google Pay</span>
+                  </button>
+                  <button class="upi-app-btn" onclick="setUpiApp('phonepe')">
+                    <span class="upi-badge-logo phonepe">Pe</span>
+                    <span>PhonePe</span>
+                  </button>
+                  <button class="upi-app-btn" onclick="setUpiApp('paytm')">
+                    <span class="upi-badge-logo paytm">Paytm</span>
+                    <span>Paytm UPI</span>
+                  </button>
+                </div>
+                <div class="upi-input-group">
+                  <input type="text" id="upiIdInput" placeholder="Enter UPI ID (e.g. mobile@upi, name@okhdfcbank)">
+                  <button class="btn-verify" onclick="verifyUpiId()">Verify</button>
+                </div>
+                <div class="upi-qr-box">
+                  <div class="qr-mock">📱 Scan QR Code using any UPI App (GPay/PhonePe/Paytm)</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Credit / Debit / ATM Card Option -->
+            <div class="pay-option" onclick="selectPayMethod('card')">
+              <label class="pay-radio-label">
+                <input type="radio" name="payOption" id="radioCard">
+                <div class="pay-label-content">
+                  <div class="pay-title-row">
+                    <span class="pay-title">Credit / Debit / ATM Card</span>
+                    <span class="card-icons">💳 Visa • MasterCard • RuPay</span>
+                  </div>
+                  <p class="pay-desc">Add and secure cards as per RBI guidelines</p>
+                </div>
+              </label>
+
+              <div class="pay-subpanel" id="panelCard" style="display: none;">
+                <div class="card-form">
+                  <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx" maxlength="19">
+                  </div>
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label>Valid Thru</label>
+                      <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                      <label>CVV</label>
+                      <input type="password" id="cardCvv" placeholder="•••" maxlength="3">
+                    </div>
+                  </div>
+                  <div class="card-security-note">
+                    🔒 Bank grade 256-bit encryption. Safe & certified payments.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Net Banking Option -->
+            <div class="pay-option" onclick="selectPayMethod('netbanking')">
+              <label class="pay-radio-label">
+                <input type="radio" name="payOption" id="radioNetbanking">
+                <div class="pay-label-content">
+                  <div class="pay-title-row">
+                    <span class="pay-title">Net Banking</span>
+                  </div>
+                  <p class="pay-desc">All Indian banks supported</p>
+                </div>
+              </label>
+
+              <div class="pay-subpanel" id="panelNetbanking" style="display: none;">
+                <div class="bank-grid">
+                  <label class="bank-pill"><input type="radio" name="bank" checked> <span>State Bank of India</span></label>
+                  <label class="bank-pill"><input type="radio" name="bank"> <span>HDFC Bank</span></label>
+                  <label class="bank-pill"><input type="radio" name="bank"> <span>ICICI Bank</span></label>
+                  <label class="bank-pill"><input type="radio" name="bank"> <span>Axis Bank</span></label>
+                </div>
+                <select class="all-banks-select">
+                  <option>-- Select other bank --</option>
+                  <option>Kotak Mahindra Bank</option>
+                  <option>Union Bank of India</option>
+                  <option>Punjab National Bank</option>
+                  <option>Canara Bank</option>
+                  <option>Andhra Bank / Union Bank</option>
+                </select>
+              </div>
+            </div>
+
+            
+            </div>
+
+          </div>
+
+          <!-- Right side: Flipkart Price Details Sticky Card -->
+          <div class="checkout-price-card">
+            <h4>PRICE DETAILS</h4>
+            <div class="price-row">
+              <span>Price (<span id="checkoutItemsCount">0</span> items)</span>
+              <span id="checkoutTotalMrp">₹0</span>
+            </div>
+            <div class="price-row text-success">
+              <span>Discount</span>
+              <span id="checkoutDiscount">- ₹0</span>
+            </div>
+            <div class="price-row text-success">
+              <span>Delivery Charges</span>
+              <span><del>₹40</del> FREE</span>
+            </div>
+            <div class="price-row total-row">
+              <span>Total Payable</span>
+              <span id="checkoutFinalAmount">₹0</span>
+            </div>
+            <div class="savings-banner" id="checkoutSavingsBadge">
+              You will save ₹0 on this order
+            </div>
+
+            <button class="btn btn-pay-now" id="payNowBtn" onclick="processPayment()">
+              PAY & CONFIRM ORDER
+            </button>
+            <div class="safe-payment-hint">
+              🛡️ Safe and Secure Payments. 100% Authentic SPR Siri Dhanya Guarantee.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Order Success Confirmation Modal -->
+  <div class="modal-overlay" id="orderSuccessModal">
+    <div class="modal-card order-success-card">
+      <div class="success-icon-anim">✓</div>
+      <h2>Order Placed Successfully!</h2>
+      <p class="order-id-text">Flipkart Order ID: <strong id="successOrderId">OD4281948291084</strong></p>
+      <p class="order-msg">
+        Thank you for choosing <strong>S.P.R. Siri Dhanya</strong>! Your healthy heritage millet pack will be freshly prepared and dispatched within 24 hours.
+      </p>
+
+      <div class="success-details-card">
+        <div class="detail-row">
+          <span>Deliver To:</span>
+          <strong id="successCustomerName">Venkatesh Kumar</strong>
+        </div>
+        <div class="detail-row">
+          <span>Delivery Address:</span>
+          <span id="successAddress">Plot 42, Kamepalli, Santamaguluru, AP</span>
+        </div>
+        <div class="detail-row">
+          <span>Payment Method:</span>
+          <strong id="successPaymentMethod">UPI / Google Pay</strong>
+        </div>
+        <div class="detail-row">
+          <span>Estimated Delivery:</span>
+          <strong class="text-success">Within 2 business days (Free Delivery)</strong>
+        </div>
+        <div class="detail-row total-highlight">
+          <span>Amount Paid:</span>
+          <strong id="successAmount">₹0</strong>
+        </div>
+      </div>
+
+      <div class="success-actions">
+        <div style="font-size: 11.5px; font-weight: 700; color: #555; margin-bottom: 4px;">SEND ORDER NOTIFICATION TO MANAGEMENT:</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <a id="successWhatsappBtn1" href="#" target="_blank" class="btn btn-whatsapp">
+            💬 WhatsApp: +91 94413 93817
+          </a>
+          <a id="successWhatsappBtn2" href="#" target="_blank" class="btn btn-whatsapp">
+            💬 WhatsApp: 9492468817
+          </a>
+        </div>
+        <button class="btn btn-secondary" onclick="copyOrderDetailsText()">
+          📋 Copy Order Details & SMS Summary
+        </button>
+        <button class="btn btn-primary" onclick="closeOrderSuccessModal(); openMyOrdersModal();">
+          View in My Orders & Track Delivery
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simple Information Modals (Contact, FSSAI, Track) -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('contactModal')">✕</button>
+      <h3>S.P.R. Siri Dhanya - Official Support</h3>
+      <p>సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం | ప్రతి గింజలో ఆరోగ్యం</p>
+      <div class="contact-details-box">
+        <p>📞 <strong>Phone & WhatsApp:</strong> <a href="tel:9492468817">9492468817</a></p>
+        <p>🏭 <strong>Manufacturing Plant:</strong> Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh.</p>
+        <p>📜 <strong>FSSAI License:</strong> 20126152000402</p>
+        <p>⏰ <strong>Working Hours:</strong> Mon - Sat: 8:00 AM - 8:00 PM</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="fssaiModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('fssaiModal')">✕</button>
+      <h3>FSSAI License & Quality Certifications</h3>
+      <div class="fssai-box">
+        <div class="fssai-badge-big">🛡️ FSSAI CERTIFIED</div>
+        <p><strong>License Number:</strong> 20126152000402</p>
+        <p><strong>Registered Name:</strong> S.P.R. SIRI DHANYA</p>
+        <p><strong>Category:</strong> Cereal & Cereal Products / Millets / Health Mixes</p>
+        <p>100% vegetarian, unadulterated, unpolished traditional millets adhering strictly to Indian Food Safety & Standards Regulations.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flipkart-style Footer -->
+  <footer class="fk-footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <h4>ABOUT S.P.R. SIRI DHANYA</h4>
+        <p class="footer-about">
+          Reviving the timeless nutritional power of millets and traditional pulses for modern families. Ready in 15 minutes with no soaking or grinding needed.
+        </p>
+        <div class="veg-emblem-wrap">
+          <span class="veg-box"><span class="veg-circle"></span></span>
+          <span>100% Pure Vegetarian Certified</span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>HELP & SUPPORT</h4>
+        <ul>
+          <li><a href="javascript:void(0)" onclick="openContactModal()">Payments & Security</a></li>
+          <li><a href="javascript:void(0)" onclick="openContactModal()">Shipping & Delivery</a></li>
+          <li><a href="javascript:void(0)" onclick="openContactModal()">Cancellations & Returns</a></li>
+          <li><a href="javascript:void(0)" onclick="openContactModal()">FAQ & Support</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>COMMERCIAL & B2B</h4>
+        <ul>
+          <li><a href="#b2b" onclick="filterByCategory('b2b')">Supermarket Slabs</a></li>
+          <li><a href="#b2b" onclick="filterByCategory('b2b')">Distributor Pricing</a></li>
+          <li><a href="../SPR_Siri_Dhanya_Catalogue_Telugu.pdf" target="_blank">Download Telugu Catalogue (PDF)</a></li>
+          <li><a href="../SPR_Siri_Dhanya_Catalogue_English.pdf" target="_blank">Download English Catalogue (PDF)</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>REGISTERED OFFICE & FACTORY</h4>
+        <p class="address-text">
+          <strong>S.P.R. Siri Dhanya</strong><br>
+          Kamepalli, Santamaguluru Mandal,<br>
+          Bapatla District, Andhra Pradesh, India.<br>
+          Phone: <a href="tel:9492468817" style="color: #ffe500;">9492468817</a><br>
+          FSSAI Lic: 20126152000402
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom strip with payment logos -->
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <div>© 2026 S.P.R. Siri Dhanya. Flipkart-Style Sample Store Model. All rights reserved.</div>
+        <div class="payment-badges-row">
+          <span>💳 Visa</span>
+          <span>MasterCard</span>
+          <span>RuPay</span>
+          <span>UPI / GPay / PhonePe</span>
+          <span>Net Banking</span>
+          <span>Instant Fast Dispatch</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Action Buttons (Bottom Right: WhatsApp, Call, Voice AI, QR Scanner, Chatbot) -->
+  <div class="floating-action-bar">
+    <!-- Voice AI Assistant Button -->
+    <button class="fab-btn fab-voice" onclick="toggleVoiceAgent()" title="Talk to Siri Dhanya Voice AI Agent">
+      <span class="fab-icon">🎙️</span>
+      <span class="fab-tooltip">Voice AI</span>
+    </button>
+
+    <!-- QR Code Scanner Button -->
+    <button class="fab-btn fab-qr" onclick="openQrScannerModal()" title="Scan S.P.R. Siri Dhanya QR Code">
+      <span class="fab-icon">📷</span>
+      <span class="fab-tooltip">Scan QR</span>
+    </button>
+
+    <!-- Call Button -->
+    <button class="fab-btn fab-call" onclick="openContactChooser('call')" title="Call S.P.R. Siri Dhanya">
+      <span class="fab-icon">📞</span>
+      <span class="fab-tooltip">Direct Call</span>
+    </button>
+
+    <!-- WhatsApp Button -->
+    <button class="fab-btn fab-whatsapp" onclick="openContactChooser('whatsapp')" title="WhatsApp Order Desk">
+      <span class="fab-icon">💬</span>
+      <span class="fab-tooltip">WhatsApp Us</span>
+    </button>
+
+    <!-- AI Chatbot Launcher -->
+    <button class="fab-btn fab-ai" onclick="toggleAiChat()" title="Siri Dhanya AI Millet Assistant">
+      <span class="fab-icon">🤖</span>
+      <span class="fab-badge">AI</span>
+      <span class="fab-tooltip">AI Assistant</span>
+    </button>
+  </div>
+
+  <!-- Contact Chooser Modal (Direct Call / WhatsApp to both numbers) -->
+  <div class="modal-overlay" id="contactChooserModal">
+    <div class="modal-card contact-chooser-card">
+      <button class="modal-close" onclick="closeModal('contactChooserModal')">✕</button>
+      <h3 id="chooserTitle">Connect with S.P.R. Siri Dhanya</h3>
+      <p style="font-size: 12px; color: #666; margin-bottom: 14px;">Select which official line you want to connect with:</p>
+
+      <div class="chooser-options-grid">
+        <a id="chooserLine1" href="#" target="_blank" class="chooser-card">
+          <div class="chooser-icon">📱</div>
+          <div class="chooser-info">
+            <strong class="chooser-name">Management Line 1</strong>
+            <span class="chooser-number">+91 94413 93817</span>
+            <span class="chooser-sub">Direct Calls & WhatsApp Orders</span>
+          </div>
+        </a>
+
+        <a id="chooserLine2" href="#" target="_blank" class="chooser-card">
+          <div class="chooser-icon">📱</div>
+          <div class="chooser-info">
+            <strong class="chooser-name">Management Line 2</strong>
+            <span class="chooser-number">9492468817</span>
+            <span class="chooser-sub">Factory Desk & Customer Care</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real-Time AI Chatbot Drawer -->
+  <div class="ai-chat-drawer" id="aiChatDrawer">
+    <div class="ai-chat-header">
+      <div class="ai-bot-avatar">
+        <span>🤖</span>
+        <span class="online-indicator"></span>
+      </div>
+      <div class="ai-bot-details">
+        <h4>Siri Dhanya AI Assistant</h4>
+        <span class="ai-bot-sub">Live Millet & Order Bot • Online</span>
+      </div>
+      <button class="ai-close-btn" onclick="toggleAiChat()">✕</button>
+    </div>
+
+    <div class="ai-chat-body" id="aiChatMessages">
+      <!-- AI messages populated dynamically -->
+    </div>
+
+    <!-- Quick Prompt Chips -->
+    <div class="ai-quick-chips" id="aiQuickChips">
+      <button class="chip" onclick="sendAiQuickPrompt('What products are currently in stock?')">📦 In Stock Items?</button>
+      <button class="chip" onclick="sendAiQuickPrompt('Show me the full price list of all items')">💰 Price List</button>
+      <button class="chip" onclick="sendAiQuickPrompt('Which millet is best for diabetes and sugar control?')">🌿 Diabetic Friendly?</button>
+      <button class="chip" onclick="sendAiQuickPrompt('I want to order the 5-in-1 Complete Health Combo')">🛒 Order Combo Pack</button>
+      <button class="chip" onclick="sendAiQuickPrompt('How to prepare instant dosa in 15 minutes?')">⏱️ Cooking Guide</button>
+      <button class="chip" onclick="sendAiQuickPrompt('Track my order status')">🚚 Track Order</button>
+      <button class="chip" onclick="sendAiQuickPrompt('Connect me with owner phone numbers')">📞 Talk to Owner</button>
+    </div>
+
+    <!-- AI Chat Input Bar -->
+    <div class="ai-chat-input-bar">
+      <input type="text" id="aiUserInput" placeholder="Ask about millets, stock, price, or type 'order ragi dosa'..." onkeypress="handleAiKeyPress(event)">
+      <button class="ai-send-btn" onclick="handleAiSend()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Customer "My Orders" & Tracking Modal (Section 6) -->
+  <div class="modal-overlay" id="myOrdersModal">
+    <div class="modal-card my-orders-card">
+      <button class="modal-close" onclick="closeModal('myOrdersModal')">✕</button>
+      <div class="orders-modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 22px;">📦</span>
+          <h3>My Orders (నా ఆర్డర్లు) & Live Tracking</h3>
+        </div>
+        <span class="orders-count-tag" id="custOrdersCount">0 Orders Found</span>
+      </div>
+
+      <div class="my-orders-content" id="myOrdersList">
+        <!-- Rendered by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Complete Admin Order Management System Modal (Sections 1, 2, 3, 4, 5, 7, 8) -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-card admin-modal-card">
+      <button class="modal-close" onclick="closeModal('adminModal')">✕</button>
+      
+      <!-- Admin Top Bar -->
+      <div class="admin-top-bar">
+        <div class="admin-branding">
+          <span class="admin-crown">👑</span>
+          <div>
+            <h3>S.P.R. SIRI DHANYA — ADMIN MANAGEMENT PORTAL</h3>
+            <span class="admin-sub">Orders • QR Code Generator • Universal Business Knowledge Base • Live Database Sync</span>
+          </div>
+        </div>
+        <div class="admin-top-actions">
+          <span class="live-status-pill">🟢 Verified Admin</span>
+          <button class="btn btn-secondary btn-sm" onclick="exportOrdersCSV()">📥 Export CSV</button>
+          <button class="btn btn-primary btn-sm" onclick="refreshAdminData()">🔄 Refresh Data</button>
+          <button class="btn btn-danger-outline btn-sm" onclick="adminLogout()">🚪 Logout</button>
+        </div>
+      </div>
+
+      <!-- Admin Navigation Tabs -->
+      <div class="admin-tabs-nav">
+        <button class="admin-tab-btn active" id="tabBtnOrders" onclick="switchAdminTab('orders')">
+          📋 Orders Management (<span id="adminOrdersTabCount">0</span>)
+        </button>
+        <button class="admin-tab-btn" id="tabBtnQr" onclick="switchAdminTab('qr')">
+          📱 QR Code Generator & Downloads
+        </button>
+        <button class="admin-tab-btn" id="tabBtnKnowledge" onclick="switchAdminTab('knowledge')">
+          🧠 Business Knowledge Base (AI RAG)
+        </button>
+      </div>
+
+      <div id="adminTabOrdersContent">
+      <!-- 1. Admin KPI Dashboard (Section 1) -->
+      <div class="admin-kpi-grid">
+        <div class="kpi-card total-orders">
+          <div class="kpi-icon">📋</div>
+          <div class="kpi-val" id="kpiTotalOrders">0</div>
+          <div class="kpi-label">Total Orders</div>
+        </div>
+        <div class="kpi-card new-orders">
+          <div class="kpi-icon">🆕</div>
+          <div class="kpi-val" id="kpiNewOrders">0</div>
+          <div class="kpi-label">New Orders</div>
+        </div>
+        <div class="kpi-card pending-pay">
+          <div class="kpi-icon">⏳</div>
+          <div class="kpi-val" id="kpiPendingPay">0</div>
+          <div class="kpi-label">Pending Payments</div>
+        </div>
+        <div class="kpi-card confirmed">
+          <div class="kpi-icon">✅</div>
+          <div class="kpi-val" id="kpiConfirmed">0</div>
+          <div class="kpi-label">Confirmed Orders</div>
+        </div>
+        <div class="kpi-card processing">
+          <div class="kpi-icon">⚙️</div>
+          <div class="kpi-val" id="kpiProcessing">0</div>
+          <div class="kpi-label">Processing Orders</div>
+        </div>
+        <div class="kpi-card shipped">
+          <div class="kpi-icon">🚚</div>
+          <div class="kpi-val" id="kpiShipped">0</div>
+          <div class="kpi-label">Shipped Orders</div>
+        </div>
+        <div class="kpi-card delivered">
+          <div class="kpi-icon">🎉</div>
+          <div class="kpi-val" id="kpiDelivered">0</div>
+          <div class="kpi-label">Delivered Orders</div>
+        </div>
+        <div class="kpi-card cancelled">
+          <div class="kpi-icon">❌</div>
+          <div class="kpi-val" id="kpiCancelled">0</div>
+          <div class="kpi-label">Cancelled Orders</div>
+        </div>
+        <div class="kpi-card total-sales">
+          <div class="kpi-icon">💰</div>
+          <div class="kpi-val" id="kpiTotalSales">₹0</div>
+          <div class="kpi-label">Total Revenue</div>
+        </div>
+      </div>
+
+      <!-- 2. Order Management Filters & Search (Section 2) -->
+      <div class="admin-toolbar">
+        <div class="admin-search-wrap">
+          <input type="text" id="adminSearchInput" placeholder="Search by Order ID, Customer Name, Mobile..." oninput="handleAdminSearch()">
+        </div>
+
+        <div class="admin-filters-wrap">
+          <!-- Status Filter -->
+          <select id="adminStatusFilter" onchange="handleAdminFilter()">
+            <option value="all">All Order Statuses</option>
+            <option value="Order Placed">Order Placed</option>
+            <option value="Payment Verified">Payment Verified</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Processing">Processing</option>
+            <option value="Packed">Packed</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Out for Delivery">Out for Delivery</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Returned">Returned</option>
+          </select>
+
+          <!-- Payment Method Filter -->
+          <select id="adminPaymentFilter" onchange="handleAdminFilter()">
+            <option value="all">All Payment Modes</option>
+            <option value="UPI">UPI</option>
+            <option value="Card">Credit/Debit Card</option>
+            <option value="Net Banking">Net Banking</option>
+            <option value="COD">Cash on Delivery (COD)</option>
+          </select>
+
+          <!-- Sorting -->
+          <select id="adminSortFilter" onchange="handleAdminFilter()">
+            <option value="newest">Order Date: Newest First</option>
+            <option value="oldest">Order Date: Oldest First</option>
+            <option value="amount-high">Amount: High to Low</option>
+            <option value="amount-low">Amount: Low to High</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Orders Data Table (Section 2) -->
+      <div class="admin-table-wrap">
+        <table class="admin-orders-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer Name</th>
+              <th>Mobile</th>
+              <th>Items & Qty</th>
+              <th>Total Amount</th>
+              <th>Payment Method</th>
+              <th>Payment Status</th>
+              <th>Order Date</th>
+              <th>Order Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminOrdersTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Admin Pagination -->
+      <div class="admin-pagination">
+        <span id="adminPaginationInfo">Showing 1 to 10 of 10 orders</span>
+      </div>
+      </div>
+      <!-- End of adminTabOrdersContent -->
+
+      <!-- ============================================== -->
+      <!-- TAB 2: QR CODE GENERATOR & DASHBOARD (FEATURE) -->
+      <!-- ============================================== -->
+      <div id="adminTabQrContent" style="display: none;">
+        <div class="qr-admin-container">
+          <div class="qr-admin-grid">
+            <!-- Left: QR Generator Controls -->
+            <div class="qr-form-card">
+              <h4>🎯 GENERATE OFFICIAL S.P.R. SIRI DHANYA QR CODE</h4>
+              <p style="font-size: 12px; color: #666; margin-bottom: 14px;">
+                Generate scannable production QR codes for the official website, catalogue, products, or retailer registration.
+              </p>
+
+              <div class="form-group">
+                <label>Destination Target Page / Feature *</label>
+                <select id="qrTargetSelect" onchange="handleQrPresetChange()">
+                  <option value="https://sprsiridhanya.com">Main Website Homepage (https://sprsiridhanya.com)</option>
+                  <option value="https://sprsiridhanya.com/catalogue">Official 8-Page Product Catalogue</option>
+                  <option value="https://sprsiridhanya.com/products/ragi-dosa-mix">Product: Instant Ragi Dosa Mix (500g)</option>
+                  <option value="https://sprsiridhanya.com/products/jowar-dosa-mix">Product: Instant Jowar Dosa Mix (500g)</option>
+                  <option value="https://sprsiridhanya.com/products/pesara-dosa-mix">Product: Instant Pesara Dosa Mix (500g)</option>
+                  <option value="https://sprsiridhanya.com/products/korra-dosa-mix">Product: Instant Korra Dosa Mix (500g)</option>
+                  <option value="https://sprsiridhanya.com/products/multi-grain-atta">Product: Multi Grain Atta (1 KG)</option>
+                  <option value="https://sprsiridhanya.com/products/combo-health-pack">Special Offer: 5-in-1 Complete Health Combo</option>
+                  <option value="https://sprsiridhanya.com/products/wholesale-carton">Wholesale: 24-Pack Supermarket Master Carton</option>
+                  <option value="https://sprsiridhanya.com/retailer-registration">B2B: Retailer & Distributor Registration Page</option>
+                  <option value="custom">-- Custom Destination URL --</option>
+                </select>
+              </div>
+
+              <div class="form-group" id="qrCustomUrlWrap" style="display: none;">
+                <label>Custom Destination URL (Must begin with https://)</label>
+                <input type="url" id="qrCustomUrlInput" placeholder="https://sprsiridhanya.com/your-page" value="https://sprsiridhanya.com">
+              </div>
+
+              <div class="form-group">
+                <label>QR Code Campaign / Display Name *</label>
+                <input type="text" id="qrCampaignName" placeholder="e.g. Official Website Main QR" value="Official Website Main QR">
+              </div>
+
+              <div class="form-group">
+                <label>Branding Style</label>
+                <select id="qrBrandingStyle" onchange="generateAdminQrCode()">
+                  <option value="branded">With S.P.R. Siri Dhanya Official Branding (Logo, Border & Text)</option>
+                  <option value="clean">Clean Minimal QR Code (No Outer Frame)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Output Resolution & Print Quality</label>
+                <div class="qr-size-chips">
+                  <button type="button" class="size-chip active" data-size="512" onclick="setQrSize(512, this)">512 × 512 px</button>
+                  <button type="button" class="size-chip" data-size="1024" onclick="setQrSize(1024, this)">1024 × 1024 px (HD)</button>
+                  <button type="button" class="size-chip" data-size="2048" onclick="setQrSize(2048, this)">2048 × 2048 px (Print Ready)</button>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 8px; margin-top: 16px;">
+                <button class="btn btn-primary" onclick="generateAdminQrCode()">⚡ Generate QR Code</button>
+                <button class="btn btn-secondary" onclick="saveGeneratedQrToDatabase()">💾 Save to QR History</button>
+              </div>
+            </div>
+
+            <!-- Right: Interactive Live QR Preview Card -->
+            <div class="qr-preview-card">
+              <h4>🔍 LIVE QR CODE PREVIEW</h4>
+              <div class="qr-canvas-wrapper" id="qrPreviewWrap">
+                <canvas id="qrAdminCanvas" width="512" height="512"></canvas>
+              </div>
+              <div class="qr-meta-box">
+                <div style="font-size: 13px; font-weight: 700; color: #111;" id="qrPreviewTitle">Official Website Main QR</div>
+                <div style="font-size: 11.5px; color: var(--fk-blue); word-break: break-all;" id="qrPreviewUrl">https://sprsiridhanya.com</div>
+              </div>
+
+              <!-- Download Actions -->
+              <div class="qr-download-actions">
+                <button class="btn btn-primary btn-sm" onclick="downloadQr('png')">📥 Download PNG</button>
+                <button class="btn btn-secondary btn-sm" onclick="downloadQr('svg')">📥 Download SVG</button>
+                <button class="btn btn-secondary btn-sm" onclick="downloadQr('pdf')">🖨️ Print / Save PDF</button>
+                <button class="btn btn-secondary btn-sm" onclick="copyQrUrl()">📋 Copy URL</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Previously Generated QR Codes Table -->
+          <div class="qr-history-card">
+            <h4>📁 PREVIOUSLY GENERATED QR CODES (<span id="qrHistoryCount">0</span>)</h4>
+            <div class="admin-table-wrap">
+              <table class="admin-orders-table">
+                <thead>
+                  <tr>
+                    <th>QR ID</th>
+                    <th>Campaign Name</th>
+                    <th>Destination URL</th>
+                    <th>Type</th>
+                    <th>Created Date</th>
+                    <th>Created By</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="qrHistoryTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- TAB 3: UNIVERSAL BUSINESS KNOWLEDGE BASE (RAG) -->
+      <!-- ============================================== -->
+      <div id="adminTabKnowledgeContent" style="display: none;">
+        <div class="knowledge-admin-container">
+          <div class="knowledge-top-strip">
+            <div>
+              <h4>🧠 S.P.R. SIRI DHANYA UNIVERSAL BUSINESS KNOWLEDGE BASE</h4>
+              <p style="font-size: 12px; color: #666;">
+                Centralized multi-lingual repository (Telugu • English • Hindi) powering the Voice AI Agent & Chatbot across 36 business domains.
+              </p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-primary btn-sm" onclick="openAddKnowledgeArticleModal()">➕ Add Knowledge Article</button>
+              <button class="btn btn-secondary btn-sm" onclick="reindexKnowledgeBase()">⚡ Re-Index RAG Engine</button>
+            </div>
+          </div>
+
+          <!-- Document Uploader & Interactive Test Box -->
+          <div class="knowledge-tools-grid">
+            <!-- Document Text Importer -->
+            <div class="tool-card">
+              <h5>📄 Upload / Paste Business Document</h5>
+              <p style="font-size: 11.5px; color: #666; margin-bottom: 8px;">Upload text, policies, product lab tests, or official announcements to extract & index.</p>
+              <textarea id="kbDocTextInput" placeholder="Paste official text or policy document here..." rows="4" style="width: 100%; font-size: 12px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+              <div style="display: flex; gap: 8px; margin-top: 6px;">
+                <input type="text" id="kbDocTitleInput" placeholder="Document title (e.g. FSSAI Lab Quality Report 2026)" style="flex: 1; font-size: 12px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <button class="btn btn-primary btn-sm" onclick="importKnowledgeDocument()">📥 Process & Index Document</button>
+              </div>
+            </div>
+
+            <!-- Test AI Voice Answer Before Publishing -->
+            <div class="tool-card">
+              <h5>🧪 Test AI Voice Answer (Universal RAG Sandbox)</h5>
+              <p style="font-size: 11.5px; color: #666; margin-bottom: 8px;">Test how the AI Voice Agent answers unexpected customer queries in any language.</p>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="kbTestQueryInput" placeholder="Ask in Telugu, English or Hindi (e.g. డయాబెటిస్‌కు ఏది మంచిది?)" style="flex: 1; font-size: 12px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <button class="btn btn-primary btn-sm" onclick="testKnowledgeQuery()">🔍 Test Answer</button>
+              </div>
+              <div id="kbTestResultBox" style="margin-top: 8px; padding: 8px 12px; background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 12px; min-height: 50px; color: #333;">
+                <em>Click 'Test Answer' to verify AI response against live database & knowledge base...</em>
+              </div>
+            </div>
+          </div>
+
+          <!-- Knowledge Articles Table -->
+          <div class="knowledge-table-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <h5>📚 Approved Knowledge Articles & Verified Specifications (<span id="kbArticlesCount">0</span>)</h5>
+              <input type="text" id="kbSearchInput" placeholder="Search knowledge articles..." oninput="filterKnowledgeArticles()" style="font-size: 12px; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; width: 240px;">
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-orders-table">
+                <thead>
+                  <tr>
+                    <th>Article ID</th>
+                    <th>Category</th>
+                    <th>Topic / Title</th>
+                    <th>Language</th>
+                    <th>Verified Knowledge Content</th>
+                    <th>Last Updated</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="kbArticlesTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Complete Order Details Modal for Admin (Section 3, 4, 5) -->
+  <div class="modal-overlay" id="adminOrderDetailsModal">
+    <div class="modal-card order-detail-modal-card">
+      <button class="modal-close" onclick="closeModal('adminOrderDetailsModal')">✕</button>
+      
+      <div class="order-detail-header">
+        <div>
+          <h3>Order Details: <span id="detailOrderId" class="text-primary">OD...</span></h3>
+          <span class="detail-order-date" id="detailOrderDate">Date: ...</span>
+        </div>
+        <div id="detailStatusBadge" class="status-badge-lg">Status</div>
+      </div>
+
+      <div class="order-detail-sections-grid">
+        <!-- 3.1 Customer Information -->
+        <div class="detail-card">
+          <h4>👤 CUSTOMER INFORMATION</h4>
+          <div class="detail-field"><strong>Full Name:</strong> <span id="detailCustName">-</span></div>
+          <div class="detail-field"><strong>Mobile:</strong> <span id="detailCustPhone">-</span></div>
+          <div class="detail-field"><strong>Email:</strong> <span id="detailCustEmail">-</span></div>
+        </div>
+
+        <!-- 3.2 Delivery Information -->
+        <div class="detail-card">
+          <h4>🏠 DELIVERY INFORMATION</h4>
+          <div class="detail-field"><strong>House No / Building:</strong> <span id="detailHouseNo">-</span></div>
+          <div class="detail-field"><strong>Street / Landmark:</strong> <span id="detailStreet">-</span></div>
+          <div class="detail-field"><strong>Village / Town:</strong> <span id="detailVillage">-</span></div>
+          <div class="detail-field"><strong>Mandal:</strong> <span id="detailMandal">-</span></div>
+          <div class="detail-field"><strong>District:</strong> <span id="detailDistrict">-</span></div>
+          <div class="detail-field"><strong>State & PIN:</strong> <span id="detailStatePin">-</span></div>
+        </div>
+
+        <!-- 3.3 Payment Information -->
+        <div class="detail-card">
+          <h4>💳 PAYMENT INFORMATION</h4>
+          <div class="detail-field"><strong>Payment Method:</strong> <span id="detailPayMethod">-</span></div>
+          <div class="detail-field"><strong>Transaction ID:</strong> <span id="detailTxnId" class="mono-code">-</span></div>
+          <div class="detail-field"><strong>Payment Date:</strong> <span id="detailPayDate">-</span></div>
+          <div class="detail-field"><strong>Payment Status:</strong> <span id="detailPayStatus" class="text-success">-</span></div>
+          <div class="detail-field"><strong>Amount Paid:</strong> <span id="detailAmountPaid" style="font-size: 15px; font-weight: 800;">-</span></div>
+        </div>
+
+        <!-- 3.4 Shipping Management (Section 5) -->
+        <div class="detail-card">
+          <h4>🚚 SHIPPING MANAGEMENT</h4>
+          <div class="form-group" style="margin-bottom: 6px;">
+            <label style="font-size: 11px;">Courier Partner Name</label>
+            <input type="text" id="shippingCourierInput" placeholder="e.g. India Post / DTDC / Delhivery">
+          </div>
+          <div class="form-group" style="margin-bottom: 6px;">
+            <label style="font-size: 11px;">Tracking ID / AWB Number</label>
+            <input type="text" id="shippingTrackingInput" placeholder="e.g. IN9492468817AP">
+          </div>
+          <div class="form-group" style="margin-bottom: 6px;">
+            <label style="font-size: 11px;">Tracking URL</label>
+            <input type="text" id="shippingUrlInput" placeholder="https://track.courier.com/...">
+          </div>
+          <div class="form-group" style="margin-bottom: 8px;">
+            <label style="font-size: 11px;">Dispatch Date</label>
+            <input type="date" id="shippingDateInput">
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="saveShippingDetails()">Save Shipping & Notify Customer</button>
+        </div>
+      </div>
+
+      <!-- 3.5 Product Information Items Table -->
+      <div class="detail-products-card">
+        <h4>🛒 ORDERED PRODUCTS & PRICING BREAKDOWN</h4>
+        <table class="detail-items-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Name</th>
+              <th>Unit Price</th>
+              <th>Quantity</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody id="detailItemsTableBody">
+            <!-- Populated dynamically -->
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" style="text-align: right;"><strong>Delivery Charges:</strong></td>
+              <td><span class="text-success"><del>₹40</del> FREE</span></td>
+            </tr>
+            <tr style="font-size: 15px; font-weight: 800; background: #fafafa;">
+              <td colspan="4" style="text-align: right;">Final Order Amount:</td>
+              <td id="detailFinalAmount" style="color: var(--fk-orange);">₹0</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- 4. Order Processing Lifecycle Controls (Section 4) -->
+      <div class="order-lifecycle-bar">
+        <h4>⚡ ORDER STATUS LIFECYCLE PROCESSING</h4>
+        <p style="font-size: 11.5px; color: #666; margin-bottom: 10px;">
+          Update customer order status. Progress changes reflect immediately in the customer's "My Orders" tracking page.
+        </p>
+
+        <div class="lifecycle-buttons">
+          <button class="status-step-btn" onclick="updateOrderStatus('Payment Verified')">✔ Verify Payment</button>
+          <button class="status-step-btn" onclick="updateOrderStatus('Confirmed')">✅ Confirm Order</button>
+          <button class="status-step-btn" onclick="updateOrderStatus('Processing')">⚙️ Mark Processing</button>
+          <button class="status-step-btn" onclick="updateOrderStatus('Packed')">📦 Mark Packed</button>
+          <button class="status-step-btn" onclick="updateOrderStatus('Shipped')">🚚 Mark Shipped</button>
+          <button class="status-step-btn" onclick="updateOrderStatus('Out for Delivery')">🛵 Out for Delivery</button>
+          <button class="status-step-btn success" onclick="updateOrderStatus('Delivered')">🎉 Mark Delivered</button>
+          <button class="status-step-btn danger" onclick="updateOrderStatus('Cancelled')">❌ Cancel Order</button>
+          <button class="status-step-btn warning" onclick="updateOrderStatus('Returned')">↩️ Mark Returned</button>
+        </div>
+      </div>
+
+      <!-- Multi-Channel Management Notifications -->
+      <div class="order-detail-footer-actions">
+        <a id="adminNotifyWa1" href="#" target="_blank" class="btn btn-whatsapp btn-sm">
+          💬 Send Alert to Line 1 (+91 94413 93817)
+        </a>
+        <a id="adminNotifyWa2" href="#" target="_blank" class="btn btn-whatsapp btn-sm">
+          💬 Send Alert to Line 2 (9492468817)
+        </a>
+        <button class="btn btn-secondary btn-sm" onclick="printOrderInvoice()">🖨️ Print Packing Slip / Invoice</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================== -->
+  <!-- 1. ADMIN AUTHENTICATION LOGIN MODAL            -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="adminLoginModal">
+    <div class="modal-card admin-login-card">
+      <button class="modal-close" onclick="closeModal('adminLoginModal')">✕</button>
+      
+      <div class="login-header">
+        <div class="login-crown">👑</div>
+        <h3>S.P.R. SIRI DHANYA</h3>
+        <p class="login-sub">Administrative Management Portal Sign In</p>
+      </div>
+
+      <div class="login-body">
+        <div id="adminLoginError" class="login-error-alert" style="display: none;">
+          ❌ Invalid username or password. Please verify your credentials.
+        </div>
+
+        <form onsubmit="handleAdminLoginSubmit(event)">
+          <div class="form-group">
+            <label>Admin User Name *</label>
+            <input type="text" id="adminUsernameInput" placeholder="Enter username" autocomplete="username" required>
+          </div>
+
+          <div class="form-group">
+            <label>Admin Password *</label>
+            <input type="password" id="adminPasswordInput" placeholder="Enter password" autocomplete="current-password" required>
+          </div>
+
+          <div class="login-hint-strip">
+            🔒 Protected Management Area. Authorized Personnel Only.
+          </div>
+
+          <button type="submit" class="btn btn-primary full-width" style="margin-top: 14px; font-weight: 700; font-size: 14px; padding: 12px;">
+            🔐 Authenticate & Enter Dashboard
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- 2. OFFICIAL PDF CATALOGUE MODAL (3 LANGUAGES)  -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="pdfCatalogueModal">
+    <div class="modal-card pdf-catalogue-card">
+      <button class="modal-close" onclick="closeModal('pdfCatalogueModal')">✕</button>
+      
+      <div class="pdf-modal-header">
+        <span style="font-size: 28px;">📄</span>
+        <div>
+          <h3>S.P.R. SIRI DHANYA — OFFICIAL PRODUCT CATALOGUES</h3>
+          <p>Official 8-Page High-Resolution Product Specifications & Wholesale Pricing Documents</p>
+        </div>
+      </div>
+
+      <div class="pdf-editions-grid">
+        <!-- Telugu Edition -->
+        <div class="pdf-edition-card">
+          <div class="pdf-card-badge">తెలుగు ఎడిషన్</div>
+          <h4>📘 అధికారిక ఉత్పత్తుల కేటలాగ్ (Telugu)</h4>
+          <p class="pdf-desc">
+            సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం. 5 ఉత్పత్తుల సమగ్ర సమాచారం, పోషక విలువలు, 15 నిమిషాల్లో తయారీ విధానం, సూపర్ మార్కెట్ హోల్‌సేల్ ధరలు.
+          </p>
+          <div class="pdf-meta">
+            <span>📄 8 పేజీల కలర్ డాక్యుమెంట్</span>
+            <span>💾 9.0 MB PDF</span>
+          </div>
+          <div class="pdf-card-actions">
+            <a href="catalogues/SPR_Siri_Dhanya_Catalogue_Telugu.pdf" target="_blank" class="btn btn-primary btn-sm">
+              👁️ View Online
+            </a>
+            <a href="catalogues/SPR_Siri_Dhanya_Catalogue_Telugu.pdf" download="SPR_Siri_Dhanya_Catalogue_Telugu.pdf" class="btn btn-secondary btn-sm">
+              📥 Download PDF
+            </a>
+          </div>
+        </div>
+
+        <!-- English Edition -->
+        <div class="pdf-edition-card">
+          <div class="pdf-card-badge">English Edition</div>
+          <h4>📗 Official Product Catalogue (English)</h4>
+          <p class="pdf-desc">
+            Traditional Nutrition with Modern Convenience. Complete product line details, health benefits, 15-minute recipe guide & B2B trade margins.
+          </p>
+          <div class="pdf-meta">
+            <span>📄 8 Pages High-Res Print Ready</span>
+            <span>💾 7.3 MB PDF</span>
+          </div>
+          <div class="pdf-card-actions">
+            <a href="catalogues/SPR_Siri_Dhanya_Catalogue_English.pdf" target="_blank" class="btn btn-primary btn-sm">
+              👁️ View Online
+            </a>
+            <a href="catalogues/SPR_Siri_Dhanya_Catalogue_English.pdf" download="SPR_Siri_Dhanya_Catalogue_English.pdf" class="btn btn-secondary btn-sm">
+              📥 Download PDF
+            </a>
+          </div>
+        </div>
+
+        <!-- Hindi Edition -->
+        <div class="pdf-edition-card">
+          <div class="pdf-card-badge">हिन्दी संस्करण</div>
+          <h4>📙 आधिकारिक उत्पाद कैटलॉग (Hindi)</h4>
+          <p class="pdf-desc">
+            पारंपरिक पोषण – आधुनिक सुविधा। 5 उत्पादों की विस्तृत जानकारी, पोषक तत्व, 15 मिनट में झटपट बनाने की विधि एवं सुपरमार्केट थोक मूल्य।
+          </p>
+          <div class="pdf-meta">
+            <span>📄 8 पृष्ठ आधिकारिक ब्रोशर</span>
+            <span>💾 7.9 MB PDF</span>
+          </div>
+          <div class="pdf-card-actions">
+            <a href="catalogues/SPR_Siri_Dhanya_Catalogue_Hindi.pdf" target="_blank" class="btn btn-primary btn-sm">
+              👁️ View Online
+            </a>
+            <a href="catalogues/SPR_Siri_Dhanya_Catalogue_Hindi.pdf" download="SPR_Siri_Dhanya_Catalogue_Hindi.pdf" class="btn btn-secondary btn-sm">
+              📥 Download PDF
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pdf-modal-footer">
+        <span>🏭 Official Support Desk: <strong>+91 94413 93817 / 9492468817</strong></span>
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('pdfCatalogueModal')">Close Window</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- 3. CUSTOMER QR CODE SCANNER MODAL              -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="qrScannerModal">
+    <div class="modal-card qr-scanner-card">
+      <button class="modal-close" onclick="closeQrScannerModal()">✕</button>
+      
+      <div class="scanner-header">
+        <span style="font-size: 26px;">📷</span>
+        <div>
+          <h3>SCAN S.P.R. SIRI DHANYA QR CODE</h3>
+          <p>Scan packaging QR or official store codes to browse products, recipes & place orders</p>
+        </div>
+      </div>
+
+      <div class="scanner-body">
+        <!-- Video Viewfinder Frame -->
+        <div class="qr-viewfinder-wrap">
+          <video id="qrScannerVideo" playsinline muted></video>
+          <canvas id="qrScannerCanvas" style="display: none;"></canvas>
+          <div class="qr-target-box">
+            <div class="qr-corner tl"></div>
+            <div class="qr-corner tr"></div>
+            <div class="qr-corner bl"></div>
+            <div class="qr-corner br"></div>
+            <div class="qr-laser-line"></div>
+          </div>
+          <div id="qrScannerStatus" class="scanner-status-tag">Point camera at QR Code</div>
+        </div>
+
+        <!-- Detected Result Card -->
+        <div id="qrDetectCard" class="qr-detect-card" style="display: none;">
+          <div class="detect-badge">✅ QR Code Detected!</div>
+          <div class="detect-url" id="qrDetectUrl">https://sprsiridhanya.com</div>
+          <button class="btn btn-primary full-width" id="qrOpenDestBtn" onclick="handleQrOpenDestination()">
+            🌐 Open Destination Page
+          </button>
+        </div>
+
+        <!-- Manual File Upload Option -->
+        <div class="scanner-fallback-strip">
+          <span>Camera not working or on Desktop?</span>
+          <label class="btn btn-secondary btn-sm" style="cursor: pointer;">
+            📁 Upload QR Image File
+            <input type="file" id="qrImageFileInput" accept="image/*" onchange="handleQrFileUpload(event)" style="display: none;">
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- 4. UNIVERSAL S.P.R. SIRI DHANYA BUSINESS AI VOICE AGENT  -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="voiceAgentModal">
+    <div class="modal-card voice-agent-card">
+      <button class="modal-close" onclick="toggleVoiceAgent()">✕</button>
+      
+      <!-- Voice Agent Header -->
+      <div class="voice-header">
+        <div class="voice-agent-avatar">
+          <span>🎙️</span>
+          <span class="voice-pulse-ring"></span>
+        </div>
+        <div>
+          <h3>S.P.R. SIRI DHANYA — UNIVERSAL BUSINESS VOICE AGENT</h3>
+          <p class="voice-sub">Experienced Multilingual Employee • Speaks Telugu, English & Hindi</p>
+        </div>
+      </div>
+
+      <!-- Language Switcher Bar -->
+      <div class="voice-lang-bar">
+        <span style="font-size: 12px; font-weight: 700; color: #555;">Voice Language:</span>
+        <button class="lang-pill active" id="langPillTe" onclick="setVoiceLanguage('te-IN', this)">🌸 తెలుగు (Telugu)</button>
+        <button class="lang-pill" id="langPillEn" onclick="setVoiceLanguage('en-IN', this)">🌐 English (Indian)</button>
+        <button class="lang-pill" id="langPillHi" onclick="setVoiceLanguage('hi-IN', this)">🇮🇳 हिन्दी (Hindi)</button>
+      </div>
+
+      <!-- Interactive Soundwave Visualizer -->
+      <div class="voice-visualizer-container">
+        <div class="voice-wave-bars" id="voiceWaveBars">
+          <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+          <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+          <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+          <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+        </div>
+        <div class="voice-status-pill" id="voiceStatusPill">Ready. Tap Microphone & Speak Naturally</div>
+      </div>
+
+      <!-- Live Transcripts & Response Conversation Area -->
+      <div class="voice-dialog-box">
+        <div class="voice-transcription-row">
+          <span class="speaker-tag">👤 You Asked:</span>
+          <p id="voiceUserTranscript" class="transcript-text">"Tap the microphone and ask any question about S.P.R. Siri Dhanya..."</p>
+        </div>
+
+        <div class="voice-response-row">
+          <span class="speaker-tag bot-tag">🤖 Voice Agent:</span>
+          <div id="voiceBotAnswer" class="response-text">
+            "నమస్కారం! నేను S.P.R. సిరిధాన్య వాయిస్ అసిస్టెంట్‌ని. మీరు రాగి, జొన్న, పెసర, కొర్ర దోశ మిక్స్, మల్టీ గ్రెయిన్ పిండి, ధరలు, 15 నిమిషాల్లో తయారీ, ఆరోగ్యం లేదా ఆర్డర్ల గురించి ఏదైనా అడగవచ్చు."
+          </div>
+        </div>
+      </div>
+
+      <!-- Voice Interaction Controls -->
+      <div class="voice-controls-bar">
+        <button class="btn btn-secondary btn-sm" onclick="stopVoiceSpeaking()">⏹️ Stop Voice</button>
+        
+        <!-- Big Central Microphone Button -->
+        <button class="main-mic-btn" id="voiceMicBtn" onclick="toggleVoiceListening()" title="Start / Stop Speaking">
+          <span class="mic-icon">🎙️</span>
+        </button>
+
+        <button class="btn btn-secondary btn-sm" onclick="replayVoiceAnswer()">🔁 Replay Answer</button>
+      </div>
+
+      <div class="voice-quick-hints">
+        <span>💡 Try Asking:</span>
+        <button onclick="askVoiceSample('డయాబెటిస్‌కు ఏది మంచిది?')">"డయాబెటిస్‌కు ఏది మంచిది?"</button>
+        <button onclick="askVoiceSample('What is the price of 5-in-1 combo?')">"Price of 5-in-1 combo?"</button>
+        <button onclick="askVoiceSample('15 నిమిషాల్లో దోశ ఎలా తయారు చేయాలి?')">"15 నిమిషాల్లో దోశ ఎలా చేయాలి?"</button>
+        <button onclick="askVoiceSample('Is Ragi Dosa in stock right now?')">"Is Ragi Dosa in stock?"</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- 5. ADD KNOWLEDGE ARTICLE MODAL (ADMIN)         -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="addKnowledgeArticleModal">
+    <div class="modal-card" style="max-width: 600px;">
+      <button class="modal-close" onclick="closeModal('addKnowledgeArticleModal')">✕</button>
+      <h3>➕ Add Business Knowledge Article</h3>
+      <p style="font-size: 12px; color: #666; margin-bottom: 12px;">This article will immediately be indexed by the Universal Voice AI & Chatbot.</p>
+      
+      <form onsubmit="handleSaveKnowledgeArticle(event)">
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="newKbCategory" required>
+            <option value="Products & Ingredients">Products & Ingredients</option>
+            <option value="Health & Nutrition">Health & Nutrition</option>
+            <option value="Preparation & Recipes">Preparation & Recipes</option>
+            <option value="Pricing & Wholesale">Pricing & Wholesale</option>
+            <option value="Company & Manufacturing">Company & Manufacturing</option>
+            <option value="Shipping & Delivery">Shipping & Delivery</option>
+            <option value="Policies & Certifications">Policies & Certifications</option>
+            <option value="Customer Support">Customer Support</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Topic / Question Title *</label>
+          <input type="text" id="newKbTitle" placeholder="e.g. Benefits of Foxtail Millet for Diabetes" required>
+        </div>
+
+        <div class="form-group">
+          <label>Primary Language</label>
+          <select id="newKbLanguage">
+            <option value="Multilingual (Universal)">Multilingual (Universal)</option>
+            <option value="Telugu (తెలుగు)">Telugu (తెలుగు)</option>
+            <option value="English">English</option>
+            <option value="Hindi (हिन्दी)">Hindi (हिन्दी)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Verified Knowledge Content *</label>
+          <textarea id="newKbContent" rows="5" placeholder="Enter accurate business information, nutritional data, policy facts..." required style="width: 100%; font-size: 12.5px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('addKnowledgeArticleModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save & Re-Index Knowledge Base</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="qrcode.min.js"></script>
+  <script src="jsQR.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
