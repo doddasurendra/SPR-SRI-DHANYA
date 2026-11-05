@@ -5356,3 +5356,577 @@ body {
     display: none !important;
   }
 }
+
+
+/* =========================================================================
+   WHY S.P.R. SIRI DHANYA? (3-LANGUAGE MODAL & BUTTON STYLES)
+   ========================================================================= */
+.why-spr-nav-btn {
+  background: linear-gradient(135deg, #fef3c7, #fde68a) !important;
+  color: #92400e !important;
+  border: 1px solid #f59e0b !important;
+  font-weight: 800 !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.why-spr-nav-btn:hover {
+  background: #fde047 !important;
+  transform: translateY(-1px);
+}
+
+.why-spr-card {
+  max-width: 960px !important;
+  width: 95vw !important;
+  max-height: 90vh !important;
+  padding: 24px !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
+}
+
+.why-spr-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  border-bottom: 2px solid #103B2B;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+}
+
+.why-spr-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.why-spr-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #ffd700;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.why-spr-brand h3 {
+  margin: 0;
+  font-size: 19px;
+  color: #103B2B;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+}
+
+.why-spr-brand p {
+  margin: 2px 0 0 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.why-spr-lang-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f5f9;
+  padding: 5px 8px;
+  border-radius: 30px;
+  border: 1px solid #cbd5e1;
+}
+
+.lang-selector-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  padding-left: 4px;
+}
+
+.why-lang-pill {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.why-lang-pill.active {
+  background: #103B2B;
+  border-color: #103B2B;
+  color: #ffd700;
+  box-shadow: 0 2px 6px rgba(16, 59, 43, 0.35);
+}
+
+.why-pledge-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(90deg, #fef9c3, #ecfdf5);
+  border: 1.5px solid #facc15;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13.5px;
+  color: #166534;
+}
+
+.pledge-icon {
+  font-size: 22px;
+}
+
+.why-pillars-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.why-pillar-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  transition: all 0.2s;
+}
+
+.why-pillar-card:hover {
+  background: #ffffff;
+  border-color: #22c55e;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+  transform: translateY(-2px);
+}
+
+.pillar-icon {
+  font-size: 28px;
+}
+
+.pillar-content strong {
+  display: block;
+  font-size: 14px;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.pillar-content p {
+  margin: 0;
+  font-size: 12.5px;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.why-advantages-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.why-adv-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.why-adv-icon {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.why-adv-card strong {
+  display: block;
+  font-size: 13.5px;
+  color: #103B2B;
+  margin-bottom: 4px;
+}
+
+.why-adv-card span {
+  font-size: 11.5px;
+  color: #64748b;
+  line-height: 1.3;
+  display: block;
+}
+
+.why-millets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.why-millet-item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  align-items: center;
+}
+
+.why-millet-badge {
+  font-weight: 800;
+  font-size: 13.5px;
+  color: #103B2B;
+}
+
+.why-millet-badge span {
+  display: block;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.why-millet-desc {
+  font-size: 12.5px;
+  color: #334155;
+  line-height: 1.4;
+}
+
+.why-spr-pdf-footer {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pdf-footer-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.pdf-footer-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .why-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+  .why-advantages-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .why-millet-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+
+/* =========================================================================
+   AUTHENTIC MOBILE & DESKTOP POLISH (FLIPKART ACCURACY & BUG FIXES)
+   ========================================================================= */
+
+/* --- 1. Top Announcement Bar Fixes --- */
+.top-announcement {
+  background: #0b251b !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  padding: 6px 16px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  position: relative !important;
+  z-index: 101 !important;
+}
+
+.announcement-inner {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 1240px !important;
+  margin: 0 auto !important;
+}
+
+.announcement-left {
+  color: #f1f5f9 !important;
+  font-weight: 500 !important;
+}
+
+.announcement-left strong {
+  color: #ffd700 !important;
+  font-weight: 800 !important;
+}
+
+/* --- 2. Brand Logo & Header Integrity --- */
+.fk-header-inner {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  min-height: 84px !important;
+  height: auto !important;
+  padding: 8px 16px !important;
+}
+
+.fk-logo {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  gap: 3px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.logo-top-seal-wrap {
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: 2px !important;
+}
+
+.brand-round-logo-img {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  border: 2px solid #ffd700 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+  background: #ffffff !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* --- 3. Deal of the Day Strip Desktop & Mobile --- */
+.deal-strip {
+  background: #ffffff !important;
+  padding: 12px 20px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin: 12px 0 16px 0 !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.deal-info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex-shrink: 0 !important;
+}
+
+.deal-tag {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  padding: 5px 10px !important;
+  border-radius: 4px !important;
+  letter-spacing: 0.6px !important;
+  white-space: nowrap !important;
+  text-transform: uppercase !important;
+}
+
+.deal-timer {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+  white-space: nowrap !important;
+}
+
+.deal-timer strong {
+  color: #103B2B !important;
+  font-weight: 800 !important;
+}
+
+.deal-trust-badges {
+  display: flex !important;
+  gap: 20px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+}
+
+.deal-trust-badges span {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+/* --- 4. Sleek Floating Action Buttons (Reduced Vertical Footprint) --- */
+.floating-action-bar {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  z-index: 1800 !important;
+}
+
+.fab-btn {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.28) !important;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease !important;
+}
+
+.fab-btn:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.38) !important;
+}
+
+.fab-btn.fab-whatsapp {
+  background: #25D366 !important;
+  color: #ffffff !important;
+}
+
+.fab-btn.fab-ai {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  color: #ffffff !important;
+}
+
+.fab-btn.fab-call {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+}
+
+.fab-btn.fab-voice {
+  background: #f59e0b !important;
+  color: #ffffff !important;
+}
+
+/* --- 5. Full-Page Admin Login Modal --- */
+.full-page-login-card {
+  max-width: 520px !important;
+  width: 92vw !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35) !important;
+  border: 2px solid #ffd700 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.full-page-login-card .login-header {
+  background: linear-gradient(135deg, #103B2B 0%, #1e5a42 100%) !important;
+  color: #ffffff !important;
+  padding: 24px 20px !important;
+  text-align: center !important;
+}
+
+.full-page-login-card .login-body {
+  padding: 24px 28px !important;
+}
+
+/* =========================================================================
+   MOBILE SCREEN RESPONSIVENESS (<= 768px)
+   ========================================================================= */
+@media (max-width: 768px) {
+  /* Announcement Bar on Mobile */
+  .top-announcement {
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+    text-align: center !important;
+  }
+  .announcement-inner {
+    justify-content: center !important;
+    flex-direction: column !important;
+  }
+  .announcement-left {
+    display: block !important;
+    white-space: normal !important;
+    text-align: center !important;
+    line-height: 1.35 !important;
+    width: 100% !important;
+  }
+  .top-contacts {
+    display: none !important;
+  }
+
+  /* Header Bar on Mobile */
+  .fk-header-inner {
+    min-height: 56px !important;
+    height: 56px !important;
+    padding: 6px 10px !important;
+    gap: 8px !important;
+  }
+  .fk-logo {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+  .brand-round-logo-img {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  .logo-main-title {
+    font-size: 14px !important;
+  }
+  .logo-sub-tag {
+    display: none !important;
+  }
+
+  /* Deal of the Day Bar on Mobile (No Overlapping!) */
+  .deal-strip {
+    flex-direction: column !important;
+    padding: 10px 12px !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+    margin: 8px 0 !important;
+  }
+  .deal-info {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  .deal-tag {
+    font-size: 10.5px !important;
+    padding: 3px 8px !important;
+  }
+  .deal-timer {
+    font-size: 11.5px !important;
+  }
+  .deal-trust-badges {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 4px !important;
+    width: 100% !important;
+    border-top: 1px solid #f1f5f9 !important;
+    padding-top: 8px !important;
+    margin-top: 2px !important;
+  }
+  .deal-trust-badges span {
+    font-size: 9.5px !important;
+    text-align: center !important;
+    justify-content: center !important;
+    line-height: 1.25 !important;
+    display: block !important;
+  }
+
+  /* Floating Buttons on Mobile */
+  .floating-action-bar {
+    bottom: 65px !important; /* Above bottom sticky bar */
+    right: 14px !important;
+    gap: 8px !important;
+  }
+  .fab-btn {
+    width: 44px !important;
+    height: 44px !important;
+  }
+}

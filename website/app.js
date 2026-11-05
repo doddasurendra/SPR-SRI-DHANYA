@@ -5122,3 +5122,295 @@ function updateAdminClock() {
   }
 }
 setInterval(updateAdminClock, 1000);
+
+
+// =========================================================================
+// WHY S.P.R. SIRI DHANYA? (3-LANGUAGE KNOWLEDGE ENGINE: TELUGU, ENGLISH, HINDI)
+// Direct extraction from Official 8-Page Product Catalogues
+// =========================================================================
+
+const WHY_SPR_DATA = {
+  activeLang: 'te',
+  activeTab: 'pillars',
+
+  te: {
+    mainTitle: "ఎందుకు S.P.R. సిరిధాన్య ఎంచుకోవాలి?",
+    subTitle: "సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం | ప్రతి గింజలో ఆరోగ్యం",
+    pledge: "మన సంకల్పం: 'ప్రతి కుటుంబానికి పోషకాహారం… ప్రతి తరానికి ఆరోగ్యకరమైన భవిష్యత్తు!'",
+    tabs: {
+      pillars: "🏛️ 4 స్తంభాలు & లక్ష్యం",
+      advantages: "⚡ 6 ఇన్స్టెంట్ సౌలభ్యాలు",
+      millets: "🌾 సూపర్‌ మిల్లెట్స్ & 7 ధాన్యాల ఆటా",
+      compliance: "🛡️ FSSAI & నాణ్యత హామీ"
+    },
+    pillars: [
+      { icon: "🌾", title: "1. సంప్రదాయ ధాన్యాల ఎంపిక", desc: "మన పూర్వీకుల వారసత్వమైన మేలైన రాగులు, జొన్నలు, కొర్రలు, సజ్జలు మరియు పెసలను నేరుగా రైతుల నుండి సేకరిస్తాము." },
+      { icon: "🧼", title: "2. స్వచ్ఛత & పరిశుభ్రమైన తయారీ", desc: "కల్తీ లేని, స్వచ్ఛమైన వాతావరణంలో ఆధునిక పద్ధతులతో ప్రాసెస్ చేసి, సహజ పోషకాలు నశించకుండా భద్రపరుస్తాము." },
+      { icon: "⚡", title: "3. తక్కువ సమయంలో ఆరోగ్యకరమైన ఆహారం", desc: "ఉద్యోగులు, వ్యాపారులు, మహిళలు, విద్యార్థులు, ఒంటరిగా నివసించే వారికి అతి తక్కువ సమయంలో ఆరోగ్యకరమైన ఆహారం సిద్ధమయ్యేలా చేయడం." },
+      { icon: "🍲", title: "4. సంప్రదాయ ఆహారానికి ఆధునిక రూపం", desc: "మన పూర్వీకుల ఆహారపు అలవాట్లలోని మంచిని నేటి తరానికి అత్యంత సులభమైన పద్ధతిలో అందించడం." }
+    ],
+    advantages: [
+      { icon: "💧", title: "కేవలం నీరు కలపండి", desc: "ఒకే ఒక్క స్టెప్ మిక్సింగ్ – ఎటువంటి శ్రమ లేదు" },
+      { icon: "⏱️", title: "15 నిమిషాల్లో సిద్ధం", desc: "ఉదయపు హడావిడిలో తక్షణ తాజా అల్పాహారం" },
+      { icon: "🚿", title: "కడగనక్కర్లేదు", desc: "ముందే శుభ్రం చేసి శానిటైజ్ చేసిన ధాన్యాలు" },
+      { icon: "⏳", title: "నానబెట్టనక్కర్లేదు", desc: "6-8 గంటలు వేచి ఉండే తిప్పలు లేవు" },
+      { icon: "🥣", title: "రుబ్బే పనిలేదు", desc: "మిక్సీ శబ్దం, పాత్రల మెస్ ఏమాత్రం ఉండదు" },
+      { icon: "🧪", title: "పులియబెట్టాల్సిన పనిలేదు", desc: "పిండి పులవడానికి రాత్రంతా ఆగక్కర్లేదు" }
+    ],
+    millets: [
+      { badge: "రాగి దోశ మిక్స్ (₹119)", sub: "సంప్రదాయ రాగులు (Finger Millet)", desc: "కాల్షియం & ఐరన్ గని – ఎముకల పుష్టికి, పిల్లల ఎదుగుదలకు అత్యుత్తమం. తక్కువ గ్లైసెమిక్ ఇండెక్స్ (Low GI) వల్ల మధుమేహం నియంత్రణలో ఉంటుంది." },
+      { badge: "జొన్న దోశ మిక్స్ (₹119)", sub: "సహజ జొన్నలు (Sorghum Millet)", desc: "గ్లూటెన్ లేని సహజ ధాన్యం – జీర్ణక్రియకు తేలిక, గ్యాస్ మరియు అసిడిటీని తగ్గిస్తుంది. గుండె ఆరోగ్యానికి, రక్తపోటు నియంత్రణకు ఎంతో మేలు." },
+      { badge: "పెసర దోశ మిక్స్ (₹129)", sub: "స్వచ్ఛమైన పెసలు (Whole Moong)", desc: "అధిక ప్లాంట్ ప్రొటీన్ – కండరాల పుష్టికి మరియు రోజంతా చురుకైన శక్తికి అనువైనది. ఉల్లి, పచ్చిమిర్చి, అల్లంతో హోటల్ స్టైల్ క్రిస్పీ పెసరట్టు." },
+      { badge: "కొర్ర దోశ మిక్స్ (₹129)", sub: "సిరిధాన్య కొర్రలు (Foxtail Millet)", desc: "సిరిధాన్యాల రారాజు కొర్రలు – అత్యధిక పీచు పదార్థం మరియు సూక్ష్మ పోషకాల భాండాగారం. పేగుల ఆరోగ్యాన్ని మెరుగుపరుస్తుంది, రక్తహీనతను నివారిస్తుంది." },
+      { badge: "మల్టీ గ్రీన్ ఆటా (₹150/kg)", sub: "7 రకాల సూపర్ ధాన్యాల సమ్మేళనం", desc: "గోధుమలు, రాగులు, సజ్జలు, జొన్నలు, సోయాబీన్స్, ఓట్స్, శనగలు – దూదిలాంటి మెత్తని చపాతీలు. 100% సహజత్వం, మైదా/రసాయనాలు ఏమాత్రం లేవు." }
+    ],
+    compliance: {
+      fssaiTitle: "FSSAI గుర్తింపు మరియు నాణ్యతా ప్రమాణాలు",
+      fssaiDesc: "S.P.R. Siri Dhanya ఉత్పత్తులు భారత ఆహార భద్రతా ప్రమాణాల అథారిటీ (FSSAI) లైసెన్స్ నెం: 20126152000402 క్రింద ధృవీకరించబడినవి.",
+      points: [
+        "100% శాకాహార నాణ్యమైన ఉత్పత్తులు (100% Pure Vegetarian)",
+        "ఎటువంటి కృత్రిమ రంగులు, సింథటిక్ ఫ్లేవర్లు లేవు",
+        "హానికర రసాయన ప్రిజర్వేటివ్స్ ఏమాత్రం వాడబడవు",
+        "తాజా బ్యాచ్ ఉత్పత్తులు – 6 నుండి 9 నెలల సహజ షెల్ఫ్ లైఫ్",
+        "భారీ 5-ప్లై కార్టన్ బాక్సుల్లో సురక్షిత రవాణా హామీ"
+      ]
+    }
+  },
+
+  en: {
+    mainTitle: "WHY S.P.R. SIRI DHANYA?",
+    subTitle: "Traditional Nutrition – Modern Convenience • Health in Every Grain",
+    pledge: "OUR CORE PLEDGE: 'Nutrition for Every Family… A Healthy Future for Every Generation!'",
+    tabs: {
+      pillars: "🏛️ 4 Pillars & Mission",
+      advantages: "⚡ 6 Instant Advantages",
+      millets: "🌾 Super Millets & 7-Grain Atta",
+      compliance: "🛡️ FSSAI & Quality Assurance"
+    },
+    pillars: [
+      { icon: "🌾", title: "1. Handpicked Heritage Millets", desc: "Sourcing the finest ancestral finger millet, sorghum, foxtail millet, and pulses directly from dedicated farmers." },
+      { icon: "🧼", title: "2. Uncompromising Hygiene & Purity", desc: "Clean, mechanized processing ensuring 100% adulteration-free foods while locking in natural nutrients and dietary fibres." },
+      { icon: "⚡", title: "3. Healthy Food in Minimal Time", desc: "Empowering employees, businesspersons, homemakers, students, and singles to prepare wholesome, healthy meals in minutes." },
+      { icon: "🍲", title: "4. Modern Form for Traditional Food", desc: "Delivering the timeless goodness of our ancestral dietary traditions to today's generation in the simplest, easiest manner." }
+    ],
+    advantages: [
+      { icon: "💧", title: "Just Add Water", desc: "Effortless single-step mixing without hassle" },
+      { icon: "⏱️", title: "Ready in 15 Min", desc: "Instant morning breakfast meal solution" },
+      { icon: "🚿", title: "No Washing", desc: "Pre-cleaned, sanitized and stone-free grains" },
+      { icon: "⏳", title: "No Soaking", desc: "Skip 6-8 hours of overnight waiting" },
+      { icon: "🥣", title: "No Grinding", desc: "Zero noisy mixer or heavy grinder mess" },
+      { icon: "🧪", title: "No Fermentation", desc: "Instant delicious batter without chemical wait" }
+    ],
+    millets: [
+      { badge: "S.P.R. Ragi Dosa Mix (₹119)", sub: "Pure Finger Millet (Ragi)", desc: "Calcium & Iron Powerhouse for strong bones and growing children. Low Glycemic Index (GI) helps manage blood sugar levels naturally." },
+      { badge: "S.P.R. Jowar Dosa Mix (₹119)", sub: "Natural Sorghum (Jowar)", desc: "Naturally Gluten-Free Grain that is exceptionally light on the stomach. Combats indigestion and acidity while providing magnesium for heart health." },
+      { badge: "S.P.R. Pesara Dosa Mix (₹129)", sub: "Green Gram (Whole Moong)", desc: "Rich Vegetarian Plant Protein crucial for muscle strength, morning stamina, and active vitality. Restaurant-style crisp golden pesarattu in 15 mins." },
+      { badge: "S.P.R. Korra Dosa Mix (₹129)", sub: "Traditional Foxtail Millet", desc: "King of Positive Siridhanya Millets renowned for high dietary fibre and micronutrients. Supports optimal gut health and steady energy." },
+      { badge: "S.P.R. Multi Grain Atta (₹150/kg)", sub: "7 Super Grains Blend", desc: "Wheat, Ragi, Bajra, Jowar, Soybeans, Oats, Chana. Yields cotton-soft rotis that stay fresh and moist for hours. 100% pure with zero maida." }
+    ],
+    compliance: {
+      fssaiTitle: "FSSAI Certified & Food Safety Assurance",
+      fssaiDesc: "S.P.R. Siri Dhanya products are fully certified under Food Safety and Standards Authority of India (FSSAI) License No: 20126152000402.",
+      points: [
+        "100% Pure Vegetarian certified staple foods",
+        "Free from artificial colors and synthetic flavors",
+        "Zero chemical preservatives added",
+        "Freshly milled batches with guaranteed 6 to 9 months shelf life",
+        "Packed in heavy-duty food-grade pouches & 5-ply cartons"
+      ]
+    }
+  },
+
+  hi: {
+    mainTitle: "हमें S.P.R. सिरी धान्या क्यों चुनना चाहिए?",
+    subTitle: "पारंपरिक पोषण – आधुनिक सुविधा • हर दाने में स्वास्थ्य",
+    pledge: "हमारा संकल्प: 'हर परिवार के लिए पोषण… हर पीढ़ी के लिए एक स्वस्थ भविष्य!'",
+    tabs: {
+      pillars: "🏛️ 4 मुख्य स्तंभ और मिशन",
+      advantages: "⚡ 6 तुरंत तैयार होने वाले लाभ",
+      millets: "🌾 सुपर मिलेट्स & 7-अनाज आटा",
+      compliance: "🛡️ FSSAI एवं गुणवत्ता आश्वासन"
+    },
+    pillars: [
+      { icon: "🌾", title: "1. चयनित पारंपरिक मिलेट्स", desc: "सर्वोत्तम गुणवत्ता वाली रागी, ज्वार, कंगनी (कोदरा) और दालों को सीधे समर्पित किसानों से प्राप्त करना।" },
+      { icon: "🧼", title: "2. अटूट स्वच्छता और शुद्धता", desc: "स्वच्छ और आधुनिक मशीनीकृत प्रसंस्करण जिससे 100% मिलावट मुक्त भोजन बने और प्राकृतिक पोषक तत्व सुरक्षित रहें।" },
+      { icon: "⚡", title: "3. न्यूनतम समय में पौष्टिक भोजन", desc: "कामकाजी पेशेवरों, गृहिणियों, छात्रों और सभी के लिए कुछ ही मिनटों में पौष्टिक और स्वादिष्ट भोजन तैयार करने की सुविधा।" },
+      { icon: "🍲", title: "4. पारंपरिक भोजन का आधुनिक रूप", desc: "हमारे पूर्वजों की अमूल्य खान-पान परंपरा को आज की पीढ़ी तक सबसे आसान और सुविधाजनक रूप में पहुँचाना।" }
+    ],
+    advantages: [
+      { icon: "💧", title: "सिर्फ पानी मिलाएं", desc: "बिना किसी झंझट के एक ही बार में बैटर तैयार" },
+      { icon: "⏱️", title: "15 मिनट में तैयार", desc: "सुबह की भागदौड़ में तुरंत गरमा-गरम नाश्ता" },
+      { icon: "🚿", title: "धोने की जरूरत नहीं", desc: "पहले से ही साफ और स्वच्छ किए गए अनाज" },
+      { icon: "⏳", title: "भिगोने की जरूरत नहीं", desc: "6-8 घंटे रातभर भिगोने का कोई झंझट नहीं" },
+      { icon: "🥣", title: "पीसने की कोई आवश्यकता नहीं", desc: "मिक्सी का शोर और सफाई का कोई झंझट नहीं" },
+      { icon: "🧪", title: "खमीर उठाने की जरूरत नहीं", desc: "बिना इंतजार किए तुरंत स्वादिष्ट डोसा तैयार" }
+    ],
+    millets: [
+      { badge: "रागी डोसा मिक्स (₹119)", sub: "शुद्ध रागी (Finger Millet)", desc: "कैल्शियम और आयरन का पावरहाउस – बच्चों के विकास और मजबूत हड्डियों के लिए सर्वोत्तम। कम ग्लाइसेमिक इंडेक्स (Low GI) मधुमेह नियंत्रण में सहायक।" },
+      { badge: "ज्वार डोसा मिक्स (₹119)", sub: "प्राकृतिक ज्वार (Sorghum)", desc: "प्राकृतिक रूप से ग्लूटेन-मुक्त – पेट के लिए अत्यंत हल्का, अपच और एसिडिटी से राहत। हृदय स्वास्थ्य के लिए एंटीऑक्सीडेंट और मैग्नीशियम से भरपूर।" },
+      { badge: "पेसरा डोसा मिक्स (₹129)", sub: "साबुत मूँग (Green Gram)", desc: "उच्च वनस्पति प्रोटीन – मांसपेशियों की मजबूती और दिनभर की ऊर्जा के लिए। बिना भिगोए 15 मिनट में रेस्टोरेंट जैसा क्रिस्पी पेसरट्टू।" },
+      { badge: "कोर्रा डोसा मिक्स (₹129)", sub: "कंगनी / कोदरा (Foxtail Millet)", desc: "सकारात्मक सिरीधान्या का राजा – अत्यधिक फाइबर और सूक्ष्म पोषक तत्व। आंतों के स्वास्थ्य को बेहतर बनाए और सुस्ती दूर रखे।" },
+      { badge: "मल्टी ग्रेन आटा (₹150/kg)", sub: "7 सुपर अनाजों का संगम", desc: "गेहूं, रागी, बाजरा, ज्वार, सोयाबीन, ओट्स, चना। रुई जैसी बेहद मुलायम रोटियां जो घंटों ताज़ा रहें। 100% शुद्ध, बिना मैदा।" }
+    ],
+    compliance: {
+      fssaiTitle: "FSSAI प्रमाणन एवं खाद्य सुरक्षा आश्वासन",
+      fssaiDesc: "S.P.R. Siri Dhanya उत्पाद भारतीय खाद्य सुरक्षा और मानक प्राधिकरण (FSSAI) लाइसेंस संख्या: 20126152000402 के तहत प्रमाणित हैं।",
+      points: [
+        "100% शुद्ध शाकाहारी प्रमाणित खाद्य उत्पाद",
+        "कृत्रिम रंगों और सिंथेटिक स्वादों से पूर्णतः मुक्त",
+        "कोई हानिकारक रासायनिक प्रिजर्वेटिव नहीं",
+        "ताज़ा निर्मित बैच – 6 से 9 महीने की प्राकृतिक शेल्फ लाइफ",
+        "सुरक्षित और मजबूत 5-प्लाई कार्टन पैकेजिंग"
+      ]
+    }
+  }
+};
+
+// Open Why SPR Modal
+function openWhySprModal(initialLang = 'te') {
+  setWhySprLanguage(initialLang);
+  switchWhySprTab(WHY_SPR_DATA.activeTab || 'pillars');
+  document.getElementById("whySprModal")?.classList.add("active");
+}
+
+// Switch Language (te, en, hi)
+function setWhySprLanguage(lang) {
+  if (!WHY_SPR_DATA[lang]) lang = 'te';
+  WHY_SPR_DATA.activeLang = lang;
+
+  const data = WHY_SPR_DATA[lang];
+
+  // Update header text
+  const mainTitle = document.getElementById("whySprMainTitle");
+  if (mainTitle) mainTitle.textContent = data.mainTitle;
+
+  const subTitle = document.getElementById("whySprSubTitle");
+  if (subTitle) subTitle.textContent = data.subTitle;
+
+  const pledgeText = document.getElementById("whySprPledgeText");
+  if (pledgeText) pledgeText.innerHTML = `<strong>${data.pledge.split(':')[0]}:</strong> ${data.pledge.split(':')[1] || ''}`;
+
+  // Update language pills active state
+  ['te', 'en', 'hi'].forEach(l => {
+    const btn = document.getElementById(`whyLangBtn${l.charAt(0).toUpperCase() + l.slice(1)}`);
+    if (btn) {
+      if (l === lang) btn.classList.add("active");
+      else btn.classList.remove("active");
+    }
+  });
+
+  // Update tab labels
+  const tabPillars = document.getElementById("whyTabBtnPillars");
+  if (tabPillars) tabPillars.textContent = data.tabs.pillars;
+
+  const tabAdvantages = document.getElementById("whyTabBtnAdvantages");
+  if (tabAdvantages) tabAdvantages.textContent = data.tabs.advantages;
+
+  const tabMillets = document.getElementById("whyTabBtnMillets");
+  if (tabMillets) tabMillets.textContent = data.tabs.millets;
+
+  const tabCompliance = document.getElementById("whyTabBtnCompliance");
+  if (tabCompliance) tabCompliance.textContent = data.tabs.compliance;
+
+  // Render content of current active tab
+  renderWhySprCurrentTab();
+}
+
+// Switch Tab
+function switchWhySprTab(tab) {
+  WHY_SPR_DATA.activeTab = tab;
+
+  const tabs = ['pillars', 'advantages', 'millets', 'compliance'];
+  tabs.forEach(t => {
+    const btn = document.getElementById(`whyTabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    const pane = document.getElementById(`whyTabContent${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    if (t === tab) {
+      btn?.classList.add("active");
+      if (pane) pane.style.display = "block";
+    } else {
+      btn?.classList.remove("active");
+      if (pane) pane.style.display = "none";
+    }
+  });
+
+  renderWhySprCurrentTab();
+}
+
+// Render Content for Active Tab
+function renderWhySprCurrentTab() {
+  const lang = WHY_SPR_DATA.activeLang || 'te';
+  const tab = WHY_SPR_DATA.activeTab || 'pillars';
+  const data = WHY_SPR_DATA[lang];
+
+  if (tab === 'pillars') {
+    const pane = document.getElementById("whyTabContentPillars");
+    if (!pane) return;
+    pane.innerHTML = `
+      <div class="why-pillars-grid">
+        ${data.pillars.map(p => `
+          <div class="why-pillar-card">
+            <span class="pillar-icon">${p.icon}</span>
+            <div class="pillar-content">
+              <strong>${p.title}</strong>
+              <p>${p.desc}</p>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  } else if (tab === 'advantages') {
+    const pane = document.getElementById("whyTabContentAdvantages");
+    if (!pane) return;
+    pane.innerHTML = `
+      <div class="why-advantages-grid">
+        ${data.advantages.map(a => `
+          <div class="why-adv-card">
+            <div class="why-adv-icon">${a.icon}</div>
+            <strong>${a.title}</strong>
+            <span>${a.desc}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  } else if (tab === 'millets') {
+    const pane = document.getElementById("whyTabContentMillets");
+    if (!pane) return;
+    pane.innerHTML = `
+      <div class="why-millets-list">
+        ${data.millets.map(m => `
+          <div class="why-millet-item">
+            <div class="why-millet-badge">
+              ${m.badge}
+              <span>${m.sub}</span>
+            </div>
+            <div class="why-millet-desc">${m.desc}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  } else if (tab === 'compliance') {
+    const pane = document.getElementById("whyTabContentCompliance");
+    if (!pane) return;
+    pane.innerHTML = `
+      <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px; padding: 18px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+          <span style="font-size: 32px;">🛡️</span>
+          <div>
+            <h4 style="margin: 0; color: #166534; font-size: 16px;">${data.compliance.fssaiTitle}</h4>
+            <p style="margin: 3px 0 0 0; font-size: 13px; color: #15803d;">${data.compliance.fssaiDesc}</p>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;">
+          ${data.compliance.points.map(pt => `
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #14532d;">
+              <span>✅</span> <span>${pt}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px dashed #bbf7d0; font-size: 12.5px; color: #166534;">
+          🏭 <strong>Manufacturing Facility:</strong> Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326.
+        </div>
+      </div>
+    `;
+  }
+}

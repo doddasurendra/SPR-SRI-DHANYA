@@ -153,7 +153,12 @@
 
       <!-- Header Action Items -->
       <div class="fk-header-actions">
-        <!-- 1. HIGH-PRIORITY SHOPPING CART (ALWAYS VISIBLE & PROMINENT) -->
+        <!-- 1. WHY S.P.R. SIRI DHANYA BUTTON -->
+        <button class="fk-nav-btn why-spr-nav-btn" onclick="openWhySprModal()" title="Why Choose S.P.R. Siri Dhanya? (Telugu • English • Hindi)">
+          <span class="nav-icon">💡</span> Why SPR?
+        </button>
+
+        <!-- 2. HIGH-PRIORITY SHOPPING CART (ALWAYS VISIBLE & PROMINENT) -->
         <div class="fk-cart-btn" onclick="openCartDrawer()" title="View Shopping Cart">
           <div class="cart-icon-wrap">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
@@ -193,6 +198,7 @@
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </span>
           <div class="dropdown-menu">
+            <a href="javascript:void(0)" onclick="openWhySprModal()"><span class="menu-icon">💡</span> Why S.P.R. Siri Dhanya? (3-Lang Guide)</a>
             <a href="javascript:void(0)" onclick="openWholesalePortalModal()"><span class="menu-icon">🤝</span> Wholesale & Supermarket B2B Portal</a>
             <a href="javascript:void(0)" onclick="openPdfCatalogueModal()"><span class="menu-icon">📄</span> Official 8-Page PDF Catalogues</a>
             <a href="javascript:void(0)" onclick="openPolicyModal('privacy')"><span class="menu-icon">📜</span> Business Policies & FSSAI Details</a>
@@ -243,6 +249,10 @@
         <div class="cat-icon">⭐</div>
         <span>Customer Reviews</span>
       </div>
+      <div class="category-item highlight-why-cat" onclick="openWhySprModal()" title="Why Choose S.P.R. Siri Dhanya?">
+        <div class="cat-icon">💡</div>
+        <span style="color: #b45309; font-weight: 700;">Why S.P.R.?</span>
+      </div>
     </div>
   </nav>
 
@@ -266,6 +276,7 @@
             <div class="slide-actions">
               <button class="btn btn-primary" onclick="filterByCategory('dosa-mix')">Shop Dosa Mixes</button>
               <button class="btn btn-secondary" onclick="filterByCategory('atta')">Explore 7-Grain Atta</button>
+              <button class="btn btn-warning-gold" onclick="openWhySprModal()" style="font-weight: 800; border-radius: 4px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);">💡 Why S.P.R. Siri Dhanya? (తెలుగు • Eng • हिंदी)</button>
             </div>
           </div>
           <div class="slide-visual">
@@ -1006,12 +1017,6 @@
     <button class="fab-btn fab-voice" onclick="toggleVoiceAgent()" title="Talk to Siri Dhanya Voice AI Agent">
       <span class="fab-icon">🎙️</span>
       <span class="fab-tooltip">Voice AI</span>
-    </button>
-
-    <!-- QR Code Scanner Button -->
-    <button class="fab-btn fab-qr" onclick="openQrHubModal('generator')" title="Website QR Code Generator & Mobile Camera Scanner">
-      <span class="fab-icon">📱</span>
-      <span class="fab-tooltip">QR Code</span>
     </button>
 
     <!-- Call Button -->
@@ -2049,7 +2054,7 @@
   <!-- 1. ADMIN AUTHENTICATION LOGIN MODAL            -->
   <!-- ============================================== -->
   <div class="modal-overlay full-page-modal" id="adminLoginModal">
-    <div class="modal-card admin-login-card">
+    <div class="modal-card admin-login-card full-page-login-card">
       <button class="modal-close" onclick="closeModal('adminLoginModal')" title="Return to storefront">✕</button>
       
       <div class="login-header">
@@ -2944,6 +2949,85 @@
       <button class="btn btn-primary full-width" onclick="applyMobileFiltersAndClose()">
         Apply Filters
       </button>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- WHY S.P.R. SIRI DHANYA? (TELUGU • ENGLISH • HINDI MODAL) -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="whySprModal">
+    <div class="modal-card why-spr-card">
+      <button class="modal-close" onclick="closeModal('whySprModal')">✕</button>
+
+      <!-- Modal Top Branding & Language Selector -->
+      <div class="why-spr-header">
+        <div class="why-spr-brand">
+          <img src="assets/brand_round_logo.png" alt="S.P.R. Siri Dhanya" class="why-spr-logo">
+          <div>
+            <h3 id="whySprMainTitle">WHY S.P.R. SIRI DHANYA?</h3>
+            <p id="whySprSubTitle">Traditional Nutrition – Modern Convenience • Health in Every Grain</p>
+          </div>
+        </div>
+
+        <!-- 3-Language Selector Bar -->
+        <div class="why-spr-lang-bar">
+          <span class="lang-selector-label">🌐 Language:</span>
+          <button type="button" class="why-lang-pill active" id="whyLangBtnTe" onclick="setWhySprLanguage('te')">🌸 తెలుగు (Telugu)</button>
+          <button type="button" class="why-lang-pill" id="whyLangBtnEn" onclick="setWhySprLanguage('en')">🌐 English</button>
+          <button type="button" class="why-lang-pill" id="whyLangBtnHi" onclick="setWhySprLanguage('hi')">🇮🇳 हिंदी (Hindi)</button>
+        </div>
+      </div>
+
+      <!-- Core Pledge Banner -->
+      <div class="why-pledge-strip" id="whySprPledgeBanner">
+        <span class="pledge-icon">🌟</span>
+        <div id="whySprPledgeText">
+          <strong>OUR CORE PLEDGE:</strong> "Nutrition for Every Family… A Healthy Future for Every Generation!"
+        </div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="admin-tabs-nav" style="margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">
+        <button class="admin-tab-btn active" id="whyTabBtnPillars" onclick="switchWhySprTab('pillars')">🏛️ 4 Pillars & Mission</button>
+        <button class="admin-tab-btn" id="whyTabBtnAdvantages" onclick="switchWhySprTab('advantages')">⚡ 6 Instant Advantages</button>
+        <button class="admin-tab-btn" id="whyTabBtnMillets" onclick="switchWhySprTab('millets')">🌾 Super Millets & 7-Grain Atta</button>
+        <button class="admin-tab-btn" id="whyTabBtnCompliance" onclick="switchWhySprTab('compliance')">🛡️ FSSAI & Quality Assurance</button>
+      </div>
+
+      <!-- Dynamic Tab Contents -->
+      <div id="whyTabContentPillars" class="why-tab-pane">
+        <!-- Injected dynamically by app.js -->
+      </div>
+
+      <div id="whyTabContentAdvantages" class="why-tab-pane" style="display: none;">
+        <!-- Injected dynamically by app.js -->
+      </div>
+
+      <div id="whyTabContentMillets" class="why-tab-pane" style="display: none;">
+        <!-- Injected dynamically by app.js -->
+      </div>
+
+      <div id="whyTabContentCompliance" class="why-tab-pane" style="display: none;">
+        <!-- Injected dynamically by app.js -->
+      </div>
+
+      <!-- Direct Official Catalogue PDF Downloads -->
+      <div class="why-spr-pdf-footer">
+        <span class="pdf-footer-title">📄 Download Official 8-Page PDF Catalogues:</span>
+        <div class="pdf-footer-btns">
+          <a href="../SPR_Siri_Dhanya_Catalogue_Telugu.pdf" target="_blank" class="btn btn-secondary btn-sm">
+            📥 తెలుగు కేటలాగ్ (Telugu PDF)
+          </a>
+          <a href="../SPR_Siri_Dhanya_Catalogue_English.pdf" target="_blank" class="btn btn-secondary btn-sm">
+            📥 English Catalogue (PDF)
+          </a>
+          <button type="button" class="btn btn-warning-gold btn-sm" onclick="filterByCategory('all'); closeModal('whySprModal');">
+            🛒 Shop All Siri Dhanya Products
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
 
