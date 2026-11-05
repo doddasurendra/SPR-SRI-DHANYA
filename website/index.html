@@ -10,11 +10,108 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- ============================================== -->
+  <!-- FLIPKART MOBILE SLIDE-IN NAVIGATION DRAWER     -->
+  <!-- ============================================== -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" onclick="closeMobileNavDrawer()"></div>
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div class="mobile-nav-header">
+      <div class="mobile-nav-user">
+        <div class="mobile-nav-avatar">🌾</div>
+        <div>
+          <div class="mobile-nav-title">S.P.R. Siri Dhanya</div>
+          <div class="mobile-nav-sub">సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం</div>
+        </div>
+      </div>
+      <button class="mobile-nav-close" onclick="closeMobileNavDrawer()" aria-label="Close Menu">✕</button>
+    </div>
+    
+    <div class="mobile-nav-body">
+      <div class="mobile-nav-section-title">SHOPPING & CUSTOMER CARE</div>
+      <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); openMyOrdersModal();" class="mobile-nav-item">
+        <span class="nav-icon">📦</span> 
+        <div class="nav-item-text">
+          <strong>My Orders & Tracking</strong>
+          <span>Track live 7-stage delivery journey</span>
+        </div>
+      </a>
+      <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); openCartDrawer();" class="mobile-nav-item">
+        <span class="nav-icon">🛒</span> 
+        <div class="nav-item-text">
+          <strong>My Shopping Cart</strong>
+          <span>View selected millet packs & checkout</span>
+        </div>
+      </a>
+      <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); toggleVoiceAgent();" class="mobile-nav-item">
+        <span class="nav-icon">🎙️</span> 
+        <div class="nav-item-text">
+          <strong>Universal AI Voice Agent</strong>
+          <span>Speak in Telugu, English or Hindi</span>
+        </div>
+      </a>
+
+      <div class="mobile-nav-section-title">TOOLS & CATALOGUES</div>
+      <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); openQrHubModal('generator');" class="mobile-nav-item">
+        <span class="nav-icon">📱</span> 
+        <div class="nav-item-text">
+          <strong>Website QR Code Hub</strong>
+          <span>Generate & Download PNG, SVG, PDF</span>
+        </div>
+      </a>
+      <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); openPdfCatalogueModal();" class="mobile-nav-item">
+        <span class="nav-icon">📄</span> 
+        <div class="nav-item-text">
+          <strong>Official 8-Page PDF Catalogues</strong>
+          <span>Telugu, English & Hindi high-res editions</span>
+        </div>
+      </a>
+
+      <div class="mobile-nav-section-title">BUSINESS & WHOLESALE</div>
+      <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); openWholesalePortalModal();" class="mobile-nav-item">
+        <span class="nav-icon">🤝</span> 
+        <div class="nav-item-text">
+          <strong>Wholesale & Supermarket Portal</strong>
+          <span>Direct factory carton orders (25-30% margins)</span>
+        </div>
+      </a>
+      <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); openAdminModalAuth();" class="mobile-nav-item highlight-admin">
+        <span class="nav-icon">👑</span> 
+        <div class="nav-item-text">
+          <strong>Admin Management Portal</strong>
+          <span>Control center: Orders, Stock, Sales</span>
+        </div>
+      </a>
+      <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); openPolicyModal('privacy');" class="mobile-nav-item">
+        <span class="nav-icon">📜</span> 
+        <div class="nav-item-text">
+          <strong>Policies & FSSAI Compliance</strong>
+          <span>Lic #20126152000402 & 5% GST details</span>
+        </div>
+      </a>
+
+      <div class="mobile-nav-section-title">DIRECT HELPLINE</div>
+      <a href="tel:9492468817" class="mobile-nav-item">
+        <span class="nav-icon">📞</span> 
+        <div class="nav-item-text">
+          <strong>Call Factory: 9492468817</strong>
+          <span>Kamepalli, Bapatla District, A.P.</span>
+        </div>
+      </a>
+      <a href="https://wa.me/919492468817?text=Hi%20SPR%20Siri%20Dhanya" target="_blank" class="mobile-nav-item">
+        <span class="nav-icon">💬</span> 
+        <div class="nav-item-text">
+          <strong>WhatsApp Management (+91 94413 93817)</strong>
+          <span>Instant chat order assistance</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
 
   <!-- Top Flipkart-style Announcement / Sub-bar -->
   <div class="top-announcement">
     <div class="container announcement-inner">
-      <span>🎉 <strong>Special Launch Offer:</strong> Flat 20% Off on all Instant Dosa Mixes & Multi Grain Atta! Free Delivery on orders above ₹299</span>
+      <span class="announcement-left">🎉 <strong>Special Launch Offer:</strong> Flat 20% Off Instant Dosa Mixes! Free Delivery > ₹299</span>
       <div class="top-contacts">
         <span class="phone-link">📞 Call / WhatsApp: <a href="tel:9441393817">+91 94413 93817</a> | <a href="tel:9492468817">9492468817</a></span>
       </div>
@@ -24,6 +121,10 @@
   <!-- Main Flipkart Header -->
   <header class="fk-header">
     <div class="container fk-header-inner">
+      <!-- Mobile Hamburger Menu Button (<= 768px) -->
+      <button class="mobile-hamburger-btn" onclick="toggleMobileNavDrawer()" aria-label="Open Navigation Menu">
+        <span>☰</span>
+      </button>
       <!-- Logo -->
       <a href="#" class="fk-logo" onclick="resetFilters()">
         <div class="brand-text">
@@ -111,6 +212,14 @@
           </div>
           <span class="cart-text">Cart</span>
         </div>
+      </div>
+    </div>
+    <!-- Mobile Dedicated Flipkart Search Bar (<= 768px) -->
+    <div class="mobile-search-bar-wrap">
+      <div class="mobile-search-box">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2874f0" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="mobileSearchInput" placeholder="Search for millets, instant dosa mix, atta..." oninput="handleMobileSearch(this.value)">
+        <button class="mobile-mic-btn" onclick="toggleVoiceAgent()" title="Voice AI Search">🎙️</button>
       </div>
     </div>
   </header>
@@ -370,6 +479,18 @@
         </div>
 
         <!-- Product Cards Grid -->
+                <!-- Flipkart Mobile Sticky Sort & Filter Bar (<= 768px) -->
+        <div class="mobile-filter-bar">
+          <button type="button" class="mobile-filter-btn" onclick="openMobileSortDrawer()">
+            <span class="btn-icon">⇅</span> <span>Sort</span>
+          </button>
+          <div class="mobile-filter-divider"></div>
+          <button type="button" class="mobile-filter-btn" onclick="openMobileFilterDrawer()">
+            <span class="btn-icon">⚙</span> <span>Filter</span>
+            <span class="mobile-filter-badge" id="mobileFilterBadge" style="display: none;">1</span>
+          </button>
+        </div>
+
         <div class="product-grid" id="productGrid">
           <!-- Dynamically populated by app.js -->
         </div>
@@ -2705,5 +2826,74 @@
   <script src="qrcode.min.js"></script>
   <script src="jsQR.min.js"></script>
   <script src="app.js"></script>
+  <!-- ============================================== -->
+  <!-- FLIPKART MOBILE BOTTOM SHEET: SORT OPTIONS     -->
+  <!-- ============================================== -->
+  <div class="mobile-sheet-backdrop" id="mobileSortBackdrop" onclick="closeMobileSortDrawer()"></div>
+  <div class="mobile-bottom-sheet" id="mobileSortSheet">
+    <div class="sheet-header">
+      <h4>SORT BY</h4>
+      <button class="sheet-close-btn" onclick="closeMobileSortDrawer()">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div class="sheet-radio-option" onclick="applyMobileSort('popularity')">
+        <label><input type="radio" name="mobileSortRadio" value="popularity" checked> Popularity</label>
+      </div>
+      <div class="sheet-radio-option" onclick="applyMobileSort('price-low')">
+        <label><input type="radio" name="mobileSortRadio" value="price-low"> Price -- Low to High</label>
+      </div>
+      <div class="sheet-radio-option" onclick="applyMobileSort('price-high')">
+        <label><input type="radio" name="mobileSortRadio" value="price-high"> Price -- High to Low</label>
+      </div>
+      <div class="sheet-radio-option" onclick="applyMobileSort('rating')">
+        <label><input type="radio" name="mobileSortRadio" value="rating"> Customer Rating (4★+)</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- FLIPKART MOBILE BOTTOM SHEET: FILTER OPTIONS   -->
+  <!-- ============================================== -->
+  <div class="mobile-sheet-backdrop" id="mobileFilterBackdrop" onclick="closeMobileFilterDrawer()"></div>
+  <div class="mobile-bottom-sheet" id="mobileFilterSheet">
+    <div class="sheet-header">
+      <h4>FILTERS</h4>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button class="sheet-clear-btn" onclick="clearMobileFilters()">Clear All</button>
+        <button class="sheet-close-btn" onclick="closeMobileFilterDrawer()">✕</button>
+      </div>
+    </div>
+    <div class="sheet-body" style="max-height: 65vh; overflow-y: auto;">
+      <div class="sheet-filter-group">
+        <div class="sheet-group-title">CATEGORIES</div>
+        <div class="sheet-chip-wrap">
+          <button class="sheet-cat-chip active" data-cat="all" onclick="selectMobileCat('all', this)">All Products (7)</button>
+          <button class="sheet-cat-chip" data-cat="dosa-mix" onclick="selectMobileCat('dosa-mix', this)">Instant Dosa Mixes (4)</button>
+          <button class="sheet-cat-chip" data-cat="atta" onclick="selectMobileCat('atta', this)">Multi Grain Atta (1)</button>
+          <button class="sheet-cat-chip" data-cat="combos" onclick="selectMobileCat('combos', this)">5-in-1 Combo (1)</button>
+          <button class="sheet-cat-chip" data-cat="wholesale" onclick="selectMobileCat('wholesale', this)">Wholesale Carton (1)</button>
+        </div>
+      </div>
+
+      <div class="sheet-filter-group">
+        <div class="sheet-group-title">PRICE RANGE</div>
+        <label class="sheet-check-label"><input type="checkbox" id="mPrice1" onchange="updateMobileFilters()"> Under ₹120 (Ragi & Jowar)</label>
+        <label class="sheet-check-label"><input type="checkbox" id="mPrice2" onchange="updateMobileFilters()"> ₹120 – ₹140 (Pesara & Korra)</label>
+        <label class="sheet-check-label"><input type="checkbox" id="mPrice3" onchange="updateMobileFilters()"> ₹140 and above (Atta & Combos)</label>
+      </div>
+
+      <div class="sheet-filter-group">
+        <div class="sheet-group-title">SPR ASSURANCE & RATINGS</div>
+        <label class="sheet-check-label"><input type="checkbox" id="mAssured" onchange="updateMobileFilters()"> <strong>SPR Assured Guarantee</strong></label>
+        <label class="sheet-check-label"><input type="checkbox" id="mRating4" onchange="updateMobileFilters()"> 4★ & above Ratings</label>
+      </div>
+    </div>
+    <div class="sheet-footer">
+      <button class="btn btn-primary full-width" onclick="applyMobileFiltersAndClose()">
+        Apply Filters
+      </button>
+    </div>
+  </div>
+
 </body>
 </html>

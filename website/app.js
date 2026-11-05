@@ -4926,3 +4926,142 @@ function handleQrHubFileUpload(event) {
   };
   reader.readAsDataURL(file);
 }
+
+
+// =========================================================================
+// === FLIPKART MOBILE DRAWER & BOTTOM SHEET INTERACTION ENGINES ===========
+// =========================================================================
+
+// 1. Mobile Navigation Drawer Controls
+function toggleMobileNavDrawer() {
+  const drawer = document.getElementById("mobileNavDrawer");
+  const backdrop = document.getElementById("mobileNavBackdrop");
+  if (drawer && backdrop) {
+    const isActive = drawer.classList.contains("active");
+    if (isActive) {
+      closeMobileNavDrawer();
+    } else {
+      drawer.classList.add("active");
+      backdrop.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+  }
+}
+
+function closeMobileNavDrawer() {
+  document.getElementById("mobileNavDrawer")?.classList.remove("active");
+  document.getElementById("mobileNavBackdrop")?.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+// 2. Mobile Sort Bottom Sheet Controls
+function openMobileSortDrawer() {
+  document.getElementById("mobileSortSheet")?.classList.add("active");
+  document.getElementById("mobileSortBackdrop")?.classList.add("active");
+}
+
+function closeMobileSortDrawer() {
+  document.getElementById("mobileSortSheet")?.classList.remove("active");
+  document.getElementById("mobileSortBackdrop")?.classList.remove("active");
+}
+
+function applyMobileSort(sortKey) {
+  state.currentSort = sortKey;
+  // Update radio selection
+  const radio = document.querySelector(`input[name="mobileSortRadio"][value="${sortKey}"]`);
+  if (radio) radio.checked = true;
+
+  // Sync with desktop sort button
+  const sortBtn = document.querySelector(`.sort-btn[data-sort="${sortKey}"]`);
+  if (sortBtn) {
+    document.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
+    sortBtn.classList.add("active");
+  }
+
+  applyFilters();
+  closeMobileSortDrawer();
+  showToast(`Sorted by ${sortKey.replace('-', ' ')}`);
+}
+
+// 3. Mobile Filter Bottom Sheet Controls
+function openMobileFilterDrawer() {
+  document.getElementById("mobileFilterSheet")?.classList.add("active");
+  document.getElementById("mobileFilterBackdrop")?.classList.add("active");
+}
+
+function closeMobileFilterDrawer() {
+  document.getElementById("mobileFilterSheet")?.classList.remove("active");
+  document.getElementById("mobileFilterBackdrop")?.classList.remove("active");
+}
+
+let mobileSelectedCategory = "all";
+
+function selectMobileCat(cat, btn) {
+  mobileSelectedCategory = cat;
+  document.querySelectorAll(".sheet-cat-chip").forEach(c => c.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+}
+
+function updateMobileFilters() {
+  // Sync checkbox state count to badge
+  let count = 0;
+  if (mobileSelectedCategory !== "all") count++;
+  if (document.getElementById("mPrice1")?.checked) count++;
+  if (document.getElementById("mPrice2")?.checked) count++;
+  if (document.getElementById("mPrice3")?.checked) count++;
+  if (document.getElementById("mAssured")?.checked) count++;
+  if (document.getElementById("mRating4")?.checked) count++;
+
+  const badge = document.getElementById("mobileFilterBadge");
+  if (badge) {
+    badge.textContent = count;
+    badge.style.display = count > 0 ? "inline-block" : "none";
+  }
+}
+
+function applyMobileFiltersAndClose() {
+  // Apply category filter
+  filterByCategory(mobileSelectedCategory);
+
+  // Sync desktop price checkboxes
+  const p1 = document.getElementById("price1");
+  const p2 = document.getElementById("price2");
+  const p3 = document.getElementById("price3");
+  const pAssure = document.getElementById("assuredOnly");
+  const pRating = document.getElementById("rating4");
+
+  if (p1) p1.checked = !!document.getElementById("mPrice1")?.checked;
+  if (p2) p2.checked = !!document.getElementById("mPrice2")?.checked;
+  if (p3) p3.checked = !!document.getElementById("mPrice3")?.checked;
+  if (pAssure) pAssure.checked = !!document.getElementById("mAssured")?.checked;
+  if (pRating) pRating.checked = !!document.getElementById("mRating4")?.checked;
+
+  updateMobileFilters();
+  applyFilters();
+  closeMobileFilterDrawer();
+  showToast("Filters applied successfully!");
+}
+
+function clearMobileFilters() {
+  mobileSelectedCategory = "all";
+  document.querySelectorAll(".sheet-cat-chip").forEach(c => c.classList.remove("active"));
+  document.querySelector(".sheet-cat-chip[data-cat='all']")?.classList.add("active");
+
+  ["mPrice1", "mPrice2", "mPrice3", "mAssured", "mRating4"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.checked = false;
+  });
+
+  resetFilters();
+  updateMobileFilters();
+  closeMobileFilterDrawer();
+  showToast("Cleared all filters");
+}
+
+// 4. Mobile Search Input Handler
+function handleMobileSearch(query) {
+  const desktopInput = document.getElementById("searchInput");
+  if (desktopInput) desktopInput.value = query;
+  state.searchQuery = query.toLowerCase().trim();
+  applyFilters();
+}
