@@ -1140,7 +1140,8 @@
         <div class="admin-top-actions">
           <span class="live-status-pill">🟢 Live Storefront Online</span>
           <span class="admin-clock-pill" id="adminClockPill">Live IST</span>
-          <button class="btn btn-warning-gold btn-sm" onclick="openAddProductModal()">➕ Add Product</button>
+          <button class="btn btn-warning-gold btn-sm" onclick="pushEntireDatabaseToFirebase()" title="Push entire store database to Google Firebase for sdodda073@gmail.com">🚀 Push Database to Firebase</button>
+          <button class="btn btn-secondary btn-sm" onclick="openAddProductModal()">➕ Add Product</button>
           <button class="btn btn-secondary btn-sm" onclick="exportOrdersCSV()">📥 Export Orders CSV</button>
           <button class="btn btn-secondary btn-sm" onclick="downloadSalesReport()">📊 Sales Report</button>
           <button class="btn btn-primary btn-sm" onclick="refreshAdminData()">🔄 Live Sync</button>
@@ -1673,6 +1674,9 @@
               <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
                 <button type="submit" class="btn btn-primary" style="font-weight: 700;">
                   🔥 Save & Connect Cloud Firestore
+                </button>
+                <button type="button" class="btn btn-warning-gold" onclick="pushEntireDatabaseToFirebase()" style="font-weight: 700;">
+                  🚀 Push Entire Database to Firebase Now
                 </button>
                 <a href="https://console.firebase.google.com" target="_blank" class="btn btn-secondary" style="font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
                   🌐 Open Firebase Console (sdodda073@gmail.com)

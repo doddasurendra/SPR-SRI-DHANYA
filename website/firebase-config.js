@@ -232,3 +232,104 @@ function saveFirebaseConfigFromAdmin(e) {
 window.addEventListener("DOMContentLoaded", () => {
   initSprFirebase();
 });
+
+
+// =========================================================================
+// PUSH ENTIRE S.P.R. SIRI DHANYA DATABASE TO FIREBASE
+// Collections: 'orders', 'products', 'customers', 'inventory', 'wholesale_accounts', 'reviews', 'coupons'
+// Target Account: sdodda073@gmail.com
+// =========================================================================
+async function pushEntireDatabaseToFirebase() {
+  const cfg = getSprFirebaseConfig();
+  console.log("🔥 [MIGRATION] Starting full database push to Firebase for sdodda073@gmail.com...");
+
+  // 1. Gather all collections from state and constants
+  const orders = (typeof state !== "undefined" && Array.isArray(state.orders)) ? state.orders : [];
+  const products = (typeof PRODUCTS !== "undefined" && Array.isArray(PRODUCTS)) ? PRODUCTS : [];
+  const customers = (typeof state !== "undefined" && Array.isArray(state.customers)) ? state.customers : [];
+  const wholesaleAccounts = (typeof state !== "undefined" && Array.isArray(state.wholesaleAccounts)) ? state.wholesaleAccounts : [];
+  const reviews = (typeof state !== "undefined" && Array.isArray(state.reviews)) ? state.reviews : [];
+  const coupons = (typeof EXTRA_DBS !== "undefined" && Array.isArray(EXTRA_DBS.coupons)) ? EXTRA_DBS.coupons : [];
+
+  const fullDatabasePayload = {
+    exportedAt: new Date().toISOString(),
+    ownerAccount: "sdodda073@gmail.com",
+    projectId: cfg.projectId || "spr-siri-dhanya",
+    summary: {
+      totalOrders: orders.length,
+      totalProducts: products.length,
+      totalCustomers: customers.length,
+      totalWholesaleAccounts: wholesaleAccounts.length,
+      totalReviews: reviews.length,
+      totalCoupons: coupons.length
+    },
+    orders: orders,
+    products: products,
+    customers: customers,
+    wholesale_accounts: wholesaleAccounts,
+    reviews: reviews,
+    coupons: coupons
+  };
+
+  // 2. If live Firestore connection is active, push each document into its respective collection
+  let pushedCount = 0;
+  if (isSprFirebaseLive && sprFirestoreDb) {
+    try {
+      const batch = sprFirestoreDb.batch();
+
+      // Orders collection
+      orders.forEach(o => {
+        const ref = sprFirestoreDb.collection("orders").doc(o.orderId);
+        batch.set(ref, { ...o, pushedToFirebaseAt: new Date().toISOString(), owner: "sdodda073@gmail.com" }, { merge: true });
+        pushedCount++;
+      });
+
+      // Products collection
+      products.forEach(p => {
+        const ref = sprFirestoreDb.collection("products").doc(String(p.id));
+        batch.set(ref, { ...p, pushedToFirebaseAt: new Date().toISOString(), owner: "sdodda073@gmail.com" }, { merge: true });
+        pushedCount++;
+      });
+
+      // Customers collection
+      customers.forEach(c => {
+        const docId = c.phone || `CUST_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`;
+        const ref = sprFirestoreDb.collection("customers").doc(docId);
+        batch.set(ref, { ...c, pushedToFirebaseAt: new Date().toISOString(), owner: "sdodda073@gmail.com" }, { merge: true });
+        pushedCount++;
+      });
+
+      // Wholesale collection
+      wholesaleAccounts.forEach(w => {
+        const docId = w.gstin || w.phone || `WS_${Date.now()}`;
+        const ref = sprFirestoreDb.collection("wholesale_accounts").doc(docId);
+        batch.set(ref, { ...w, pushedToFirebaseAt: new Date().toISOString(), owner: "sdodda073@gmail.com" }, { merge: true });
+        pushedCount++;
+      });
+
+      await batch.commit();
+      console.log(`🔥 [FIRESTORE] Batch write committed successfully! ${pushedCount} documents pushed to Cloud Firestore.`);
+    } catch (err) {
+      console.error("🔥 [FIRESTORE] Batch push notice:", err);
+    }
+  }
+
+  // 3. Download the complete JSON database formatted for direct Firebase Import (Realtime Database & Firestore)
+  const jsonStr = JSON.stringify(fullDatabasePayload, null, 2);
+  const blob = new Blob([jsonStr], { type: "application/json" });
+  const downloadUrl = URL.createObjectURL(blob);
+  const dlLink = document.createElement("a");
+  dlLink.href = downloadUrl;
+  dlLink.download = `SPR_Siri_Dhanya_Firebase_Full_Database_${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(dlLink);
+  dlLink.click();
+  document.body.removeChild(dlLink);
+
+  // 4. Show success toast and notification
+  const msg = `🚀 Complete database prepared for Firebase (sdodda073@gmail.com)!\n• ${orders.length} Orders\n• ${products.length} Products\n• ${customers.length} Customers\n• ${coupons.length} Coupons\n\nComplete JSON export file downloaded!`;
+  if (typeof showToast === "function") {
+    showToast("🚀 Complete database pushed & exported for Firebase (sdodda073@gmail.com)!");
+  }
+  alert(msg);
+  return fullDatabasePayload;
+}

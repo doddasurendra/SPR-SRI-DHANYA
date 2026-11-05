@@ -1,0 +1,440 @@
+{
+  "exportedAt": "2026-11-05T10:49:25.989Z",
+  "ownerAccount": "sdodda073@gmail.com",
+  "projectId": "spr-siri-dhanya",
+  "summary": {
+    "totalOrders": 3,
+    "totalProducts": 7,
+    "totalCustomers": 3,
+    "totalWholesaleAccounts": 2,
+    "totalReviews": 3,
+    "totalCoupons": 0
+  },
+  "orders": [
+    {
+      "orderId": "OD784920194821",
+      "createdAt": "2026-11-04 09:30:15",
+      "status": "Delivered",
+      "paymentMethod": "UPI",
+      "paymentStatus": "Paid Online (UPI Verified)",
+      "txnId": "UPI944139381781",
+      "amountPaid": 629,
+      "subtotal": 629,
+      "discount": 0,
+      "deliveryFee": 0,
+      "estimatedDelivery": "Delivered on Nov 4, 2026",
+      "customer": {
+        "fullName": "Venkata Ramanamurthy",
+        "phone": "9848022338",
+        "email": "v.ramana@gmail.com"
+      },
+      "delivery": {
+        "houseNo": "Plot No. 42",
+        "street": "Lakshmipuram Main Road",
+        "locality": "Lakshmipuram",
+        "city": "Guntur",
+        "state": "Andhra Pradesh",
+        "pincode": "522007"
+      },
+      "items": [
+        {
+          "id": 6,
+          "name": "S.P.R. Complete Health Pack (5-in-1 Combo)",
+          "price": 629,
+          "qty": 1,
+          "image": "assets/brand_poster_logo.png"
+        }
+      ],
+      "shipping": {
+        "courier": "India Post Speed Post",
+        "trackingId": "AP9492468817IN",
+        "trackingUrl": "https://www.indiapost.gov.in/",
+        "dispatchDate": "2026-11-04"
+      }
+    },
+    {
+      "orderId": "OD784920194822",
+      "createdAt": "2026-11-04 11:15:40",
+      "status": "Shipped",
+      "paymentMethod": "CARD",
+      "paymentStatus": "Paid Online (Card Verified)",
+      "txnId": "TXN-CARD-883910",
+      "amountPaid": 377,
+      "subtotal": 377,
+      "discount": 0,
+      "deliveryFee": 0,
+      "estimatedDelivery": "Expected by Tomorrow, 5:00 PM",
+      "customer": {
+        "fullName": "Ananya Sharma",
+        "phone": "9121158810",
+        "email": "ananya.sharma@outlook.com"
+      },
+      "delivery": {
+        "houseNo": "Flat 402, Green Meadows",
+        "street": "KPHB Phase 3",
+        "locality": "Kukatpally",
+        "city": "Hyderabad",
+        "state": "Telangana",
+        "pincode": "500072"
+      },
+      "items": [
+        {
+          "id": 1,
+          "name": "S.P.R. Instant Ragi Dosa Mix (500 g)",
+          "price": 119,
+          "qty": 1,
+          "image": "assets/ragi_dosa.png"
+        },
+        {
+          "id": 3,
+          "name": "S.P.R. Instant Pesara Dosa Mix (500 g)",
+          "price": 129,
+          "qty": 1,
+          "image": "assets/pesara_dosa.png"
+        },
+        {
+          "id": 4,
+          "name": "S.P.R. Instant Korra Dosa Mix (500 g)",
+          "price": 129,
+          "qty": 1,
+          "image": "assets/korra_dosa.png"
+        }
+      ],
+      "shipping": {
+        "courier": "Delhivery Surface",
+        "trackingId": "DLV-88391024",
+        "trackingUrl": "https://www.delhivery.com/",
+        "dispatchDate": "2026-11-04"
+      }
+    },
+    {
+      "orderId": "OD784920194823",
+      "createdAt": "2026-11-04 14:02:18",
+      "status": "Confirmed",
+      "paymentMethod": "NETBANKING",
+      "paymentStatus": "Paid Online (SBI Verified)",
+      "txnId": "NB-889102-SBI",
+      "amountPaid": 2490,
+      "subtotal": 2490,
+      "discount": 0,
+      "deliveryFee": 0,
+      "estimatedDelivery": "Expected in 2-3 Business Days",
+      "customer": {
+        "fullName": "Sri Balaji Super Market (K. Srinivas)",
+        "phone": "9440123456",
+        "email": "balaji.supermarket@gmail.com"
+      },
+      "delivery": {
+        "houseNo": "D.No 5-89",
+        "street": "Bazaar Street, Opp Bus Stand",
+        "locality": "Addanki Town",
+        "city": "Addanki / Bapatla",
+        "state": "Andhra Pradesh",
+        "pincode": "523201"
+      },
+      "items": [
+        {
+          "id": 7,
+          "name": "S.P.R. Wholesale Supermarket Master Carton (24 Packs)",
+          "price": 2490,
+          "qty": 1,
+          "image": "assets/brand_poster_logo.png"
+        }
+      ],
+      "shipping": {
+        "courier": "Factory Direct Lorry Transport",
+        "trackingId": "LR-KMP-9492",
+        "trackingUrl": "",
+        "dispatchDate": "2026-11-04"
+      }
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "S.P.R. Instant Ragi Dosa Mix (500 g)",
+      "teluguName": "రాగి దోశ మిక్స్ (Finger Millet)",
+      "category": "dosa-mix",
+      "price": 119,
+      "mrp": 149,
+      "rating": 4.8,
+      "reviewsCount": "1,842",
+      "image": "assets/ragi_dosa.png",
+      "netWt": "500 g",
+      "assured": true,
+      "highlights": [
+        "Just Add Water & Cook in 15 Minutes",
+        "Rich in Natural Calcium & Iron for Bone Density",
+        "Low Glycemic Index (GI) - Optimal for Diabetics",
+        "No Washing • No Soaking • No Grinding",
+        "100% Traditional Finger Millet (రాగులు)"
+      ],
+      "specs": {
+        "Net Weight": "500 g",
+        "Primary Ingredient": "Traditional Finger Millet (Ragi)",
+        "Preparation Time": "15 Minutes (Instant)",
+        "Shelf Life": "6 to 9 Months",
+        "FSSAI License": "20126152000402",
+        "Dietary Preference": "100% Pure Vegetarian"
+      },
+      "stock": 85,
+      "inStock": true
+    },
+    {
+      "id": 2,
+      "name": "S.P.R. Instant Jowar Dosa Mix (500 g)",
+      "teluguName": "జొన్న దోశ మిక్స్ (Sorghum Millet)",
+      "category": "dosa-mix",
+      "price": 119,
+      "mrp": 149,
+      "rating": 4.7,
+      "reviewsCount": "1,230",
+      "image": "assets/jonna_dosa.png",
+      "netWt": "500 g",
+      "assured": true,
+      "highlights": [
+        "Naturally Gluten-Free Super Grain",
+        "High in Dietary Fibre & Essential Magnesium",
+        "Light on Digestion; Prevents Acidity & Heaviness",
+        "Yields Crispy Golden Andhra Style Dosas",
+        "100% Traditional Sorghum (జొన్నలు)"
+      ],
+      "specs": {
+        "Net Weight": "500 g",
+        "Primary Ingredient": "Pure Sorghum (Jowar)",
+        "Preparation Time": "15 Minutes (Instant)",
+        "Shelf Life": "6 to 9 Months",
+        "FSSAI License": "20126152000402",
+        "Dietary Preference": "100% Pure Vegetarian"
+      },
+      "stock": 64,
+      "inStock": true
+    },
+    {
+      "id": 3,
+      "name": "S.P.R. Instant Pesara Dosa Mix (500 g)",
+      "teluguName": "పెసర దోశ మిక్స్ (Andhra Pesarattu)",
+      "category": "dosa-mix",
+      "price": 129,
+      "mrp": 160,
+      "rating": 4.9,
+      "reviewsCount": "2,105",
+      "image": "assets/pesara_dosa.png",
+      "netWt": "500 g",
+      "assured": true,
+      "highlights": [
+        "High Vegetarian Plant Protein Breakfast",
+        "Authentic Andhra Pesarattu Crispness & Aroma",
+        "No Overnight Soaking or Moong Grinding Needed",
+        "High Satiety; Keeps You Full & Energetic All Morning",
+        "100% Whole Green Gram (పెసలు)"
+      ],
+      "specs": {
+        "Net Weight": "500 g",
+        "Primary Ingredient": "Whole Green Gram (Moong Dal)",
+        "Preparation Time": "15 Minutes (Instant)",
+        "Shelf Life": "6 to 9 Months",
+        "FSSAI License": "20126152000402",
+        "Dietary Preference": "100% Pure Vegetarian"
+      },
+      "stock": 42,
+      "inStock": true
+    },
+    {
+      "id": 4,
+      "name": "S.P.R. Instant Korra Dosa Mix (500 g)",
+      "teluguName": "కొర్ర దోశ మిక్స్ (Foxtail Millet)",
+      "category": "dosa-mix",
+      "price": 129,
+      "mrp": 160,
+      "rating": 4.8,
+      "reviewsCount": "1,490",
+      "image": "assets/korra_dosa.png",
+      "netWt": "500 g",
+      "assured": true,
+      "highlights": [
+        "King of Positive Siridhanya Millets",
+        "Superior Soluble Dietary Fibre for Gut Health",
+        "Low Glycemic Index for Blood Sugar Management",
+        "Delicious Savory Paper-Dosa Crispness",
+        "100% Traditional Foxtail Millet (కొర్రలు)"
+      ],
+      "specs": {
+        "Net Weight": "500 g",
+        "Primary Ingredient": "Foxtail Millet (Korra)",
+        "Preparation Time": "15 Minutes (Instant)",
+        "Shelf Life": "6 to 9 Months",
+        "FSSAI License": "20126152000402",
+        "Dietary Preference": "100% Pure Vegetarian"
+      },
+      "stock": 58,
+      "inStock": true
+    },
+    {
+      "id": 5,
+      "name": "S.P.R. Multi Grain Atta (1 kg)",
+      "teluguName": "మల్టీ గ్రీన్ ఆటా (7 Super Grains Blend)",
+      "category": "atta",
+      "price": 150,
+      "mrp": 185,
+      "rating": 4.9,
+      "reviewsCount": "3,280",
+      "image": "assets/multi_grain_atta.png",
+      "netWt": "1 KG",
+      "assured": true,
+      "highlights": [
+        "7 Super Grains: Wheat, Ragi, Bajra, Jowar, Soy, Oats, Chana",
+        "Cotton-Soft Rotis & Phulkas That Stay Soft for Hours",
+        "Fast Digestive Formula - Extremely Gentle on Stomach",
+        "High Protein & Fibre for Healthy Weight Wellness",
+        "100% Whole Grain, Zero Maida, Zero Additives"
+      ],
+      "specs": {
+        "Net Weight": "1 KG",
+        "7 Ingredients": "Wheat, Ragi, Bajra, Jowar, Soybeans, Oats, Chana",
+        "Flour Texture": "Finely Ground & Stone-Milled",
+        "Shelf Life": "6 to 9 Months",
+        "FSSAI License": "20126152000402",
+        "Dietary Preference": "100% Pure Vegetarian"
+      },
+      "stock": 92,
+      "inStock": true
+    },
+    {
+      "id": 6,
+      "name": "S.P.R. Complete Health Pack (5-in-1 Combo)",
+      "teluguName": "కంప్లీట్ హెల్త్ ప్యాక్ (4 దోశ మిక్స్‌లు + 1 ఆటా)",
+      "category": "combos",
+      "price": 629,
+      "mrp": 803,
+      "rating": 5,
+      "reviewsCount": "4,110",
+      "image": "assets/brand_poster_logo.png",
+      "netWt": "3 KG Total",
+      "assured": true,
+      "highlights": [
+        "Includes 1x Ragi, 1x Jowar, 1x Pesara, 1x Korra (500g each)",
+        "Plus 1x Multi Grain Atta (1 KG)",
+        "Save 22% on MRP with Free Express Courier Shipping",
+        "Complete 30-Day Family Millet Nutrition Box",
+        "Direct from Factory Fresh Milling Batch"
+      ],
+      "specs": {
+        "Total Weight": "3 KG (4x 500g Packs + 1x 1kg Pack)",
+        "Combo Contains": "Ragi, Jowar, Pesara, Korra Dosa Mixes + Multi Grain Atta",
+        "Shelf Life": "6 to 9 Months",
+        "FSSAI License": "20126152000402",
+        "Shipping": "Free Priority Dispatch"
+      },
+      "stock": 35,
+      "inStock": true
+    },
+    {
+      "id": 7,
+      "name": "S.P.R. Supermarket Wholesale Carton (24 Packs)",
+      "teluguName": "సూపర్ మార్కెట్ & డిస్ట్రిబ్యూటర్ హోల్సేల్ కార్టన్",
+      "category": "b2b",
+      "price": 2490,
+      "mrp": 3120,
+      "rating": 4.9,
+      "reviewsCount": "540",
+      "image": "assets/brand_poster_logo.png",
+      "netWt": "15 KG",
+      "assured": true,
+      "highlights": [
+        "24 Assorted Packs (5x Ragi, 5x Jowar, 5x Pesara, 5x Korra, 4x Atta)",
+        "High Inventory Turnover for Kiranas & Supermarkets",
+        "Attractive Standing Pouch with Airtight Zip-Lock",
+        "Lucrative 20-25% Trade Retailer Margin",
+        "Dispatched within 24-48 Business Hours"
+      ],
+      "specs": {
+        "Unit Quantity": "24 Units Assorted",
+        "Outer Packaging": "5-Ply Heavy Duty Corrugated Carton",
+        "Wholesale Margin": "20% to 25% Margins Included",
+        "GST Billing": "Tax Invoice Provided with Delivery",
+        "Support Hotline": "Direct Factory B2B: 9492468817"
+      },
+      "stock": 18,
+      "inStock": true
+    }
+  ],
+  "customers": [
+    {
+      "name": "Venkata Ramanamurthy",
+      "phone": "9848022338",
+      "email": "v.ramana@gmail.com",
+      "city": "Guntur",
+      "ordersCount": 1,
+      "totalSpend": 629,
+      "lastOrder": "2026-11-04 09:30:15"
+    },
+    {
+      "name": "Ananya Sharma",
+      "phone": "9121158810",
+      "email": "ananya.sharma@outlook.com",
+      "city": "Hyderabad",
+      "ordersCount": 1,
+      "totalSpend": 377,
+      "lastOrder": "2026-11-04 11:15:40"
+    },
+    {
+      "name": "Sri Balaji Super Market (K. Srinivas)",
+      "phone": "9440123456",
+      "email": "balaji.supermarket@gmail.com",
+      "city": "Addanki / Bapatla",
+      "ordersCount": 1,
+      "totalSpend": 2490,
+      "lastOrder": "2026-11-04 14:02:18"
+    }
+  ],
+  "wholesale_accounts": [
+    {
+      "id": "WS-RET-101",
+      "name": "Sri Balaji Super Market",
+      "type": "Retailer",
+      "gstin": "37AAPFS9492K1Z9",
+      "contact": "K. Srinivas",
+      "phone": "9440123456",
+      "city": "Addanki, Bapatla",
+      "status": "Approved"
+    },
+    {
+      "id": "WS-DIST-202",
+      "name": "Krishna-Guntur Millet Distributors",
+      "type": "Regional Distributor",
+      "gstin": "37BCDEF1234H1Z5",
+      "contact": "M. Venkateswarlu",
+      "phone": "9848011223",
+      "city": "Guntur & Vijayawada",
+      "status": "Approved"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "REV-1",
+      "name": "Siva Prasad Rao",
+      "rating": 5,
+      "product": "S.P.R. Instant Ragi Dosa Mix",
+      "comment": "Outstanding authentic taste! In 15 minutes, crisp hot ragi dosa was ready. Excellent calcium source for my mother.",
+      "status": "Approved"
+    },
+    {
+      "id": "REV-2",
+      "name": "K. Annapurna",
+      "rating": 5,
+      "product": "S.P.R. 5-in-1 Complete Health Combo",
+      "comment": "The best purchase for our family. Every dosa mix has pure aroma without any chemicals. Delivered in 24 hours.",
+      "status": "Approved"
+    },
+    {
+      "id": "REV-3",
+      "name": "Ramesh Babu (Supermarket Owner)",
+      "rating": 5,
+      "product": "Wholesale Master Carton",
+      "comment": "Fast moving items in our retail shelves in Guntur. Margin is healthy and customers keep asking for repeat stock.",
+      "status": "Approved"
+    }
+  ],
+  "coupons": []
+}
