@@ -2244,11 +2244,17 @@ const voiceState = {
   isListening: false,
   isSpeaking: false,
   language: "te-IN",
+  gender: "female",
+  pitch: 1.12,
+  rate: 0.93,
+  volume: 1.0,
   recognition: null,
   currentTranscript: "",
   lastAnswer: "",
+  lastVoiceScript: "",
   synth: window.speechSynthesis || null,
-  currentUtterance: null
+  currentUtterance: null,
+  cachedFemaleVoice: null
 };
 
 // QR Scanner State
@@ -2905,23 +2911,152 @@ function processUniversalVoiceQuery(query) {
   speakVoiceAnswer(result.voiceScript || result.humanText);
 }
 
+
+// =========================================================================
+// SMOOTH & BEAUTIFUL FEMALE VOICE SPEECH ENGINE
+// Natural Cadence, Crystal Clear Pronunciation & Multilingual Support
+// =========================================================================
+
+function prepareSmoothFemaleSpeechText(text, lang) {
+  if (!text) return "";
+  let s = text;
+
+  // 1. Language-aware Currency & Units Expansion
+  const isTe = lang.startsWith("te");
+  const isHi = lang.startsWith("hi");
+
+  if (isTe) {
+    s = s.replace(/₹\s*(\d+)/g, "$1 రూపాయలు");
+    s = s.replace(/(\d+)\s*kg/gi, "$1 కిలోలు");
+    s = s.replace(/5-in-1/g, "ఐదు ఇన్ ఒకటి");
+  } else if (isHi) {
+    s = s.replace(/₹\s*(\d+)/g, "$1 रुपये");
+    s = s.replace(/(\d+)\s*kg/gi, "$1 किलो");
+    s = s.replace(/5-in-1/g, "पाँच इन एक");
+  } else {
+    s = s.replace(/₹\s*(\d+)/g, "$1 Rupees");
+    s = s.replace(/(\d+)\s*kg/gi, "$1 kilograms");
+    s = s.replace(/5-in-1/g, "5 in 1");
+  }
+
+  // 2. Remove emojis and symbols that speech synthesis might stutter on
+  s = s.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}]/gu, " ");
+
+  // 3. Clean markdown formatting
+  s = s.replace(/\[(.*?)\]\(.*?\)/g, "$1"); // markdown links
+  s = s.replace(/\*\*(.*?)\*\*/g, "$1");     // bold
+  s = s.replace(/\*(.*?)\*/g, "$1");         // italics
+  s = s.replace(/[*#•_~`|➔►]/g, " ");          // bullets & decorations
+  s = s.replace(/\s*-\s*/g, ", ");            // hyphens to natural pause
+  s = s.replace(/\n+/g, ". ");                 // line breaks to natural pause
+  s = s.replace(/\.{2,}/g, ".");              // double periods
+  s = s.replace(/\s{2,}/g, " ");               // excessive spaces
+
+  return s.trim();
+}
+
+function getBestFemaleVoice(targetLang) {
+  if (!window.speechSynthesis) return null;
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices || voices.length === 0) return null;
+
+  const langPrefix = targetLang.substring(0, 2).toLowerCase(); // 'te', 'hi', 'en'
+  const femaleKeywords = [
+    "female", "woman", "zira", "swara", "neerja", "aria", "jenny", "kalpana", 
+    "shruti", "heera", "sunita", "chitra", "samantha", "karen", "victoria", 
+    "veena", "lekha", "siri", "aditi", "anamika", "geeta", "vani", "priya"
+  ];
+  const maleKeywords = ["david", "mark", "george", "mohan", "ravi", "madhav", "hemant", "male", "guy", "stefan"];
+
+  // Priority 1: Exact language match that has a female keyword in its name
+  const exactLangVoices = voices.filter(v => v.lang.toLowerCase().startsWith(langPrefix));
+  for (const v of exactLangVoices) {
+    const nameLower = v.name.toLowerCase();
+    const isFemale = femaleKeywords.some(kw => nameLower.includes(kw));
+    const isMale = maleKeywords.some(kw => nameLower.includes(kw));
+    if (isFemale && !isMale) {
+      console.log(`[Female Voice Match: Exact Lang ${targetLang}]`, v.name);
+      return v;
+    }
+  }
+
+  // Priority 2: Any voice in the exact language that is not explicitly male
+  for (const v of exactLangVoices) {
+    const nameLower = v.name.toLowerCase();
+    if (!maleKeywords.some(kw => nameLower.includes(kw))) {
+      console.log(`[Female Voice Match: Natural Exact Lang]`, v.name);
+      return v;
+    }
+  }
+
+  // Priority 3: High-quality English/Indian female voice (e.g. Zira, Neerja, Aria, Jenny)
+  for (const v of voices) {
+    const nameLower = v.name.toLowerCase();
+    const isFemale = femaleKeywords.some(kw => nameLower.includes(kw));
+    const isMale = maleKeywords.some(kw => nameLower.includes(kw));
+    if (isFemale && !isMale) {
+      console.log(`[Female Voice Match: Premium Female Fallback]`, v.name);
+      return v;
+    }
+  }
+
+  // Priority 4: Any non-male voice
+  const nonMale = voices.find(v => !maleKeywords.some(kw => v.name.toLowerCase().includes(kw)));
+  return nonMale || voices[0];
+}
+
+// Pre-warm voices on page load
+if (typeof window !== "undefined" && window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = () => {
+    voiceState.cachedFemaleVoice = getBestFemaleVoice(voiceState.language);
+  };
+}
+
+function testFemaleVoiceSample() {
+  const isTe = voiceState.language.startsWith("te");
+  const isHi = voiceState.language.startsWith("hi");
+  
+  let sampleGreeting = "";
+  if (isTe) {
+    sampleGreeting = "నమస్కారం అండి! నేను S.P.R. సిరిధాన్య వాయిస్ అసిస్టెంట్‌ని. మా సహజమైన మిల్లెట్ ఉత్పత్తులు మరియు ఆర్డర్ల వివరాలు స్పష్టంగా తెలుసుకోవడానికి నన్ను ఏదైనా అడగవచ్చు!";
+  } else if (isHi) {
+    sampleGreeting = "नमस्ते! मैं S.P.R. सिरी धान्या वॉयस असिस्टेंट हूँ। हमारे शुद्ध बाजरा उत्पादों और ऑर्डर की जानकारी के लिए आप मुझसे कुछ भी पूछ सकते हैं!";
+  } else {
+    sampleGreeting = "Hello! I am your S.P.R. Siri Dhanya customer voice assistant. I am speaking in a smooth, clear female voice to assist you with all our traditional millet products and orders!";
+  }
+
+  speakVoiceAnswer(sampleGreeting);
+}
+
 function speakVoiceAnswer(text) {
   if (!window.speechSynthesis) return;
 
   window.speechSynthesis.cancel();
 
-  const cleanText = text.replace(/[*#•_-]/g, ' ').replace(/\n+/g, '. ');
+  const cleanText = prepareSmoothFemaleSpeechText(text, voiceState.language);
   const utterance = new SpeechSynthesisUtterance(cleanText);
 
+  // Set selected language
   utterance.lang = voiceState.language;
-  utterance.rate = 0.95;
-  utterance.pitch = 1.0;
+
+  // Select the smoothest, high-quality female voice
+  const femaleVoice = getBestFemaleVoice(voiceState.language);
+  if (femaleVoice) {
+    utterance.voice = femaleVoice;
+    voiceState.cachedFemaleVoice = femaleVoice;
+  }
+
+  // Modulation for smooth, beautiful, feminine cadence and crystal-clear clarity
+  utterance.pitch = voiceState.pitch || 1.12;  // Warm feminine pitch
+  utterance.rate = voiceState.rate || 0.93;    // Calm, clear articulation
+  utterance.volume = voiceState.volume || 1.0; // Full crisp audio
 
   utterance.onstart = function() {
     voiceState.isSpeaking = true;
     document.querySelector(".voice-visualizer-container")?.classList.add("active-listening");
     const st = document.getElementById("voiceStatusPill");
-    if (st) st.textContent = "🔊 Speaking answer...";
+    const voiceName = femaleVoice ? femaleVoice.name.split(" ")[1] || femaleVoice.name : "Assistant";
+    if (st) st.textContent = `🔊 Speaking in smooth female voice (${voiceName})...`;
   };
 
   utterance.onend = function() {
@@ -2931,7 +3066,8 @@ function speakVoiceAnswer(text) {
     if (st) st.textContent = "Ready. Tap microphone to ask another question.";
   };
 
-  utterance.onerror = function() {
+  utterance.onerror = function(err) {
+    console.warn("Speech synthesis notice:", err);
     voiceState.isSpeaking = false;
     document.querySelector(".voice-visualizer-container")?.classList.remove("active-listening");
     const st = document.getElementById("voiceStatusPill");
