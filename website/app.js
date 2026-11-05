@@ -4304,3 +4304,625 @@ document.addEventListener("DOMContentLoaded", function() {
   if (typeof initExtraDatabases === "function") initExtraDatabases();
   if (typeof renderMyOrders === "function") renderMyOrders();
 });
+
+
+// =========================================================================
+// === S.P.R. SIRI DHANYA: COMPLETE QR CODE HUB (GENERATOR & SCANNER) ======
+// =========================================================================
+
+const qrHubState = {
+  activeTab: "generator",
+  targetUrl: "https://sprsiridhanya.com",
+  campaignName: "Official Website Main Storefront",
+  size: 512,
+  brandStyle: "branded", // "branded" or "clean"
+  facingMode: "environment", // Mobile back camera by default
+  videoStream: null,
+  isScanning: false,
+  lastScannedResult: null
+};
+
+// Open the QR Code Hub Modal
+function openQrHubModal(initialTab = "generator") {
+  const modal = document.getElementById("qrHubModal");
+  if (!modal) return;
+
+  modal.classList.add("active");
+  switchQrHubTab(initialTab);
+}
+
+// Close the QR Code Hub Modal
+function closeQrHubModal() {
+  stopQrHubCamera();
+  document.getElementById("qrHubModal")?.classList.remove("active");
+}
+
+// Backwards-compatible aliases
+function openQrScannerModal() {
+  openQrHubModal("scanner");
+}
+function closeQrScannerModal() {
+  closeQrHubModal();
+}
+
+// Switch between Generator and Scanner tabs
+function switchQrHubTab(tab) {
+  qrHubState.activeTab = tab;
+
+  const btnGen = document.getElementById("qrHubTabBtnGenerator");
+  const btnScan = document.getElementById("qrHubTabBtnScanner");
+  const contGen = document.getElementById("qrHubTabGeneratorContent");
+  const contScan = document.getElementById("qrHubTabScannerContent");
+
+  if (tab === "generator") {
+    btnGen?.classList.add("active");
+    btnScan?.classList.remove("active");
+    if (contGen) contGen.style.display = "block";
+    if (contScan) contScan.style.display = "none";
+    stopQrHubCamera();
+    generateQrHubCode();
+  } else {
+    btnScan?.classList.add("active");
+    btnGen?.classList.remove("active");
+    if (contScan) contScan.style.display = "block";
+    if (contGen) contGen.style.display = "none";
+    const detectCard = document.getElementById("qrHubDetectCard");
+    if (detectCard) detectCard.style.display = "none";
+    startQrHubCamera();
+  }
+}
+
+// Handle Preset Selection Change
+function handleQrHubPresetChange() {
+  const sel = document.getElementById("qrHubTargetSelect");
+  if (!sel) return;
+
+  const val = sel.value;
+  const opt = sel.options[sel.selectedIndex];
+  const customGroup = document.getElementById("qrHubCustomUrlGroup");
+
+  if (val === "custom") {
+    if (customGroup) customGroup.style.display = "block";
+    qrHubState.targetUrl = document.getElementById("qrHubCustomUrlInput")?.value.trim() || "https://sprsiridhanya.com";
+    qrHubState.campaignName = "Custom URL / Promotion";
+  } else {
+    if (customGroup) customGroup.style.display = "none";
+    qrHubState.targetUrl = val;
+    qrHubState.campaignName = opt.getAttribute("data-campaign") || "Website Page";
+  }
+
+  generateQrHubCode();
+}
+
+// Handle Custom URL text input
+function handleQrHubCustomInput() {
+  const input = document.getElementById("qrHubCustomUrlInput");
+  if (!input) return;
+  qrHubState.targetUrl = input.value.trim() || "https://sprsiridhanya.com";
+  generateQrHubCode();
+}
+
+// Handle Brand Style change
+function handleQrHubStyleChange(style) {
+  qrHubState.brandStyle = style;
+  generateQrHubCode();
+}
+
+// Set Output Size
+function setQrHubSize(size) {
+  qrHubState.size = size;
+  document.querySelectorAll(".qr-hub-size-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById(`qrHubSize${size}`)?.classList.add("active");
+  generateQrHubCode();
+}
+
+// Generate the Website QR Code on Canvas
+function generateQrHubCode() {
+  const canvas = document.getElementById("qrHubCanvas");
+  if (!canvas) return;
+
+  const targetUrl = qrHubState.targetUrl || "https://sprsiridhanya.com";
+  const branding = qrHubState.brandStyle;
+  const infoText = document.getElementById("qrHubInfoText");
+  if (infoText) {
+    infoText.textContent = `Target: ${targetUrl} (${qrHubState.size}×${qrHubState.size}px • ${branding === "branded" ? "Official Branded" : "Clean Pure QR"})`;
+  }
+
+  // Set display canvas dimensions
+  const displayW = 320;
+  const displayH = branding === "branded" ? 390 : 320;
+  canvas.width = displayW;
+  canvas.height = displayH;
+
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const qrBoxSize = branding === "branded" ? 230 : 290;
+
+  if (window.QRCode) {
+    const tempDiv = document.createElement("div");
+    new window.QRCode(tempDiv, {
+      text: targetUrl,
+      width: qrBoxSize,
+      height: qrBoxSize,
+      colorDark: branding === "branded" ? "#1b5e20" : "#000000",
+      colorLight: "#ffffff",
+      correctLevel: window.QRCode.CorrectLevel.H
+    });
+
+    setTimeout(() => {
+      const generatedImg = tempDiv.querySelector("canvas") || tempDiv.querySelector("img");
+      if (!generatedImg) return;
+
+      // Draw Background
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, displayW, displayH);
+
+      if (branding === "branded") {
+        // Outer Green Border
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "#1b5e20";
+        ctx.strokeRect(2, 2, displayW - 4, displayH - 4);
+
+        // Inner Gold Accent Line
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = "#fbc02d";
+        ctx.strokeRect(6, 6, displayW - 12, displayH - 12);
+
+        // Header Title
+        ctx.fillStyle = "#1b5e20";
+        ctx.font = "bold 15px 'Segoe UI', Arial, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("S.P.R. SIRI DHANYA", displayW / 2, 28);
+
+        // Telugu Subtitle
+        ctx.fillStyle = "#555555";
+        ctx.font = "11px 'Segoe UI', Arial, sans-serif";
+        ctx.fillText("సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం", displayW / 2, 44);
+
+        // Center QR Code
+        const qrLeft = (displayW - qrBoxSize) / 2;
+        ctx.drawImage(generatedImg, qrLeft, 56, qrBoxSize, qrBoxSize);
+
+        // Bottom CTA Banner
+        ctx.fillStyle = "#1b5e20";
+        ctx.fillRect(14, displayH - 42, displayW - 28, 28);
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 11px 'Segoe UI', Arial, sans-serif";
+        ctx.fillText("SCAN TO VISIT WEBSITE", displayW / 2, displayH - 24);
+      } else {
+        // Clean Pure QR
+        const qrLeft = (displayW - qrBoxSize) / 2;
+        const qrTop = (displayH - qrBoxSize) / 2;
+        ctx.drawImage(generatedImg, qrLeft, qrTop, qrBoxSize, qrBoxSize);
+      }
+    }, 80);
+  }
+}
+
+// Download QR Code as PNG, SVG, or PDF
+function downloadQrHubCode(format) {
+  const targetUrl = qrHubState.targetUrl || "https://sprsiridhanya.com";
+  const branding = qrHubState.brandStyle;
+  const fullSize = qrHubState.size || 512;
+  const fileName = `SPR_Siri_Dhanya_${qrHubState.campaignName.replace(/[^a-zA-Z0-9]/g, '_')}`;
+
+  // 1. PNG DOWNLOAD
+  if (format === "png") {
+    // Generate high-resolution offscreen canvas
+    const offCanvas = document.createElement("canvas");
+    const h = branding === "branded" ? Math.floor(fullSize * 1.22) : fullSize;
+    offCanvas.width = fullSize;
+    offCanvas.height = h;
+    const ctx = offCanvas.getContext("2d");
+
+    const qrBoxSize = branding === "branded" ? Math.floor(fullSize * 0.74) : Math.floor(fullSize * 0.92);
+
+    const tempDiv = document.createElement("div");
+    new window.QRCode(tempDiv, {
+      text: targetUrl,
+      width: qrBoxSize,
+      height: qrBoxSize,
+      colorDark: branding === "branded" ? "#1b5e20" : "#000000",
+      colorLight: "#ffffff",
+      correctLevel: window.QRCode.CorrectLevel.H
+    });
+
+    setTimeout(() => {
+      const img = tempDiv.querySelector("canvas") || tempDiv.querySelector("img");
+      if (!img) return;
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, fullSize, h);
+
+      if (branding === "branded") {
+        ctx.lineWidth = Math.max(4, Math.floor(fullSize * 0.015));
+        ctx.strokeStyle = "#1b5e20";
+        ctx.strokeRect(ctx.lineWidth / 2, ctx.lineWidth / 2, fullSize - ctx.lineWidth, h - ctx.lineWidth);
+
+        ctx.lineWidth = Math.max(2, Math.floor(fullSize * 0.006));
+        ctx.strokeStyle = "#fbc02d";
+        ctx.strokeRect(fullSize * 0.02, fullSize * 0.02, fullSize * 0.96, h - fullSize * 0.04);
+
+        ctx.fillStyle = "#1b5e20";
+        ctx.font = `bold ${Math.floor(fullSize * 0.05)}px sans-serif`;
+        ctx.textAlign = "center";
+        ctx.fillText("S.P.R. SIRI DHANYA", fullSize / 2, fullSize * 0.08);
+
+        ctx.fillStyle = "#555";
+        ctx.font = `${Math.floor(fullSize * 0.026)}px sans-serif`;
+        ctx.fillText("సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం", fullSize / 2, fullSize * 0.118);
+
+        const qrLeft = (fullSize - qrBoxSize) / 2;
+        ctx.drawImage(img, qrLeft, fullSize * 0.15, qrBoxSize, qrBoxSize);
+
+        ctx.fillStyle = "#1b5e20";
+        ctx.fillRect(fullSize * 0.05, h - fullSize * 0.13, fullSize * 0.9, fullSize * 0.085);
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = `bold ${Math.floor(fullSize * 0.034)}px sans-serif`;
+        ctx.fillText("SCAN TO VISIT OUR WEBSITE", fullSize / 2, h - fullSize * 0.075);
+      } else {
+        const qrLeft = (fullSize - qrBoxSize) / 2;
+        const qrTop = (h - qrBoxSize) / 2;
+        ctx.drawImage(img, qrLeft, qrTop, qrBoxSize, qrBoxSize);
+      }
+
+      const link = document.createElement("a");
+      link.download = `${fileName}_${fullSize}px.png`;
+      link.href = offCanvas.toDataURL("image/png");
+      link.click();
+      showToast(`Downloaded ${fullSize}×${h}px PNG QR Code!`);
+    }, 100);
+  }
+
+  // 2. SVG VECTOR DOWNLOAD
+  else if (format === "svg") {
+    const canvas = document.getElementById("qrHubCanvas");
+    const dataUrl = canvas.toDataURL("image/png");
+    const svgW = canvas.width;
+    const svgH = canvas.height;
+
+    const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}">
+  <title>S.P.R. Siri Dhanya - Official QR Code</title>
+  <desc>Destination URL: ${targetUrl}</desc>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <image href="${dataUrl}" width="${svgW}" height="${svgH}"/>
+</svg>`;
+
+    const blob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8" });
+    const link = document.createElement("a");
+    link.download = `${fileName}.svg`;
+    link.href = URL.createObjectURL(blob);
+    link.click();
+    showToast("Downloaded official SVG vector QR Code!");
+  }
+
+  // 3. PDF PRINTABLE FLYER DOWNLOAD
+  else if (format === "pdf") {
+    const canvas = document.getElementById("qrHubCanvas");
+    const dataUrl = canvas.toDataURL("image/png");
+
+    const printWin = window.open("", "_blank");
+    if (!printWin) {
+      alert("Please allow popups to open the printable PDF document.");
+      return;
+    }
+
+    printWin.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>S.P.R. Siri Dhanya Official QR Code Flyer</title>
+          <style>
+            @page { size: A4 portrait; margin: 15mm; }
+            body {
+              font-family: 'Segoe UI', Arial, sans-serif;
+              color: #212121;
+              text-align: center;
+              margin: 0;
+              padding: 20px;
+              background: #fff;
+            }
+            .flyer-border {
+              border: 3px solid #1b5e20;
+              border-radius: 12px;
+              padding: 28px;
+              max-width: 650px;
+              margin: 0 auto;
+              box-sizing: border-box;
+            }
+            .brand-badge {
+              display: inline-block;
+              background: #e8f5e9;
+              color: #1b5e20;
+              padding: 4px 14px;
+              border-radius: 20px;
+              font-size: 13px;
+              font-weight: 700;
+              margin-bottom: 8px;
+            }
+            h1 {
+              color: #1b5e20;
+              margin: 0 0 6px 0;
+              font-size: 28px;
+              letter-spacing: 0.5px;
+            }
+            .tagline {
+              font-size: 15px;
+              color: #444;
+              font-weight: 600;
+              margin: 0 0 16px 0;
+            }
+            .qr-container {
+              background: #ffffff;
+              display: inline-block;
+              padding: 16px;
+              border: 2px dashed #81c784;
+              border-radius: 10px;
+              margin: 10px auto;
+            }
+            .qr-container img {
+              width: 260px;
+              height: auto;
+              display: block;
+            }
+            .scan-callout {
+              background: #1b5e20;
+              color: #ffffff;
+              font-weight: 700;
+              font-size: 14px;
+              padding: 8px 24px;
+              border-radius: 6px;
+              display: inline-block;
+              margin-top: 14px;
+            }
+            .target-url {
+              font-family: monospace;
+              color: #1565c0;
+              font-size: 14px;
+              font-weight: 700;
+              margin: 12px 0 20px 0;
+            }
+            .products-list {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 8px;
+              text-align: left;
+              background: #f8fafc;
+              border: 1px solid #e2e8f0;
+              border-radius: 8px;
+              padding: 14px 18px;
+              font-size: 13px;
+              margin-top: 16px;
+            }
+            .footer-compliance {
+              border-top: 1px solid #e0e0e0;
+              padding-top: 14px;
+              margin-top: 20px;
+              font-size: 12px;
+              color: #555;
+              line-height: 1.5;
+            }
+            @media print {
+              body { padding: 0; }
+              .no-print { display: none; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="flyer-border">
+            <div class="brand-badge">🌾 100% PURE MILLET STAPLES • FSSAI CERTIFIED</div>
+            <h1>S.P.R. SIRI DHANYA</h1>
+            <p class="tagline">సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం • ప్రతి గింజలో ఆరోగ్యం</p>
+
+            <div class="qr-container">
+              <img src="${dataUrl}" alt="S.P.R. Siri Dhanya Official QR Code" />
+            </div>
+
+            <div>
+              <div class="scan-callout">📱 SCAN WITH ANY SMARTPHONE CAMERA TO ORDER</div>
+            </div>
+            <div class="target-url">🌐 ${targetUrl}</div>
+
+            <div class="products-list">
+              <div>• <strong>Instant Ragi Dosa Mix</strong> (500g) — ₹119</div>
+              <div>• <strong>Instant Jowar Dosa Mix</strong> (500g) — ₹119</div>
+              <div>• <strong>Instant Pesara Dosa Mix</strong> (500g) — ₹129</div>
+              <div>• <strong>Instant Korra Dosa Mix</strong> (500g) — ₹129</div>
+              <div>• <strong>Multi Grain Atta</strong> (1 KG) — ₹150</div>
+              <div>• <strong>5-in-1 Complete Health Combo</strong> — ₹629</div>
+            </div>
+
+            <div class="footer-compliance">
+              🛡️ <strong>FSSAI Central/State License:</strong> 20126152000402<br>
+              🏭 <strong>Manufacturing Facility:</strong> Kamepalli, Santamaguluru Mandal, Bapatla District, A.P. - 523326<br>
+              📞 <strong>WhatsApp & Order Inquiries:</strong> +91 94413 93817 / 9492468817
+            </div>
+          </div>
+          <script>
+            window.onload = function() {
+              window.print();
+            };
+          </script>
+        </body>
+      </html>
+    `);
+    printWin.document.close();
+    showToast("Opened official PDF Flyer for printing / Save as PDF!");
+  }
+}
+
+// Copy destination URL to clipboard
+function copyQrHubUrl() {
+  const url = qrHubState.targetUrl || "https://sprsiridhanya.com";
+  navigator.clipboard.writeText(url).then(() => {
+    showToast("Copied destination URL to clipboard!");
+  }).catch(() => {
+    prompt("Destination URL:", url);
+  });
+}
+
+// Copy detected scanned URL
+function copyDetectedQrHubUrl() {
+  const url = qrHubState.lastScannedResult || "";
+  if (!url) return;
+  navigator.clipboard.writeText(url).then(() => {
+    showToast("Copied scanned URL to clipboard!");
+  });
+}
+
+// Open detected destination page
+function handleQrHubOpenDestination() {
+  const url = qrHubState.lastScannedResult;
+  if (!url) return;
+  closeQrHubModal();
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    window.open(url, "_blank");
+  } else {
+    alert("Decoded QR Content: " + url);
+  }
+}
+
+// --- Mobile Camera QR Scanner Engine ---
+function startQrHubCamera() {
+  const video = document.getElementById("qrHubScannerVideo");
+  const statusTag = document.getElementById("qrHubScannerStatus");
+  if (!video) return;
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    if (statusTag) statusTag.textContent = "Camera API not supported in browser. Please upload an image file.";
+    return;
+  }
+
+  if (statusTag) statusTag.textContent = "Requesting mobile camera access...";
+
+  const facing = qrHubState.facingMode || "environment";
+  const constraints = {
+    video: {
+      facingMode: { ideal: facing },
+      width: { ideal: 1280 },
+      height: { ideal: 720 }
+    }
+  };
+
+  navigator.mediaDevices.getUserMedia(constraints)
+    .then(stream => {
+      qrHubState.videoStream = stream;
+      qrHubState.isScanning = true;
+      video.srcObject = stream;
+      video.setAttribute("playsinline", true);
+      video.play();
+      if (statusTag) statusTag.textContent = `Scanning with ${facing === "environment" ? "Back Camera" : "Front Camera"}... Point at QR Code`;
+      requestAnimationFrame(scanQrHubTick);
+    })
+    .catch(err => {
+      console.warn("Mobile camera error:", err);
+      // Fallback try without ideal facingMode
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(fallbackStream => {
+          qrHubState.videoStream = fallbackStream;
+          qrHubState.isScanning = true;
+          video.srcObject = fallbackStream;
+          video.setAttribute("playsinline", true);
+          video.play();
+          if (statusTag) statusTag.textContent = "Point camera at QR Code...";
+          requestAnimationFrame(scanQrHubTick);
+        })
+        .catch(finalErr => {
+          if (statusTag) statusTag.textContent = "Camera unavailable. Tap 'Upload Image' to scan from gallery.";
+        });
+    });
+}
+
+function stopQrHubCamera() {
+  qrHubState.isScanning = false;
+  if (qrHubState.videoStream) {
+    qrHubState.videoStream.getTracks().forEach(track => track.stop());
+    qrHubState.videoStream = null;
+  }
+}
+
+// Flip Camera between Rear and Front
+function flipQrCamera() {
+  qrHubState.facingMode = (qrHubState.facingMode === "environment") ? "user" : "environment";
+  stopQrHubCamera();
+  setTimeout(() => startQrHubCamera(), 150);
+}
+
+// Real-time camera tick with jsQR
+function scanQrHubTick() {
+  if (!qrHubState.isScanning) return;
+  const video = document.getElementById("qrHubScannerVideo");
+  const canvas = document.getElementById("qrHubScannerCanvas");
+  if (!video || !canvas) return;
+
+  if (video.readyState === video.HAVE_ENOUGH_DATA) {
+    canvas.height = video.videoHeight;
+    canvas.width = video.videoWidth;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    if (window.jsQR) {
+      const code = window.jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: "dontInvert"
+      });
+      if (code && code.data) {
+        onQrHubCodeDetected(code.data);
+        return;
+      }
+    }
+  }
+  requestAnimationFrame(scanQrHubTick);
+}
+
+// Decoded QR Code Result Handler
+function onQrHubCodeDetected(decodedUrl) {
+  stopQrHubCamera();
+  qrHubState.lastScannedResult = decodedUrl;
+
+  const card = document.getElementById("qrHubDetectCard");
+  const urlEl = document.getElementById("qrHubDetectUrl");
+  const statusTag = document.getElementById("qrHubScannerStatus");
+
+  if (statusTag) statusTag.textContent = "✅ QR Code successfully decoded!";
+  if (card) card.style.display = "block";
+  if (urlEl) urlEl.textContent = decodedUrl;
+
+  showToast("QR Code successfully scanned!");
+}
+
+// Upload QR Image from Mobile Gallery or File
+function handleQrHubFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.getElementById("qrHubScannerCanvas");
+      if (!canvas) return;
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      if (window.jsQR) {
+        const code = window.jsQR(imageData.data, imageData.width, imageData.height);
+        if (code && code.data) {
+          onQrHubCodeDetected(code.data);
+        } else {
+          alert("No QR Code detected in uploaded image. Please ensure the QR is clear and well-lit.");
+        }
+      }
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
