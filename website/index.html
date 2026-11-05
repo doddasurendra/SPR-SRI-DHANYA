@@ -109,7 +109,7 @@
 
 
   <!-- Top Flipkart-style Announcement / Sub-bar -->
-  <div class="top-announcement">
+  <div class="top-announcement" style="z-index: 101; position: relative;">
     <div class="container announcement-inner">
       <span class="announcement-left">🎉 <strong>Special Launch Offer:</strong> Flat 20% Off Instant Dosa Mixes! Free Delivery > ₹299</span>
       <div class="top-contacts">
@@ -126,10 +126,15 @@
         <span>☰</span>
       </button>
       <!-- Logo -->
-      <a href="#" class="fk-logo" onclick="resetFilters()">
+      <a href="#" class="fk-logo" onclick="resetFilters()" title="S.P.R. Siri Dhanya - 100% Traditional Positive Millets">
+        <img src="assets/brand_logo_clean.png" alt="S.P.R. Siri Dhanya Logo" class="brand-header-logo-img">
         <div class="brand-text">
-          <span class="logo-main">SPR Siri Dhanya</span>
-          <span class="logo-sub">Explore <span class="plus-text">Health</span> <span class="plus-icon">🌿</span></span>
+          <div class="logo-main-title">S.P.R. SIRI DHANYA</div>
+          <div class="logo-sub-tag">
+            <span class="telugu-motto">సంప్రదాయ సిరిధాన్యాలు</span>
+            <span class="sub-separator">•</span>
+            <span class="english-motto">100% Positive Millets</span>
+          </div>
         </div>
       </a>
 
@@ -146,64 +151,10 @@
 
       <!-- Header Action Items -->
       <div class="fk-header-actions">
-        <!-- Website QR Code (Generator & Mobile Scanner) -->
-        <button class="fk-nav-btn qr-hub-btn" onclick="openQrHubModal('generator')" title="Website QR Code Generator & Mobile Camera Scanner">
-          <span class="nav-icon">📱</span> QR Code
-        </button>
-
-        <!-- Official PDF Catalogue Button -->
-        <button class="fk-nav-btn pdf-nav-btn" onclick="openPdfCatalogueModal()" title="Download Official 8-Page PDF Catalogue">
-          <span class="nav-icon">📄</span> PDF Catalogue
-        </button>
-
-        <!-- Universal Voice AI Agent -->
-        <button class="fk-nav-btn voice-nav-btn" onclick="toggleVoiceAgent()" title="Talk to Siri Dhanya Voice AI Agent">
-          <span class="nav-icon">🎙️</span> Voice AI
-        </button>
-
-        <!-- My Orders Button -->
-        <button class="fk-nav-btn my-orders-btn" onclick="openMyOrdersModal()">
-          <span class="nav-icon">📦</span> My Orders <span class="orders-badge" id="myOrdersBadge">0</span>
-        </button>
-
-        <!-- Admin Portal Access (Password Protected) -->
-        <button class="fk-admin-badge-btn" onclick="openAdminModalAuth()">
-          👑 Admin Portal
-        </button>
-
-        <!-- Wholesale & B2B Portal Button -->
-        <button class="fk-nav-btn wholesale-nav-btn" onclick="openWholesalePortalModal()" title="Wholesale & B2B Supermarket Portal">
-          <span class="nav-icon">🤝</span> Wholesale Portal
-        </button>
-
-        <!-- Legal & Policies Button -->
-        <button class="fk-nav-btn policy-nav-btn" onclick="openPolicyModal('privacy')" title="Official Business Policies & Compliance">
-          <span class="nav-icon">📜</span> Policies
-        </button>
-
-        <!-- More Dropdown -->
-        <div class="fk-dropdown">
-          <span class="fk-nav-link dropdown-trigger">
-            More 
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-          </span>
-          <div class="dropdown-menu">
-            <a href="javascript:void(0)" onclick="openMyOrdersModal()"><span class="menu-icon">📦</span> Track Customer Orders</a>
-            <a href="javascript:void(0)" onclick="openAdminModalAuth()"><span class="menu-icon">👑</span> Admin Portal (Login)</a>
-            <a href="javascript:void(0)" onclick="openPdfCatalogueModal()"><span class="menu-icon">📄</span> Official 8-Page PDF Catalogues</a>
-            <a href="javascript:void(0)" onclick="openQrHubModal('generator')"><span class="menu-icon">📱</span> Website QR Code & Scanner</a>
-            <a href="javascript:void(0)" onclick="toggleVoiceAgent()"><span class="menu-icon">🎙️</span> Universal Voice Assistant</a>
-            <a href="javascript:void(0)" onclick="openContactModal()"><span class="menu-icon">📞</span> 24x7 Customer Care (+91 94413 93817 / 9492468817)</a>
-            <a href="../SPR_Siri_Dhanya_Catalogue_Telugu.pdf" target="_blank"><span class="menu-icon">📥</span> Download Telugu Catalogue PDF</a>
-            <a href="../SPR_Siri_Dhanya_Catalogue_English.pdf" target="_blank"><span class="menu-icon">📥</span> Download English Catalogue PDF</a>
-            <a href="javascript:void(0)" onclick="openFssaiModal()"><span class="menu-icon">🛡️</span> FSSAI Certified: 20126152000402</a>
-          </div>
-        </div>
-
-        <!-- Cart Button -->
-        <div class="fk-cart-btn" onclick="openCartDrawer()">
+        <!-- 1. HIGH-PRIORITY SHOPPING CART (ALWAYS VISIBLE & PROMINENT) -->
+        <div class="fk-cart-btn" onclick="openCartDrawer()" title="View Shopping Cart">
           <div class="cart-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="9" cy="21" r="1"></circle>
               <circle cx="20" cy="21" r="1"></circle>
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
@@ -211,6 +162,41 @@
             <span class="cart-badge" id="cartBadge">0</span>
           </div>
           <span class="cart-text">Cart</span>
+        </div>
+
+        <!-- 2. Admin Operations Portal -->
+        <button class="fk-admin-badge-btn" onclick="openAdminModalAuth()" title="Executive Management Console">
+          👑 Admin Portal
+        </button>
+
+        <!-- 3. Customer Orders Tracking -->
+        <button class="fk-nav-btn my-orders-btn" onclick="openMyOrdersModal()" title="Track Your Orders">
+          <span class="nav-icon">📦</span> My Orders <span class="orders-badge" id="myOrdersBadge">0</span>
+        </button>
+
+        <!-- 4. High-Res QR Code Studio -->
+        <button class="fk-nav-btn qr-hub-btn" onclick="openQrHubModal('generator')" title="Official High-Resolution QR Studio">
+          <span class="nav-icon">📱</span> QR Code
+        </button>
+
+        <!-- 5. Universal Voice AI Assistant -->
+        <button class="fk-nav-btn voice-nav-btn" onclick="toggleVoiceAgent()" title="Voice AI Assistant">
+          <span class="nav-icon">🎙️</span> Voice AI
+        </button>
+
+        <!-- 6. More Business Hub Dropdown (Wholesale, Catalogues, Policies, Helpline) -->
+        <div class="fk-dropdown">
+          <span class="fk-nav-link dropdown-trigger">
+            More 
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </span>
+          <div class="dropdown-menu">
+            <a href="javascript:void(0)" onclick="openWholesalePortalModal()"><span class="menu-icon">🤝</span> Wholesale & Supermarket B2B Portal</a>
+            <a href="javascript:void(0)" onclick="openPdfCatalogueModal()"><span class="menu-icon">📄</span> Official 8-Page PDF Catalogues</a>
+            <a href="javascript:void(0)" onclick="openPolicyModal('privacy')"><span class="menu-icon">📜</span> Business Policies & FSSAI Details</a>
+            <a href="javascript:void(0)" onclick="openContactModal()"><span class="menu-icon">📞</span> 24x7 Customer Care (+91 94413 93817 / 9492468817)</a>
+            <a href="javascript:void(0)" onclick="openFssaiModal()"><span class="menu-icon">🛡️</span> FSSAI Certified: 20126152000402</a>
+          </div>
         </div>
       </div>
     </div>
@@ -1135,27 +1121,31 @@
   </div>
 
   <!-- Complete Admin Order Management System Modal (Sections 1, 2, 3, 4, 5, 7, 8) -->
-  <div class="modal-overlay" id="adminModal">
-    <div class="modal-card admin-modal-card">
+  <div class="modal-overlay full-page-modal" id="adminModal">
+    <div class="modal-card admin-modal-card full-page-card">
       <button class="modal-close" onclick="closeModal('adminModal')">✕</button>
       
       <!-- Admin Top Bar -->
       <div class="admin-top-bar">
         <div class="admin-branding">
+          <img src="assets/brand_logo_clean.png" alt="S.P.R. Siri Dhanya Logo" class="admin-header-logo-img">
           <span class="admin-crown">👑</span>
           <div>
-            <h3>S.P.R. SIRI DHANYA — ADMIN MANAGEMENT PORTAL</h3>
-            <span class="admin-sub">Orders • QR Code Generator • Universal Business Knowledge Base • Live Database Sync</span>
+            <h3>S.P.R. SIRI DHANYA — OPERATIONS & ORDER COMMAND</h3>
+            <span class="admin-sub">Live E-commerce Orders • Stock Management • B2B Wholesale • Universal AI Knowledge Base</span>
           </div>
         </div>
         <div class="admin-top-actions">
-          <span class="live-status-pill">🟢 Verified Admin</span>
-          <button class="btn btn-secondary btn-sm" onclick="exportOrdersCSV()">📥 Export CSV</button>
-          <button class="btn btn-primary btn-sm" onclick="refreshAdminData()">🔄 Refresh Data</button>
+          <span class="live-status-pill">🟢 Live Storefront Online</span>
+          <span class="admin-clock-pill" id="adminClockPill">Live IST</span>
+          <button class="btn btn-warning-gold btn-sm" onclick="openAddProductModal()">➕ Add Product</button>
+          <button class="btn btn-secondary btn-sm" onclick="exportOrdersCSV()">📥 Export Orders CSV</button>
+          <button class="btn btn-secondary btn-sm" onclick="downloadSalesReport()">📊 Sales Report</button>
+          <button class="btn btn-primary btn-sm" onclick="refreshAdminData()">🔄 Live Sync</button>
+          <button class="btn btn-success-outline btn-sm" onclick="closeModal('adminModal')">🏪 View Storefront</button>
           <button class="btn btn-danger-outline btn-sm" onclick="adminLogout()">🚪 Logout</button>
         </div>
       </div>
-
       <!-- Admin Command Center 14-Module Navigation Bar -->
       <div class="admin-tabs-nav admin-tabs-scrollable" style="overflow-x: auto; white-space: nowrap; padding-bottom: 6px;">
         <button class="admin-tab-btn active" id="tabBtnDashboard" onclick="switchAdminTab('dashboard')">📊 Dashboard</button>
@@ -1222,6 +1212,20 @@
           <div class="kpi-val" id="kpiTotalSales">₹0</div>
           <div class="kpi-label">Total Revenue</div>
         </div>
+      </div>
+
+      <!-- Interactive Status Filter Buttons Strip -->
+      <div class="admin-order-filter-bar">
+        <span class="filter-bar-label">⚡ Filter Orders:</span>
+        <button type="button" class="order-filter-pill active" onclick="filterAdminOrdersByStatus('all', this)">All Orders (<span id="pillCountAll">0</span>)</button>
+        <button type="button" class="order-filter-pill" onclick="filterAdminOrdersByStatus('Order Placed', this)">🆕 Placed (<span id="pillCountPlaced">0</span>)</button>
+        <button type="button" class="order-filter-pill" onclick="filterAdminOrdersByStatus('Confirmed', this)">✅ Confirmed (<span id="pillCountConfirmed">0</span>)</button>
+        <button type="button" class="order-filter-pill" onclick="filterAdminOrdersByStatus('Processing', this)">🔄 Processing (<span id="pillCountProcessing">0</span>)</button>
+        <button type="button" class="order-filter-pill" onclick="filterAdminOrdersByStatus('Packed', this)">📦 Packed (<span id="pillCountPacked">0</span>)</button>
+        <button type="button" class="order-filter-pill" onclick="filterAdminOrdersByStatus('Shipped', this)">🚚 Shipped (<span id="pillCountShipped">0</span>)</button>
+        <button type="button" class="order-filter-pill" onclick="filterAdminOrdersByStatus('Out for Delivery', this)">🚴 Out for Delivery (<span id="pillCountOFD">0</span>)</button>
+        <button type="button" class="order-filter-pill" onclick="filterAdminOrdersByStatus('Delivered', this)">🎉 Delivered (<span id="pillCountDelivered">0</span>)</button>
+        <button type="button" class="order-filter-pill" onclick="filterAdminOrdersByStatus('Cancelled', this)">❌ Cancelled (<span id="pillCountCancelled">0</span>)</button>
       </div>
 
       <!-- 2. Order Management Filters & Search (Section 2) -->
@@ -1990,19 +1994,27 @@
   <!-- ============================================== -->
   <!-- 1. ADMIN AUTHENTICATION LOGIN MODAL            -->
   <!-- ============================================== -->
-  <div class="modal-overlay" id="adminLoginModal">
+  <div class="modal-overlay full-page-modal" id="adminLoginModal">
     <div class="modal-card admin-login-card">
-      <button class="modal-close" onclick="closeModal('adminLoginModal')">✕</button>
+      <button class="modal-close" onclick="closeModal('adminLoginModal')" title="Return to storefront">✕</button>
       
       <div class="login-header">
+        <img src="assets/brand_logo_clean.png" alt="S.P.R. Siri Dhanya" class="login-brand-logo">
         <div class="login-crown">👑</div>
         <h3>S.P.R. SIRI DHANYA</h3>
-        <p class="login-sub">Administrative Management Portal Sign In</p>
+        <p class="login-sub">Executive Operations & Order Management Portal</p>
       </div>
 
       <div class="login-body">
         <div id="adminLoginError" class="login-error-alert" style="display: none;">
           ❌ Invalid username or password. Please verify your credentials.
+        </div>
+
+        <!-- Master Credentials Autofill Shortcut Button -->
+        <div class="login-autofill-strip">
+          <button type="button" class="btn-autofill-creds" onclick="autofillAdminCredentials()">
+            ⚡ Autofill Master Admin Credentials
+          </button>
         </div>
 
         <form onsubmit="handleAdminLoginSubmit(event)">
@@ -2017,13 +2029,19 @@
           </div>
 
           <div class="login-hint-strip">
-            🔒 Protected Management Area. Authorized Personnel Only.
+            🔒 Protected Corporate Management Network • Authorized Personnel Only.
           </div>
 
-          <button type="submit" class="btn btn-primary full-width" style="margin-top: 14px; font-weight: 700; font-size: 14px; padding: 12px;">
-            🔐 Authenticate & Enter Dashboard
+          <button type="submit" class="btn btn-primary full-width login-submit-btn">
+            🔐 Authenticate & Enter Full Dashboard
           </button>
         </form>
+
+        <div class="login-footer-actions">
+          <button type="button" class="btn-back-to-store" onclick="closeModal('adminLoginModal')">
+            ← Return to Customer Storefront
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -2116,201 +2134,176 @@
   </div>
 
     <!-- ======================================================== -->
-  <!-- 3. S.P.R. SIRI DHANYA: WEBSITE QR CODE HUB & SCANNER MODAL -->
+  <!-- 3. S.P.R. SIRI DHANYA: FULL-PAGE QR CODE STUDIO (IOS & ANDROID) -->
   <!-- ======================================================== -->
-  <div class="modal-overlay" id="qrHubModal">
-    <div class="modal-card qr-hub-card" style="max-width: 820px; width: 95%;">
-      <button class="modal-close" onclick="closeQrHubModal()">✕</button>
-
-      <div class="scanner-header" style="border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 14px;">
-        <span style="font-size: 28px;">📱</span>
-        <div>
-          <h3 style="margin: 0; font-size: 19px; color: var(--fk-blue);">S.P.R. SIRI DHANYA — QR CODE HUB</h3>
-          <p style="margin: 2px 0 0 0; font-size: 12.5px; color: #666;">
-            Website QR Code Generator • Download High-Res PNG, SVG & PDF • Mobile Camera Scanner
-          </p>
-        </div>
-      </div>
-
-      <!-- Hub Navigation Tabs -->
-      <div class="admin-tabs-nav" style="margin-bottom: 16px;">
-        <button class="admin-tab-btn active" id="qrHubTabBtnGenerator" onclick="switchQrHubTab('generator')">
-          ⚡ Website QR Generator
-        </button>
-        <button class="admin-tab-btn" id="qrHubTabBtnScanner" onclick="switchQrHubTab('scanner')">
-          📷 Mobile Camera Scanner
-        </button>
-      </div>
-
-      <!-- TAB 1: WEBSITE QR CODE GENERATOR -->
-      <div id="qrHubTabGeneratorContent">
-        <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 20px; align-items: start;">
-          <!-- Controls Column -->
+  <div class="modal-overlay full-page-modal" id="qrHubModal">
+    <div class="modal-card qr-hub-card full-page-card">
+      
+      <!-- Top Studio Navigation Bar -->
+      <div class="qr-studio-header">
+        <div class="qr-studio-brand">
+          <img src="assets/brand_logo_clean.png" alt="S.P.R. Siri Dhanya" class="qr-studio-logo">
           <div>
-            <div class="form-group" style="margin-bottom: 12px;">
-              <label style="font-weight: 700; font-size: 13px;">Target Website Page / Campaign *</label>
-              <!-- Mobile Scan Notice -->
-              <div style="background: #e8f5e9; border: 1px solid #81c784; border-radius: 6px; padding: 10px; margin-bottom: 12px; font-size: 12px; color: #1b5e20; line-height: 1.4;">
-                📱 <strong>Mobile Camera Tip:</strong> When scanning with your phone, select <strong>Mobile Wi-Fi (10.68.196.33:8000)</strong> so your phone connects directly without DNS errors! Or choose <strong>GitHub Live</strong> for 24/7 online access.
-              </div>
-
-              <select id="qrHubTargetSelect" onchange="handleQrHubPresetChange()" style="width: 100%; padding: 8px 10px; border-radius: 4px; border: 1px solid #ccc; font-size: 13px;">
-                <option value="http://10.68.196.33:8000/index.html" data-campaign="Mobile Wi-Fi Live Storefront" selected>📱 Mobile Wi-Fi Live Storefront (http://10.68.196.33:8000) — SCAN ON PHONE!</option>
-                <option value="https://github.com/doddasurendra/SPR-SRI-DHANYA" data-campaign="Public GitHub Repository">🌐 GitHub Live Repository (https://github.com/doddasurendra/SPR-SRI-DHANYA)</option>
-                <option value="http://10.68.196.33:8000/catalogues/SPR_Siri_Dhanya_Catalogue_Telugu.pdf" data-campaign="Official 8-Page Telugu PDF Catalogue">📄 Official 8-Page Telugu PDF Catalogue</option>
-                <option value="http://10.68.196.33:8000/catalogues/SPR_Siri_Dhanya_Catalogue_English.pdf" data-campaign="Official 8-Page English PDF Catalogue">📄 Official 8-Page English PDF Catalogue</option>
-                <option value="https://sprsiridhanya.com" data-campaign="Official Domain (Requires DNS Setup)">🏢 Production Domain (https://sprsiridhanya.com - requires domain registration)</option>
-                <option value="custom" data-campaign="Custom URL">✍️ Custom Website URL or Text</option>
-              </select>
-            </div>
-
-            <div class="form-group" id="qrHubCustomUrlGroup" style="display: none; margin-bottom: 12px;">
-              <label style="font-weight: 700; font-size: 13px;">Enter Custom URL or Promotion Text *</label>
-              <input type="text" id="qrHubCustomUrlInput" placeholder="https://..." value="https://sprsiridhanya.com" oninput="handleQrHubCustomInput()" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-            </div>
-
-            <!-- Branding Style -->
-            <div class="form-group" style="margin-bottom: 12px;">
-              <label style="font-weight: 700; font-size: 13px;">Visual Presentation Style</label>
-              <div style="display: flex; gap: 10px; margin-top: 4px;">
-                <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
-                  <input type="radio" name="qrHubBrandStyle" value="branded" checked onchange="handleQrHubStyleChange('branded')">
-                  🌿 <strong>Official Branded Frame</strong>
-                </label>
-                <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
-                  <input type="radio" name="qrHubBrandStyle" value="clean" onchange="handleQrHubStyleChange('clean')">
-                  ⚪ <strong>Clean Pure QR</strong>
-                </label>
-              </div>
-            </div>
-
-            <!-- Resolution Selector -->
-            <div class="form-group" style="margin-bottom: 14px;">
-              <label style="font-weight: 700; font-size: 13px;">Resolution (Output Quality)</label>
-              <div style="display: flex; gap: 8px; margin-top: 4px;">
-                <button type="button" class="btn btn-secondary btn-sm qr-hub-size-btn active" id="qrHubSize512" onclick="setQrHubSize(512)">512 × 512 (HD)</button>
-                <button type="button" class="btn btn-secondary btn-sm qr-hub-size-btn" id="qrHubSize1024" onclick="setQrHubSize(1024)">1024 × 1024 (2K)</button>
-                <button type="button" class="btn btn-secondary btn-sm qr-hub-size-btn" id="qrHubSize2048" onclick="setQrHubSize(2048)">2048 × 2048 (4K Print)</button>
-              </div>
-            </div>
-
-            <!-- Download Action Buttons (PNG, SVG, PDF) -->
-            <div style="margin-top: 16px;">
-              <div style="font-size: 12px; font-weight: 700; color: #555; margin-bottom: 6px;">DOWNLOAD OFFICIAL QR CODE:</div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-                <button type="button" class="btn btn-primary" onclick="downloadQrHubCode('png')" style="padding: 10px 6px; font-size: 12.5px; font-weight: 700;">
-                  📥 PNG Image
-                </button>
-                <button type="button" class="btn btn-warning" onclick="downloadQrHubCode('svg')" style="padding: 10px 6px; font-size: 12.5px; font-weight: 700; background: #f57c00; color: #fff; border: none;">
-                  📥 SVG Vector
-                </button>
-                <button type="button" class="btn btn-primary" onclick="downloadQrHubCode('pdf')" style="padding: 10px 6px; font-size: 12.5px; font-weight: 700; background: #d32f2f; border-color: #d32f2f;">
-                  📥 PDF Flyer
-                </button>
-              </div>
-              <div style="display: flex; gap: 8px; margin-top: 8px;">
-                <button type="button" class="btn btn-secondary btn-sm full-width" onclick="copyQrHubUrl()">
-                  📋 Copy Target Link
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Live Preview Canvas Column -->
-          <div style="text-align: center; background: #fbfbfb; border: 1px solid #e0e0e0; border-radius: 8px; padding: 14px;">
-            <div style="font-size: 12px; font-weight: 700; color: #1b5e20; margin-bottom: 8px;">
-              LIVE REAL-TIME QR PREVIEW
-            </div>
-            <div style="display: flex; justify-content: center; align-items: center; min-height: 250px;">
-              <canvas id="qrHubCanvas" width="280" height="340" style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); background: #fff;"></canvas>
-            </div>
-            <div id="qrHubInfoText" style="font-size: 11px; color: #666; margin-top: 8px; word-break: break-all;">
-              Target: https://sprsiridhanya.com
-            </div>
+            <div class="qr-studio-title">S.P.R. SIRI DHANYA — OFFICIAL QR CODE STUDIO</div>
+            <div class="qr-studio-sub">High-Resolution Vector & Print Generation • Universal Native iOS & Android Camera Scan Ready</div>
           </div>
         </div>
-      </div>
 
-      <!-- TAB 2: MOBILE CAMERA QR SCANNER -->
-      <div id="qrHubTabScannerContent" style="display: none;">
-        <div class="scanner-body">
-          <div class="qr-viewfinder-wrap">
-            <video id="qrHubScannerVideo" playsinline muted></video>
-            <canvas id="qrHubScannerCanvas" style="display: none;"></canvas>
-            <div class="qr-target-box">
-              <div class="qr-corner tl"></div>
-              <div class="qr-corner tr"></div>
-              <div class="qr-corner bl"></div>
-              <div class="qr-corner br"></div>
-              <div class="qr-laser-line"></div>
-            </div>
-            <div id="qrHubScannerStatus" class="scanner-status-tag">Point mobile camera at QR Code</div>
-          </div>
-
-          <!-- Scanner Controls (Camera Switch, Flashlight / File) -->
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; flex-wrap: wrap; gap: 8px;">
-            <button type="button" class="btn btn-secondary btn-sm" onclick="flipQrCamera()">
-              🔄 Flip Camera (Front/Rear)
-            </button>
-            <label class="btn btn-secondary btn-sm" style="cursor: pointer; margin: 0;">
-              📁 Upload Image from Gallery
-              <input type="file" id="qrHubFileInput" accept="image/*" onchange="handleQrHubFileUpload(event)" style="display: none;">
-            </label>
-          </div>
-
-          <!-- Detected Result Card -->
-          <div id="qrHubDetectCard" class="qr-detect-card" style="display: none; margin-top: 12px;">
-            <div class="detect-badge">✅ QR Code Detected Successfully!</div>
-            <div class="detect-url" id="qrHubDetectUrl" style="word-break: break-all; margin: 6px 0; font-family: monospace; font-size: 13px;">https://sprsiridhanya.com</div>
-            <div style="display: flex; gap: 8px; margin-top: 8px;">
-              <button class="btn btn-primary" id="qrHubOpenDestBtn" onclick="handleQrHubOpenDestination()" style="flex: 1;">
-                🌐 Open Destination Page
-              </button>
-              <button class="btn btn-secondary" onclick="copyDetectedQrHubUrl()">
-                📋 Copy
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-
-      <div class="scanner-body">
-        <!-- Video Viewfinder Frame -->
-        <div class="qr-viewfinder-wrap">
-          <video id="qrScannerVideo" playsinline muted></video>
-          <canvas id="qrScannerCanvas" style="display: none;"></canvas>
-          <div class="qr-target-box">
-            <div class="qr-corner tl"></div>
-            <div class="qr-corner tr"></div>
-            <div class="qr-corner bl"></div>
-            <div class="qr-corner br"></div>
-            <div class="qr-laser-line"></div>
-          </div>
-          <div id="qrScannerStatus" class="scanner-status-tag">Point camera at QR Code</div>
-        </div>
-
-        <!-- Detected Result Card -->
-        <div id="qrDetectCard" class="qr-detect-card" style="display: none;">
-          <div class="detect-badge">✅ QR Code Detected!</div>
-          <div class="detect-url" id="qrDetectUrl">https://sprsiridhanya.com</div>
-          <button class="btn btn-primary full-width" id="qrOpenDestBtn" onclick="handleQrOpenDestination()">
-            🌐 Open Destination Page
+        <div class="qr-studio-actions">
+          <span class="qr-compat-pill pill-ios">🍏 iOS iPhone Camera Ready</span>
+          <span class="qr-compat-pill pill-android">🤖 Android & Google Lens Ready</span>
+          <button class="qr-studio-close-btn" onclick="closeQrHubModal()" title="Close and return to storefront">
+            ✕ Return to Store
           </button>
         </div>
-
-        <!-- Manual File Upload Option -->
-        <div class="scanner-fallback-strip">
-          <span>Camera not working or on Desktop?</span>
-          <label class="btn btn-secondary btn-sm" style="cursor: pointer;">
-            📁 Upload QR Image File
-            <input type="file" id="qrImageFileInput" accept="image/*" onchange="handleQrFileUpload(event)" style="display: none;">
-          </label>
-        </div>
       </div>
+
+      <!-- Studio Body (2 Columns: Controls on left, Live Canvas Preview on right) -->
+      <div class="qr-studio-workspace">
+        
+        <!-- Left Panel: Control Center -->
+        <div class="qr-studio-controls">
+          
+          <!-- Campaign Target URL -->
+          <div class="qr-control-section">
+            <label class="qr-control-label">Target Page / Destination Link *</label>
+            
+            <div class="qr-mobile-tip-banner">
+              <span class="tip-icon">📱</span>
+              <div class="tip-text">
+                <strong>Universal Mobile Camera Tip:</strong><br>
+                • <strong>On Wi-Fi:</strong> Select <em>Mobile Wi-Fi Live Storefront</em> so your phone connects directly without DNS errors!<br>
+                • <strong>Anywhere on 4G/5G:</strong> Select <em>GitHub Live Repository</em> for 24/7 global mobile access on iOS & Android!
+              </div>
+            </div>
+
+            <select id="qrHubTargetSelect" onchange="handleQrHubPresetChange()" class="qr-select-input">
+              <option value="http://10.68.196.33:8000/index.html" data-campaign="Mobile Wi-Fi Live Storefront" selected>📱 Mobile Wi-Fi Live Storefront (http://10.68.196.33:8000) — SCAN ON PHONE</option>
+              <option value="https://github.com/doddasurendra/SPR-SRI-DHANYA" data-campaign="Official GitHub Repository">🌐 Official GitHub Live (https://github.com/doddasurendra/SPR-SRI-DHANYA)</option>
+              <option value="http://10.68.196.33:8000/catalogues/SPR_Siri_Dhanya_Catalogue_Telugu.pdf" data-campaign="Official 8-Page Telugu PDF Catalogue">📄 Official 8-Page Telugu PDF Catalogue</option>
+              <option value="http://10.68.196.33:8000/catalogues/SPR_Siri_Dhanya_Catalogue_English.pdf" data-campaign="Official 8-Page English PDF Catalogue">📄 Official 8-Page English PDF Catalogue</option>
+              <option value="https://sprsiridhanya.com" data-campaign="Official Production Domain">🏢 Production Domain (https://sprsiridhanya.com)</option>
+              <option value="custom" data-campaign="Custom URL">✍️ Custom Website URL or Promotion Link</option>
+            </select>
+          </div>
+
+          <div class="qr-control-section" id="qrHubCustomUrlGroup" style="display: none;">
+            <label class="qr-control-label">Enter Custom URL or Promotion Text *</label>
+            <input type="text" id="qrHubCustomUrlInput" placeholder="https://..." value="http://10.68.196.33:8000/index.html" oninput="handleQrHubCustomInput()" class="qr-text-input">
+          </div>
+
+          <!-- Presentation Style -->
+          <div class="qr-control-section">
+            <label class="qr-control-label">Visual Presentation Style</label>
+            <div class="qr-style-toggle-group">
+              <label class="qr-style-radio">
+                <input type="radio" name="qrHubBrandStyle" value="branded" checked onchange="handleQrHubStyleChange('branded')">
+                <div class="radio-custom-box">
+                  <span class="style-icon">🌿</span>
+                  <div>
+                    <strong>Official Branded Frame</strong>
+                    <span>Gold border with Telugu tagline & branding</span>
+                  </div>
+                </div>
+              </label>
+              <label class="qr-style-radio">
+                <input type="radio" name="qrHubBrandStyle" value="clean" onchange="handleQrHubStyleChange('clean')">
+                <div class="radio-custom-box">
+                  <span class="style-icon">⚪</span>
+                  <div>
+                    <strong>Clean Minimalist QR</strong>
+                    <span>Pure high-contrast standalone vector code</span>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Resolution Selector -->
+          <div class="qr-control-section">
+            <label class="qr-control-label">Resolution & Export Quality</label>
+            <div class="qr-res-btn-group">
+              <button type="button" class="qr-res-btn active" id="qrHubSize512" onclick="setQrHubSize(512)">512 × 512 (HD)</button>
+              <button type="button" class="qr-res-btn" id="qrHubSize1024" onclick="setQrHubSize(1024)">1024 × 1024 (2K Ultra)</button>
+              <button type="button" class="qr-res-btn" id="qrHubSize2048" onclick="setQrHubSize(2048)">2048 × 2048 (4K Print Ready)</button>
+            </div>
+          </div>
+
+          <!-- Download Buttons -->
+          <div class="qr-control-section qr-download-section">
+            <label class="qr-control-label">One-Click High-Res Downloads</label>
+            <div class="qr-download-grid">
+              <button type="button" class="qr-action-btn btn-dl-png" onclick="downloadQrHubCode('png')">
+                <span class="btn-dl-icon">📥</span>
+                <div>
+                  <strong>PNG Image</strong>
+                  <span>Standard & High-Res</span>
+                </div>
+              </button>
+              <button type="button" class="qr-action-btn btn-dl-svg" onclick="downloadQrHubCode('svg')">
+                <span class="btn-dl-icon">📐</span>
+                <div>
+                  <strong>SVG Vector</strong>
+                  <span>Infinite Scale / Flex</span>
+                </div>
+              </button>
+              <button type="button" class="qr-action-btn btn-dl-pdf" onclick="downloadQrHubCode('pdf')">
+                <span class="btn-dl-icon">📄</span>
+                <div>
+                  <strong>PDF Flyer</strong>
+                  <span>A4 Ready with Margins</span>
+                </div>
+              </button>
+            </div>
+            <button type="button" class="qr-copy-link-btn" onclick="copyQrHubUrl()">
+              📋 Copy Encoded Target URL
+            </button>
+          </div>
+
+          <!-- Native Mobile Scanning Instructions for Android & iOS -->
+          <div class="qr-native-guide">
+            <div class="guide-title">Universal Native Scanning Guide (No Special App Needed):</div>
+            <div class="guide-items">
+              <div class="guide-item">
+                <span class="guide-os">🍏 Apple iOS (iPhone / iPad):</span>
+                <span>Open the built-in <strong>Camera app</strong>, point at the QR code, and tap the notification link. Works natively in Safari!</span>
+              </div>
+              <div class="guide-item">
+                <span class="guide-os">🤖 Google Android:</span>
+                <span>Open your <strong>Camera app</strong> or <strong>Google Lens</strong>, point at the QR code, and tap the link to open in Chrome!</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Panel: Live Full-Page Preview Studio -->
+        <div class="qr-studio-preview-pane">
+          <div class="qr-easel-card">
+            <div class="easel-header">
+              <span class="live-dot">●</span>
+              <span>LIVE REAL-TIME QR CANVAS</span>
+              <span class="easel-res-pill" id="qrCanvasResPill">512 × 512px</span>
+            </div>
+
+            <div class="easel-canvas-wrap">
+              <canvas id="qrHubCanvas" width="340" height="420" class="qr-preview-canvas"></canvas>
+            </div>
+
+            <div class="easel-footer">
+              <div class="easel-target-label">Encoded Destination URL:</div>
+              <div class="easel-target-url" id="qrHubInfoText">http://10.68.196.33:8000/index.html</div>
+              <div class="easel-action-row">
+                <button type="button" class="btn-test-scan" onclick="testScanLiveUrl()">
+                  🌐 Test Open Link in Browser
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </div>
 

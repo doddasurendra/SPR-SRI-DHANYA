@@ -1362,6 +1362,15 @@ function updateAdminDashboardStats() {
   setT("kpiDelivered", delivered);
   setT("kpiCancelled", cancelled);
   setT("kpiTotalSales", `₹${totalRevenue.toLocaleString('en-IN')}`);
+  setT("pillCountAll", total);
+  setT("pillCountPlaced", newOrders);
+  setT("pillCountConfirmed", confirmed);
+  setT("pillCountProcessing", processing);
+  setT("pillCountPacked", state.orders.filter(o => o.status === "Packed").length);
+  setT("pillCountShipped", state.orders.filter(o => o.status === "Shipped").length);
+  setT("pillCountOFD", state.orders.filter(o => o.status === "Out for Delivery").length);
+  setT("pillCountDelivered", delivered);
+  setT("pillCountCancelled", cancelled);
 }
 
 function handleAdminSearch() {
@@ -4345,31 +4354,10 @@ function closeQrScannerModal() {
   closeQrHubModal();
 }
 
-// Switch between Generator and Scanner tabs
-function switchQrHubTab(tab) {
-  qrHubState.activeTab = tab;
-
-  const btnGen = document.getElementById("qrHubTabBtnGenerator");
-  const btnScan = document.getElementById("qrHubTabBtnScanner");
-  const contGen = document.getElementById("qrHubTabGeneratorContent");
-  const contScan = document.getElementById("qrHubTabScannerContent");
-
-  if (tab === "generator") {
-    btnGen?.classList.add("active");
-    btnScan?.classList.remove("active");
-    if (contGen) contGen.style.display = "block";
-    if (contScan) contScan.style.display = "none";
-    stopQrHubCamera();
-    generateQrHubCode();
-  } else {
-    btnScan?.classList.add("active");
-    btnGen?.classList.remove("active");
-    if (contScan) contScan.style.display = "block";
-    if (contGen) contGen.style.display = "none";
-    const detectCard = document.getElementById("qrHubDetectCard");
-    if (detectCard) detectCard.style.display = "none";
-    startQrHubCamera();
-  }
+// Switch between Generator and Studio
+function switchQrHubTab(tab = "generator") {
+  qrHubState.activeTab = "generator";
+  generateQrHubCode();
 }
 
 // Handle Preset Selection Change
@@ -5065,3 +5053,68 @@ function handleMobileSearch(query) {
   state.searchQuery = query.toLowerCase().trim();
   applyFilters();
 }
+
+
+// --- Master Admin Credentials Autofill ---
+function autofillAdminCredentials() {
+  const u = document.getElementById("adminUsernameInput");
+  const p = document.getElementById("adminPasswordInput");
+  if (u) u.value = "SPR SIRI DHANYA";
+  if (p) p.value = "SPR SIRI DHANYA @2026";
+  showToast("⚡ Master Admin credentials autofilled!");
+}
+
+// --- Quick Status Filter Pills in Admin Orders ---
+function filterAdminOrdersByStatus(status, btn) {
+  state.adminFilterStatus = status;
+  const statusEl = document.getElementById("adminStatusFilter");
+  if (statusEl) statusEl.value = status;
+  
+  document.querySelectorAll(".order-filter-pill").forEach(p => p.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+
+  renderAdminOrdersTable();
+}
+
+// --- Test Scan Destination in Live Browser ---
+function testScanLiveUrl() {
+  const url = qrHubState.targetUrl || "http://10.68.196.33:8000/index.html";
+  window.open(url, "_blank");
+}
+
+// --- Download Sales & Financial Report CSV ---
+function downloadSalesReport() {
+  const total = state.orders.length;
+  const revenue = state.orders.reduce((sum, o) => sum + (o.amountPaid || 0), 0);
+  const now = new Date().toLocaleString("en-IN");
+
+  let csv = "S.P.R. SIRI DHANYA - EXECUTIVE FINANCIAL & SALES REPORT\n";
+  csv += `Generated: ${now}\n`;
+  csv += `Total Orders: ${total}\n`;
+  csv += `Total Net Revenue: INR ${revenue}\n\n`;
+  csv += "Order ID,Date,Customer Name,Phone,Products,Amount Paid,Payment Mode,Status\n";
+
+  state.orders.forEach(o => {
+    const prods = (o.items || []).map(i => `${i.name} (x${i.qty})`).join("; ");
+    csv += `"${o.orderId}","${o.date}","${o.customer?.fullName || ''}","${o.customer?.phone || ''}","${prods}",${o.amountPaid || 0},"${o.paymentMethod || ''}","${o.status || ''}"\n`;
+  });
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `SPR_Siri_Dhanya_Sales_Report_${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast("📊 Sales Report CSV downloaded!");
+}
+
+function updateAdminClock() {
+  const clockEl = document.getElementById("adminClockPill");
+  if (clockEl) {
+    const d = new Date();
+    clockEl.textContent = d.toLocaleTimeString("en-IN", { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }) + " IST";
+  }
+}
+setInterval(updateAdminClock, 1000);

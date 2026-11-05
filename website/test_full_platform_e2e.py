@@ -114,7 +114,7 @@ def run_e2e():
         page.wait_for_timeout(300)
 
         print("\n================ [STEP 4] Wholesale / B2B Portal ===============")
-        page.click(".wholesale-nav-btn")
+        page.evaluate("openWholesalePortalModal()")
         page.wait_for_selector("#wholesalePortalModal.active")
         print("[PASS] Wholesale & B2B Portal opened.")
 
@@ -139,7 +139,7 @@ def run_e2e():
         page.wait_for_selector("#adminLoginModal.active")
         page.fill("#adminUsernameInput", "SPR SIRI DHANYA")
         page.fill("#adminPasswordInput", "SPR SIRI DHANYA @2026")
-        page.click("button:has-text('Authenticate & Enter Dashboard')")
+        page.click(".login-submit-btn")
         page.wait_for_selector("#adminModal.active")
         print("[PASS] Admin Logged in successfully!")
 
