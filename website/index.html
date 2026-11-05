@@ -1053,7 +1053,7 @@
         <button class="admin-tab-btn" id="tabBtnSettings" onclick="switchAdminTab('settings')">⚙️ Settings, Audit & Backup</button>
       </div>
 
-      <div id="adminTabOrdersContent">
+      <div id="adminTabOrdersContent" style="display: none;">
       <!-- 1. Admin KPI Dashboard (Section 1) -->
       <div class="admin-kpi-grid">
         <div class="kpi-card total-orders">
@@ -1176,7 +1176,7 @@
 <!-- End of adminTabOrdersContent -->
 
       <!-- TAB: DASHBOARD OVERVIEW -->
-      <div id="adminTabDashboardContent" style="display: none;">
+      <div id="adminTabDashboardContent" style="display: block;">
         <div class="admin-kpi-grid">
           <div class="kpi-card total-orders">
             <div class="kpi-icon">📋</div>
@@ -1570,19 +1570,16 @@
 
               <div class="form-group">
                 <label>Destination Target Page / Feature *</label>
-                <select id="qrTargetSelect" onchange="handleQrPresetChange()">
-                  <option value="https://sprsiridhanya.com">Main Website Homepage (https://sprsiridhanya.com)</option>
-                  <option value="https://sprsiridhanya.com/catalogue">Official 8-Page Product Catalogue</option>
-                  <option value="https://sprsiridhanya.com/products/ragi-dosa-mix">Product: Instant Ragi Dosa Mix (500g)</option>
-                  <option value="https://sprsiridhanya.com/products/jowar-dosa-mix">Product: Instant Jowar Dosa Mix (500g)</option>
-                  <option value="https://sprsiridhanya.com/products/pesara-dosa-mix">Product: Instant Pesara Dosa Mix (500g)</option>
-                  <option value="https://sprsiridhanya.com/products/korra-dosa-mix">Product: Instant Korra Dosa Mix (500g)</option>
-                  <option value="https://sprsiridhanya.com/products/multi-grain-atta">Product: Multi Grain Atta (1 KG)</option>
-                  <option value="https://sprsiridhanya.com/products/combo-health-pack">Special Offer: 5-in-1 Complete Health Combo</option>
-                  <option value="https://sprsiridhanya.com/products/wholesale-carton">Wholesale: 24-Pack Supermarket Master Carton</option>
-                  <option value="https://sprsiridhanya.com/retailer-registration">B2B: Retailer & Distributor Registration Page</option>
-                  <option value="custom">-- Custom Destination URL --</option>
-                </select>
+                            <div style="background: #e8f5e9; border: 1px solid #81c784; border-radius: 6px; padding: 10px; margin-bottom: 12px; font-size: 12px; color: #1b5e20;">
+              📱 <strong>Mobile Scan Tip:</strong> Default QR code targets <code>http://10.68.196.33:8000</code> so your mobile phone camera opens the live store immediately without DNS errors!
+            </div>
+            <select id="qrTargetSelect" onchange="handleQrPresetChange()" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; width: 100%;">
+              <option value="http://10.68.196.33:8000/index.html" data-campaign="Mobile Wi-Fi Live Storefront" selected>📱 Mobile Wi-Fi Live Storefront (http://10.68.196.33:8000) — SCAN ON PHONE!</option>
+              <option value="https://github.com/doddasurendra/SPR-SRI-DHANYA" data-campaign="Public GitHub Repository">🌐 GitHub Live Repository (https://github.com/doddasurendra/SPR-SRI-DHANYA)</option>
+              <option value="http://10.68.196.33:8000/catalogues/SPR_Siri_Dhanya_Catalogue_Telugu.pdf" data-campaign="Official 8-Page Telugu PDF Catalogue">📄 Official 8-Page Telugu PDF Catalogue</option>
+              <option value="https://sprsiridhanya.com" data-campaign="Official Domain (Requires DNS Setup)">🏢 Production Domain (https://sprsiridhanya.com - requires domain registration)</option>
+              <option value="custom" data-campaign="Custom Campaign Link">✍️ Custom URL / Marketing Campaign Link</option>
+            </select>
               </div>
 
               <div class="form-group" id="qrCustomUrlWrap" style="display: none;">
@@ -2031,11 +2028,17 @@
           <div>
             <div class="form-group" style="margin-bottom: 12px;">
               <label style="font-weight: 700; font-size: 13px;">Target Website Page / Campaign *</label>
+              <!-- Mobile Scan Notice -->
+              <div style="background: #e8f5e9; border: 1px solid #81c784; border-radius: 6px; padding: 10px; margin-bottom: 12px; font-size: 12px; color: #1b5e20; line-height: 1.4;">
+                📱 <strong>Mobile Camera Tip:</strong> When scanning with your phone, select <strong>Mobile Wi-Fi (10.68.196.33:8000)</strong> so your phone connects directly without DNS errors! Or choose <strong>GitHub Live</strong> for 24/7 online access.
+              </div>
+
               <select id="qrHubTargetSelect" onchange="handleQrHubPresetChange()" style="width: 100%; padding: 8px 10px; border-radius: 4px; border: 1px solid #ccc; font-size: 13px;">
-                <option value="https://sprsiridhanya.com" data-campaign="Official Website Main Storefront">🌐 Official Website Main Storefront (sprsiridhanya.com)</option>
-                <option value="https://sprsiridhanya.com/catalogue" data-campaign="Official 8-Page Product Catalogue">📄 Official 8-Page Product Catalogue PDF</option>
-                <option value="https://sprsiridhanya.com/products/combo" data-campaign="5-in-1 Complete Health Combo Pack">📦 5-in-1 Complete Health Combo Pack</option>
-                <option value="https://sprsiridhanya.com/wholesale" data-campaign="Supermarket & B2B Wholesale Portal">🤝 Supermarket & B2B Wholesale Portal</option>
+                <option value="http://10.68.196.33:8000/index.html" data-campaign="Mobile Wi-Fi Live Storefront" selected>📱 Mobile Wi-Fi Live Storefront (http://10.68.196.33:8000) — SCAN ON PHONE!</option>
+                <option value="https://github.com/doddasurendra/SPR-SRI-DHANYA" data-campaign="Public GitHub Repository">🌐 GitHub Live Repository (https://github.com/doddasurendra/SPR-SRI-DHANYA)</option>
+                <option value="http://10.68.196.33:8000/catalogues/SPR_Siri_Dhanya_Catalogue_Telugu.pdf" data-campaign="Official 8-Page Telugu PDF Catalogue">📄 Official 8-Page Telugu PDF Catalogue</option>
+                <option value="http://10.68.196.33:8000/catalogues/SPR_Siri_Dhanya_Catalogue_English.pdf" data-campaign="Official 8-Page English PDF Catalogue">📄 Official 8-Page English PDF Catalogue</option>
+                <option value="https://sprsiridhanya.com" data-campaign="Official Domain (Requires DNS Setup)">🏢 Production Domain (https://sprsiridhanya.com - requires domain registration)</option>
                 <option value="custom" data-campaign="Custom URL">✍️ Custom Website URL or Text</option>
               </select>
             </div>

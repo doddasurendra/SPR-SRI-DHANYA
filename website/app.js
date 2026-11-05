@@ -1329,8 +1329,8 @@ function cancelCustomerOrder(orderId) {
 
 // --- Admin Order Management System ---
 function openAdminModal() {
-  refreshAdminData();
   document.getElementById("adminModal")?.classList.add("active");
+  switchAdminTab("dashboard");
 }
 
 function refreshAdminData() {
@@ -1890,8 +1890,8 @@ const qrScannerState = {
 const qrGenState = {
   size: 512,
   branding: "branded",
-  targetUrl: "https://sprsiridhanya.com",
-  campaignName: "Official Website Main QR"
+  targetUrl: (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") ? "http://10.68.196.33:8000/index.html" : window.location.href,
+  campaignName: "Mobile Wi-Fi Live Storefront"
 };
 
 // Initialize Extra DBs (QR Codes & Knowledge Base)
@@ -4312,8 +4312,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 const qrHubState = {
   activeTab: "generator",
-  targetUrl: "https://sprsiridhanya.com",
-  campaignName: "Official Website Main Storefront",
+  targetUrl: (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") ? "http://10.68.196.33:8000/index.html" : window.location.href,
+  campaignName: "Mobile Wi-Fi Live Storefront",
   size: 512,
   brandStyle: "branded", // "branded" or "clean"
   facingMode: "environment", // Mobile back camera by default

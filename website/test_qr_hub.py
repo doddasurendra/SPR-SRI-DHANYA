@@ -57,10 +57,10 @@ def run_qr_tests():
         print("[PASS] Switched to Official Branded QR style.")
 
         # Test Target Preset
-        page.select_option("#qrHubTargetSelect", "https://sprsiridhanya.com/catalogue")
+        page.select_option("#qrHubTargetSelect", "https://github.com/doddasurendra/SPR-SRI-DHANYA")
         page.wait_for_timeout(200)
         info_text = page.locator("#qrHubInfoText").inner_text()
-        assert "catalogue" in info_text
+        assert "github" in info_text.lower()
         print(f"[PASS] Preset target updated: {info_text}")
 
         page.screenshot(path=os.path.join(OUT_DIR, "qr_hub_generator.png"))
