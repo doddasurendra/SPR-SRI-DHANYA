@@ -5229,3 +5229,130 @@ body {
     overflow-y: auto;
   }
 }
+
+
+/* =========================================================================
+   S.P.R. SIRI DHANYA: ROUND LOGO POSITIONED ABOVE S.P.R. (100% VISIBLE)
+   ========================================================================= */
+.top-announcement {
+  position: relative !important;
+  z-index: 101 !important;
+  background-color: #0b251b !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  padding: 6px 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.fk-header {
+  background-color: var(--fk-blue) !important;
+  color: #fff !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+}
+
+.fk-header-inner {
+  display: flex !important;
+  align-items: center !important;
+  gap: 20px !important;
+  min-height: 82px !important;
+  height: auto !important;
+  padding: 8px 0 !important;
+}
+
+.fk-logo {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  gap: 4px !important;
+  margin: 0 !important;
+}
+
+.logo-top-seal-wrap {
+  display: flex !important;
+  align-items: center !important;
+  padding-left: 2px !important; /* Positioned directly above the letter 'S' */
+}
+
+.brand-round-logo-img {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  border: 2px solid #ffd700 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+  background: #ffffff !important;
+  object-fit: cover !important;
+  display: block !important;
+  transition: transform 0.2s ease !important;
+}
+
+.brand-round-logo-img:hover {
+  transform: scale(1.08);
+}
+
+.logo-main-title {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1.1 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+.spr-highlight {
+  color: #ffd700 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.6px !important;
+}
+
+.logo-sub-tag {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  margin-top: 2px !important;
+}
+
+.telugu-motto {
+  font-family: 'Noto Sans Telugu', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #ffe500 !important;
+}
+
+.english-motto {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #e0f2fe !important;
+  letter-spacing: 0.3px !important;
+}
+
+@media (max-width: 768px) {
+  .fk-header-inner {
+    min-height: 56px !important;
+    padding: 6px 10px !important;
+    gap: 10px !important;
+  }
+  .fk-logo {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+  .brand-round-logo-img {
+    width: 38px !important;
+    height: 38px !important;
+  }
+  .logo-main-title {
+    font-size: 15px !important;
+  }
+  .logo-sub-tag {
+    display: none !important;
+  }
+}

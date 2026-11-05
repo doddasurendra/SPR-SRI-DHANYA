@@ -21,8 +21,8 @@ def verify_upgrades():
         page.wait_for_timeout(500)
 
         # 1. Verify Brand Logo Image and Typography
-        logo_img = page.locator(".brand-header-logo-img")
-        assert logo_img.is_visible(), "Brand logo image should be visible!"
+        logo_img = page.locator(".brand-round-logo-img")
+        assert logo_img.is_visible(), "Brand round logo image should be visible!"
         natural_w = logo_img.evaluate("el => el.naturalWidth")
         assert natural_w > 0, "Brand logo image should load successfully without broken icon!"
         print(f"[PASS] Brand Logo Image loaded successfully ({natural_w}px natural width).")
