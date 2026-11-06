@@ -1321,7 +1321,6 @@
         <span id="adminPaginationInfo">Showing 1 to 10 of 10 orders</span>
       </div>
       </div>
-      </div>
 <!-- End of adminTabOrdersContent -->
 
       <!-- TAB: DASHBOARD OVERVIEW -->
@@ -1500,22 +1499,35 @@
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-bottom: 14px;">
               <div class="form-group">
                 <label style="font-weight: 700; font-size: 12.5px; color: #1e293b; display: block; margin-bottom: 4px;">
-                  Razorpay Key ID (API Key from dashboard.razorpay.com) *
+                  Razorpay Key ID *
                 </label>
-                <input type="text" id="adminRazorpayKeyInput" placeholder="e.g. rzp_live_xxxxxxxxxxxxxx or rzp_test_xxxxxxxxxxxxxx" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: monospace; font-size: 13px;" required>
+                <input type="text" id="adminRazorpayKeyInput" placeholder="rzp_test_... or rzp_live_..." style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: monospace; font-size: 13px;" required>
                 <small style="font-size: 11px; color: #64748b; margin-top: 4px; display: block;">
-                  Use <code>rzp_live_...</code> for real money straight to your bank account, or <code>rzp_test_...</code> for testing.
+                  Test: <code>rzp_test_...</code> | Live: <code>rzp_live_...</code>
                 </small>
               </div>
 
               <div class="form-group">
                 <label style="font-weight: 700; font-size: 12.5px; color: #1e293b; display: block; margin-bottom: 4px;">
-                  Gateway Operation Mode
+                  Razorpay Key Secret (Backend Protected) *
+                </label>
+                <input type="password" id="adminRazorpaySecretInput" placeholder="••••••••••••••••" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: monospace; font-size: 13px;">
+                <small style="font-size: 11px; color: #64748b; margin-top: 4px; display: block;">
+                  🔒 Stored strictly in backend .env — never exposed to client code.
+                </small>
+              </div>
+
+              <div class="form-group">
+                <label style="font-weight: 700; font-size: 12.5px; color: #1e293b; display: block; margin-bottom: 4px;">
+                  Gateway Mode
                 </label>
                 <select id="adminRazorpayModeSelect" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
-                  <option value="live">🟢 Live Production Mode (Real Bank Account Money)</option>
-                  <option value="test">🟡 Test / Sandbox Mode</option>
+                  <option value="test">🟡 Test / Sandbox Mode (Default)</option>
+                  <option value="live">🟢 Live Production Mode (Real Bank Settlement)</option>
                 </select>
+                <small style="font-size: 11px; color: #64748b; margin-top: 4px; display: block;">
+                  Enable Live once merchant account KYC is activated.
+                </small>
               </div>
             </div>
 
@@ -1558,6 +1570,16 @@
           </div>
         </div>
 
+        <!-- Payment History Filter Strip -->
+        <div class="admin-order-filter-bar" style="margin-bottom: 12px;">
+          <span class="filter-bar-label">⚡ Filter Payments:</span>
+          <button type="button" class="order-filter-pill active" onclick="filterAdminPayments('all', this)">All Transactions</button>
+          <button type="button" class="order-filter-pill" onclick="filterAdminPayments('successful', this)">✅ Successful / Paid</button>
+          <button type="button" class="order-filter-pill" onclick="filterAdminPayments('failed', this)">❌ Failed</button>
+          <button type="button" class="order-filter-pill" onclick="filterAdminPayments('pending', this)">⏳ Pending</button>
+          <button type="button" class="order-filter-pill" onclick="filterAdminPayments('refunded', this)">🟣 Refunded</button>
+        </div>
+
         <div class="admin-table-wrap">
           <table class="admin-orders-table">
             <thead>
@@ -1569,10 +1591,11 @@
                 <th>Amount Paid</th>
                 <th>Date & Time</th>
                 <th>Gateway Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="adminPaymentsTableBody">
-              <!-- Dynamically populated -->
+              <!-- Dynamically populated from backend -->
             </tbody>
           </table>
         </div>
@@ -3134,6 +3157,46 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+
+  <!-- Admin Refund Management Modal -->
+  <div class="modal-overlay" id="adminRefundModal">
+    <div class="modal-card" style="max-width: 480px;">
+      <button class="modal-close" onclick="closeModal('adminRefundModal')">✕</button>
+      <div class="modal-header">
+        <h4 style="margin: 0; display: flex; align-items: center; gap: 8px;">
+          <span>🟣</span> Issue Payment Refund (Razorpay Gateway)
+        </h4>
+        <span style="font-size: 12px; color: #64748b;">Secure backend refund directly into customer's source account / UPI</span>
+      </div>
+      <form onsubmit="handleRefundSubmit(event)" style="padding: 16px 20px;">
+        <input type="hidden" id="refundPaymentId">
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label style="font-weight: 700; font-size: 12px; color: #334155;">Transaction ID (pay_...)</label>
+          <input type="text" id="refundTxnIdDisplay" readonly style="width: 100%; padding: 8px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; font-family: monospace; font-size: 12.5px;">
+        </div>
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label style="font-weight: 700; font-size: 12px; color: #334155;">Refund Amount (₹) *</label>
+          <input type="number" step="0.01" id="refundAmountInput" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 14px; font-weight: 700;">
+          <small id="refundMaxHelp" style="font-size: 11px; color: #64748b;"></small>
+        </div>
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label style="font-weight: 700; font-size: 12px; color: #334155;">Reason for Refund *</label>
+          <select id="refundReasonSelect" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px;">
+            <option value="Customer Cancellation">Customer Cancellation</option>
+            <option value="Damaged or Defective Item">Damaged or Defective Item</option>
+            <option value="Delivery Address Out of Reach">Delivery Address Out of Reach</option>
+            <option value="Duplicate Order Created">Duplicate Order Created</option>
+            <option value="Other / Store Policy">Other / Store Policy</option>
+          </select>
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal('adminRefundModal')">Cancel</button>
+          <button type="submit" class="btn btn-danger btn-sm" id="refundSubmitBtn">Confirm & Process Refund</button>
+        </div>
+      </form>
     </div>
   </div>
 
