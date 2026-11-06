@@ -41,3 +41,6 @@ backend/data/*.json
 *~
 .DS_Store
 Thumbs.db
+
+# Firebase CLI cache
+.firebase/

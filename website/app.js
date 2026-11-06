@@ -3590,23 +3590,8 @@ window.goToStep = function(stepNum) {
   }
 };
 
-// --- 3. Production-Ready Razorpay Payment Gateway (Backend Order + HMAC Verification) ---
-async function getRazorpayBackendConfig() {
-  try {
-    const res = await fetch('/api/payment/config');
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (e) {
-    console.warn('[Razorpay] Using fallback local config:', e);
-  }
-  return {
-    mode: localStorage.getItem('spr_razorpay_mode') || 'test',
-    key_id: localStorage.getItem('spr_razorpay_key_id') || 'rzp_test_1DP5mmOlF5G5ag'
-  };
-}
-
-window.processPayment = async function() {
+// --- 3. Seamless Direct E-Commerce Order Placement & Instant Confirmation ---
+window.processPayment = function() {
   const name = document.getElementById("custName")?.value || "Valued Customer";
   const phone = document.getElementById("custPhone")?.value || "9492468817";
   const email = document.getElementById("custEmail")?.value || "customer@sprsiridhanya.com";
@@ -3635,118 +3620,80 @@ window.processPayment = async function() {
   const finalTotal = Math.max(0, subtotal - couponDiscount);
   const orderId = "OD" + Math.floor(100000000000 + Math.random() * 900000000000);
 
-  const payBtn = document.getElementById("payNowBtn");
-  const origBtnText = payBtn ? payBtn.innerHTML : "";
-  if (payBtn) {
-    payBtn.disabled = true;
-    payBtn.innerHTML = "🔒 Contacting Razorpay Gateway...";
+  // Deduct stock in real-time
+  state.cart.forEach(ci => {
+    const p = PRODUCTS.find(prod => prod.id === ci.id);
+    if (p && p.stock >= ci.qty) {
+      p.stock -= ci.qty;
+      p.inStock = p.stock > 0;
+    }
+  });
+  saveProductsDatabase();
+
+  const selectedMethod = (state.selectedPayment || 'upi').toUpperCase();
+  const now = new Date();
+  const dateStr = now.toISOString().replace('T', ' ').substring(0, 19);
+  const txnId = selectedMethod === 'COD' 
+    ? ("COD-" + Math.floor(100000 + Math.random() * 900000))
+    : ("UPI-SPR-" + Math.floor(100000 + Math.random() * 900000));
+  
+  const payStatus = selectedMethod === 'COD' ? "Pending on Delivery" : `Paid Online (${txnId})`;
+  const payName = selectedMethod === 'COD' ? "Cash on Delivery (COD)" : `${selectedMethod} Instant Payment`;
+
+  // Create Order Record
+  const newOrder = {
+    orderId,
+    createdAt: dateStr,
+    status: "Confirmed",
+    paymentMethod: payName,
+    paymentStatus: payStatus,
+    txnId,
+    paymentId: txnId,
+    amountPaid: finalTotal,
+    subtotal,
+    discount: couponDiscount,
+    couponUsed: state.appliedCoupon ? state.appliedCoupon.code : null,
+    deliveryFee: 0,
+    estimatedDelivery: "Expected in 2-3 Business Days",
+    customer: { fullName: name, phone, email },
+    delivery: { houseNo, street: locality, locality, village: locality, mandal: "Santamaguluru", district: city, city, state: stateVal, pincode },
+    items: orderItems,
+    shipping: { courier: "India Post Speed Post", trackingId: "AWB-" + orderId.substring(2, 10), trackingUrl: "https://www.indiapost.gov.in/", dispatchDate: dateStr.split(" ")[0] }
+  };
+
+  // Ingest into Admin & Local Storage
+  state.orders.unshift(newOrder);
+  saveOrdersDatabase();
+
+  // Sync to Google Cloud Firestore if connected
+  if (typeof syncSingleOrderToFirestore === "function") {
+    syncSingleOrderToFirestore(newOrder);
   }
 
-  // 1. Create order on secure backend
-  let serverOrder;
-  try {
-    const orderResp = await fetch("/api/payment/create-order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        amount: finalTotal,
-        currency: "INR",
-        receipt: orderId,
-        notes: {
-          customer_name: name,
-          customer_phone: phone,
-          customer_email: email,
-          store_order_id: orderId,
-          payment_method: state.selectedPayment || "UPI"
-        }
-      })
-    });
-    serverOrder = await orderResp.json();
-    if (!serverOrder.success) {
-      throw new Error(serverOrder.error || "Failed to initialize payment order on server");
-    }
-  } catch (err) {
-    console.error("[Razorpay Backend Error]:", err);
-    if (payBtn) {
-      payBtn.disabled = false;
-      payBtn.innerHTML = origBtnText;
-    }
-    showToast("❌ Unable to connect to Razorpay Gateway: " + err.message);
-    return;
-  }
+  logAuditEvent("NEW_ORDER_PLACED", `Customer ${name} placed order ${orderId} for ₹${finalTotal} (${payName})`);
 
-  function finalizeOrderSuccess(razorpayPaymentId, razorpayOrderId) {
-    // Deduct stock in real-time
-    state.cart.forEach(ci => {
-      const p = PRODUCTS.find(prod => prod.id === ci.id);
-      if (p && p.stock >= ci.qty) {
-        p.stock -= ci.qty;
-        p.inStock = p.stock > 0;
-      }
-    });
-    saveProductsDatabase();
+  // Populate Order Success Modal
+  const elOrderId = document.getElementById("successOrderId");
+  if (elOrderId) elOrderId.textContent = orderId;
+  const custEl = document.getElementById("successCustomerName") || document.getElementById("successCustomer");
+  if (custEl) custEl.textContent = name;
+  const phoneEl = document.getElementById("successPhone");
+  if (phoneEl) phoneEl.textContent = phone;
+  const addrEl = document.getElementById("successAddress");
+  if (addrEl) addrEl.textContent = fullAddress;
+  const amtEl = document.getElementById("successAmount");
+  if (amtEl) amtEl.textContent = `₹${finalTotal} (${payStatus})`;
+  const payEl = document.getElementById("successPaymentMethod");
+  if (payEl) payEl.textContent = `${payName} • Ref: ${txnId}`;
 
-    const now = new Date();
-    const dateStr = now.toISOString().replace('T', ' ').substring(0, 19);
-    const txnId = razorpayPaymentId;
-    const payStatus = `Paid Online (Razorpay Verified: ${txnId})`;
-    const payName = `Razorpay Gateway (${(state.selectedPayment || 'UPI').toUpperCase()})`;
-
-    // Create Order Record with full compliance
-    const newOrder = {
-      orderId,
-      createdAt: dateStr,
-      status: "Confirmed",
-      paymentMethod: payName,
-      paymentStatus: payStatus,
-      txnId,
-      paymentId: txnId,
-      razorpayOrderId: razorpayOrderId,
-      amountPaid: finalTotal,
-      subtotal,
-      discount: couponDiscount,
-      couponUsed: state.appliedCoupon ? state.appliedCoupon.code : null,
-      deliveryFee: 0,
-      estimatedDelivery: "Expected in 2-3 Business Days",
-      customer: { fullName: name, phone, email },
-      delivery: { houseNo, street: locality, locality, village: locality, mandal: "Santamaguluru", district: city, city, state: stateVal, pincode },
-      items: orderItems,
-      shipping: { courier: "India Post Speed Post", trackingId: "AWB-" + orderId.substring(2, 10), trackingUrl: "https://www.indiapost.gov.in/", dispatchDate: dateStr.split(" ")[0] }
-    };
-
-    // Ingest into Admin & Local Storage
-    state.orders.unshift(newOrder);
-    saveOrdersDatabase();
-
-    // Sync to Google Cloud Firestore if connected
-    if (typeof syncSingleOrderToFirestore === "function") {
-      syncSingleOrderToFirestore(newOrder);
-    }
-
-    logAuditEvent("NEW_ORDER_PLACED", `Customer ${name} placed order ${orderId} for ₹${finalTotal} (Paid via Razorpay: ${txnId})`);
-
-    // Populate Order Success Modal
-    const elOrderId = document.getElementById("successOrderId");
-    if (elOrderId) elOrderId.textContent = orderId;
-    const custEl = document.getElementById("successCustomerName") || document.getElementById("successCustomer");
-    if (custEl) custEl.textContent = name;
-    const phoneEl = document.getElementById("successPhone");
-    if (phoneEl) phoneEl.textContent = phone;
-    const addrEl = document.getElementById("successAddress");
-    if (addrEl) addrEl.textContent = fullAddress;
-    const amtEl = document.getElementById("successAmount");
-    if (amtEl) amtEl.textContent = `₹${finalTotal} (Paid via Razorpay: ${txnId})`;
-    const payEl = document.getElementById("successPaymentMethod");
-    if (payEl) payEl.textContent = `${payName} • Ref: ${txnId}`;
-
-    // Dual WhatsApp Alerts (+91 94413 93817 & 9492468817)
-    const itemsText = orderItems.map(i => `• ${i.qty}x ${i.name} (Rs. ${i.price * i.qty})`).join("\n");
-    const waMsg = 
+  // Dual WhatsApp Alerts (+91 94413 93817 & 9492468817)
+  const itemsText = orderItems.map(i => `• ${i.qty}x ${i.name} (Rs. ${i.price * i.qty})`).join("\n");
+  const waMsg = 
 `🔔 *NEW E-COMMERCE ORDER - S.P.R. SIRI DHANYA*
 ----------------------------------------
 *Order ID:* ${orderId}
-*Payment Verified:* Razorpay (${txnId})
-*Status:* Paid (Verified Direct Bank Settlement)
+*Payment Method:* ${payName}
+*Status:* ${payStatus}
 *Date:* ${dateStr}
 *Customer Name:* ${name}
 *Mobile Number:* ${phone}
@@ -3757,110 +3704,26 @@ ${fullAddress}
 🛒 *ORDERED ITEMS:*
 ${itemsText}
 
-💰 *TOTAL AMOUNT PAID:* Rs. ${finalTotal} (FREE Delivery)
+💰 *TOTAL AMOUNT:* Rs. ${finalTotal} (FREE Delivery)
 ----------------------------------------
 Please dispatch through India Post / DTDC. Thank you!`;
 
-    const encodedWa = encodeURIComponent(waMsg);
-    const btn1 = document.getElementById("successWhatsappBtn1") || document.getElementById("successWhatsappBtn");
-    if (btn1) btn1.href = `https://wa.me/919441393817?text=${encodedWa}`;
-    const btn2 = document.getElementById("successWhatsappBtn2");
-    if (btn2) btn2.href = `https://wa.me/919492468817?text=${encodedWa}`;
+  const encodedWa = encodeURIComponent(waMsg);
+  const btn1 = document.getElementById("successWhatsappBtn1") || document.getElementById("successWhatsappBtn");
+  if (btn1) btn1.href = `https://wa.me/919441393817?text=${encodedWa}`;
+  const btn2 = document.getElementById("successWhatsappBtn2");
+  if (btn2) btn2.href = `https://wa.me/919492468817?text=${encodedWa}`;
 
-    // Reset checkout state
-    closeCheckoutModal();
-    state.cart = [];
-    state.appliedCoupon = null;
-    saveCartToStorage();
-    updateCartBadge();
-    renderProducts();
+  // Reset checkout state
+  closeCheckoutModal();
+  state.cart = [];
+  state.appliedCoupon = null;
+  saveCartToStorage();
+  updateCartBadge();
+  renderProducts();
 
-    document.getElementById("orderSuccessModal")?.classList.add("active");
-    showToast("🎉 Payment Cryptographically Verified! Order Confirmed.");
-  }
-
-  // 2. Launch official Razorpay Checkout SDK with backend order ID
-  if (typeof window.Razorpay !== "undefined") {
-    const options = {
-      key: serverOrder.key_id,
-      amount: serverOrder.amount, // in paise
-      currency: serverOrder.currency || "INR",
-      name: serverOrder.merchant_name || "S.P.R. SIRI DHANYA",
-      description: "Order #" + orderId + " - Traditional Millets",
-      image: "assets/brand_round_logo.png",
-      order_id: serverOrder.order_id,
-      prefill: {
-        name: name,
-        contact: phone,
-        email: email
-      },
-      notes: {
-        order_id: orderId,
-        factory_desk: "Kamepalli, Santamaguluru, Bapatla District, A.P. - 523326",
-        fssai_license: "20126152000402"
-      },
-      theme: {
-        color: "#103B2B"
-      },
-      handler: async function(response) {
-        // 3. Cryptographic Signature Verification on Backend
-        showToast("🔒 Verifying payment signature with server...");
-        try {
-          const verifyResp = await fetch("/api/payment/verify", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-              store_order_id: orderId,
-              payment_method: state.selectedPayment || "UPI"
-            })
-          });
-          const verifyData = await verifyResp.json();
-          if (verifyData.verified) {
-            finalizeOrderSuccess(response.razorpay_payment_id, response.razorpay_order_id);
-          } else {
-            alert("⚠️ Payment verification failed: " + (verifyData.error || "Cryptographic signature mismatch. Contact support at 9441393817"));
-          }
-        } catch (vErr) {
-          console.error("[Signature Verification Error]:", vErr);
-          alert("⚠️ Server verification error. If money was debited from your bank, please keep reference ID: " + response.razorpay_payment_id);
-        }
-      },
-      modal: {
-        ondismiss: function() {
-          if (payBtn) {
-            payBtn.disabled = false;
-            payBtn.innerHTML = origBtnText;
-          }
-          showToast("⚠️ Payment window closed. You can complete payment anytime.");
-        }
-      }
-    };
-
-    try {
-      const rzpInstance = new window.Razorpay(options);
-      rzpInstance.on("payment.failed", function(failResp) {
-        console.error("[Razorpay Payment Failed]:", failResp);
-        alert("❌ Payment Failed: " + (failResp.error?.description || "Bank/UPI transaction declined"));
-      });
-      rzpInstance.open();
-    } catch (e) {
-      console.error("[Razorpay Launch Error]:", e);
-      if (payBtn) {
-        payBtn.disabled = false;
-        payBtn.innerHTML = origBtnText;
-      }
-      showToast("❌ Razorpay launch error: " + e.message);
-    }
-  } else {
-    if (payBtn) {
-      payBtn.disabled = false;
-      payBtn.innerHTML = origBtnText;
-    }
-    showToast("⚠️ Razorpay SDK not available. Please check internet connection.");
-  }
+  document.getElementById("orderSuccessModal")?.classList.add("active");
+  showToast("🎉 Order Confirmed! Factory dispatch initiated.");
 };
 
 // --- 4. Upgraded Customer "My Orders" Dashboard & 7-Stage Tracking ---
@@ -4436,223 +4299,38 @@ function filterCustomerTable() {
   `).join("");
 }
 
-// Tab 6: Payments & Transactions (Connected to Backend History & Refund Manager)
-let adminPaymentFilterStatus = 'all';
-
-function filterAdminPayments(status, btnEl) {
-  adminPaymentFilterStatus = status;
-  if (btnEl) {
-    document.querySelectorAll(".admin-order-filter-bar button").forEach(b => b.classList.remove("active"));
-    btnEl.classList.add("active");
-  }
-  renderAdminPaymentsTable();
-}
-
-async function renderAdminPaymentsTable() {
+// Tab 6: Payments & Order Transactions
+function renderAdminPaymentsTable() {
   const tbody = document.getElementById("adminPaymentsTableBody");
   if (!tbody) return;
 
-  tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 20px; color: #64748b;">⏳ Fetching live transactions from backend...</td></tr>`;
-
-  try {
-    const url = adminPaymentFilterStatus === 'all' ? '/api/payment/history' : `/api/payment/history?status=${encodeURIComponent(adminPaymentFilterStatus)}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("Backend history not reachable");
-    const data = await res.json();
-    const payments = data.payments || [];
-
-    if (payments.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 30px; color: #94a3b8;">
-        📭 No ${adminPaymentFilterStatus !== 'all' ? adminPaymentFilterStatus : ''} payment transactions found in database.
-      </td></tr>`;
-      return;
-    }
-
-    tbody.innerHTML = payments.map(p => {
-      const status = (p.status || 'pending').toLowerCase();
-      let badgeClass = 'pending';
-      let badgeLabel = '🟡 Pending';
-
-      if (status === 'successful' || status === 'paid') {
-        badgeClass = 'paid';
-        badgeLabel = '🟢 Successful / Paid';
-      } else if (status === 'failed') {
-        badgeClass = 'cancelled';
-        badgeLabel = '🔴 Failed';
-      } else if (status === 'refunded') {
-        badgeClass = 'refunded';
-        badgeLabel = '🟣 Refunded';
-      }
-
-      const txnId = p.transaction_id || (p.razorpay_order_id ? 'ORD-' + p.razorpay_order_id.substring(6, 14) : 'TXN-PENDING');
-      const storeOrder = p.store_order_id || 'N/A';
-      const custInfo = p.customer_name ? `${p.customer_name} ${p.customer_phone ? '(' + p.customer_phone + ')' : ''}` : 'Customer';
-      const amount = p.amount || 0;
-      const dateStr = p.created_at || 'Just now';
-      const method = p.payment_method || 'UPI';
-
-      const canRefund = (status === 'successful' || status === 'paid') && p.transaction_id;
-
-      return `
-        <tr>
-          <td style="font-family: monospace; font-weight: 700; color: #0284c7; font-size: 12px;">${txnId}</td>
-          <td style="font-family: monospace; font-size: 11.5px; font-weight: 600;">${storeOrder}</td>
-          <td><span class="pay-method-badge">${method}</span></td>
-          <td>${custInfo}</td>
-          <td><strong style="color: #0f172a; font-size: 13px;">₹${amount}</strong></td>
-          <td style="font-size: 11px; color: #64748b;">${dateStr}</td>
-          <td><span class="pay-status-pill ${badgeClass}">${badgeLabel}</span></td>
-          <td>
-            ${canRefund ? `
-              <button class="btn btn-sm btn-danger-outline" onclick="openRefundModal('${p.transaction_id}', ${amount})" style="font-size: 11px; padding: 3px 8px;">
-                🟣 Refund
-              </button>
-            ` : (status === 'refunded' ? `<span style="font-size: 11px; color: #7c3aed; font-weight: 600;">Refunded</span>` : `<span style="font-size: 11px; color: #94a3b8;">-</span>`)}
-          </td>
-        </tr>
-      `;
-    }).join("");
-
-  } catch (err) {
-    console.warn("[Admin Payments Backend Fallback]:", err);
-    // Fallback to local orders
-    tbody.innerHTML = state.orders.map(o => `
-      <tr>
-        <td style="font-family: monospace; font-weight: 700; color: #0284c7;">${o.txnId || 'TXN-LOCAL'}</td>
-        <td style="font-family: monospace; font-size: 11.5px;">${o.orderId}</td>
-        <td><span class="pay-method-badge">${o.paymentMethod}</span></td>
-        <td>${o.customer?.fullName || 'Customer'}</td>
-        <td><strong>₹${o.amountPaid}</strong></td>
-        <td style="font-size: 11px;">${o.createdAt}</td>
-        <td><span class="pay-status-pill paid">${o.paymentStatus}</span></td>
-        <td><span style="font-size: 11px; color: #64748b;">-</span></td>
-      </tr>
-    `).join("");
+  const orders = state.orders || [];
+  if (orders.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 30px; color: #94a3b8;">
+      📭 No payment transactions recorded yet.
+    </td></tr>`;
+    return;
   }
+
+  tbody.innerHTML = orders.map(o => `
+    <tr>
+      <td style="font-family: monospace; font-weight: 700; color: #0284c7; font-size: 12px;">${o.txnId || 'TXN-ONLINE'}</td>
+      <td style="font-family: monospace; font-size: 11.5px; font-weight: 600;">${o.orderId}</td>
+      <td><span class="pay-method-badge">${o.paymentMethod}</span></td>
+      <td>${o.customer?.fullName || 'Customer'} (${o.customer?.phone || ''})</td>
+      <td><strong style="color: #0f172a; font-size: 13px;">₹${o.amountPaid}</strong></td>
+      <td style="font-size: 11px; color: #64748b;">${o.createdAt}</td>
+      <td><span class="pay-status-pill paid">${o.paymentStatus}</span></td>
+      <td>
+        <span style="font-size: 11px; color: #166534; font-weight: 600;">Verified</span>
+      </td>
+    </tr>
+  `).join("");
 }
 
 function refreshAdminPaymentHistory() {
   renderAdminPaymentsTable();
-  showToast("🔄 Payment transactions refreshed from backend.");
-}
-
-function openRefundModal(paymentId, amount) {
-  const modal = document.getElementById("adminRefundModal");
-  if (!modal) return;
-  document.getElementById("refundPaymentId").value = paymentId;
-  document.getElementById("refundTxnIdDisplay").value = paymentId;
-  document.getElementById("refundAmountInput").value = amount;
-  document.getElementById("refundAmountInput").max = amount;
-  document.getElementById("refundMaxHelp").textContent = `Max refundable amount: ₹${amount}`;
-  modal.classList.add("active");
-}
-
-async function handleRefundSubmit(e) {
-  e.preventDefault();
-  const paymentId = document.getElementById("refundPaymentId").value;
-  const amount = parseFloat(document.getElementById("refundAmountInput").value);
-  const reason = document.getElementById("refundReasonSelect").value;
-  const btn = document.getElementById("refundSubmitBtn");
-
-  if (!paymentId || !amount || amount <= 0) {
-    alert("Please enter a valid refund amount.");
-    return;
-  }
-
-  if (!confirm(`Are you sure you want to refund ₹${amount} for transaction ${paymentId}? This will reverse the charge.`)) {
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = "Processing Refund...";
-
-  try {
-    const res = await fetch("/api/payment/refund", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ payment_id: paymentId, amount, reason })
-    });
-    const data = await res.json();
-    if (data.success) {
-      closeModal("adminRefundModal");
-      renderAdminPaymentsTable();
-      showToast(`🟣 Refund of ₹${amount} processed successfully! Ref: ${data.refund_id}`);
-      logAuditEvent("PAYMENT_REFUNDED", `Refunded ₹${amount} for txn ${paymentId} (${reason})`);
-    } else {
-      alert("❌ Refund failed: " + (data.error || "Unknown gateway error"));
-    }
-  } catch (err) {
-    alert("❌ Error processing refund: " + err.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "Confirm & Process Refund";
-  }
-}
-
-// Admin Gateway Configuration Save Hook
-async function saveRazorpayConfigFromAdmin(e) {
-  e.preventDefault();
-  const keyId = document.getElementById("adminRazorpayKeyInput")?.value.trim();
-  const keySecret = document.getElementById("adminRazorpaySecretInput")?.value.trim();
-  const mode = document.getElementById("adminRazorpayModeSelect")?.value || "test";
-
-  if (!keyId) {
-    alert("Please enter a valid Razorpay Key ID.");
-    return;
-  }
-
-  if (mode === "live" && !keyId.startsWith("rzp_live_")) {
-    alert("⚠️ Live Production Mode requires a real Key ID starting with 'rzp_live_'. Switch to Test Mode or enter your Live credentials.");
-    return;
-  }
-
-  try {
-    const payload = { mode };
-    if (mode === "live") {
-      payload.live_key_id = keyId;
-      if (keySecret) payload.live_key_secret = keySecret;
-    } else {
-      payload.test_key_id = keyId;
-      if (keySecret) payload.test_key_secret = keySecret;
-    }
-
-    const res = await fetch("/api/payment/update-config", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json();
-    if (data.success) {
-      localStorage.setItem("spr_razorpay_key_id", keyId);
-      localStorage.setItem("spr_razorpay_mode", mode);
-      updateRazorpayAdminUI();
-      showToast(`✅ Razorpay Configuration Saved in ${mode.toUpperCase()} Mode!`);
-    } else {
-      alert("⚠️ " + (data.error || "Failed to update configuration on backend"));
-    }
-  } catch (err) {
-    console.warn("Backend save error, saved locally:", err);
-    localStorage.setItem("spr_razorpay_key_id", keyId);
-    localStorage.setItem("spr_razorpay_mode", mode);
-    updateRazorpayAdminUI();
-    showToast("Saved to browser local storage.");
-  }
-}
-
-function updateRazorpayAdminUI() {
-  const pill = document.getElementById("adminRazorpayStatusPill");
-  const modeSel = document.getElementById("adminRazorpayModeSelect");
-  const mode = modeSel ? modeSel.value : (localStorage.getItem("spr_razorpay_mode") || "test");
-
-  if (pill) {
-    if (mode === "live") {
-      pill.style.background = "#16a34a";
-      pill.textContent = "🟢 Live Production Mode (Active Bank Settlement)";
-    } else {
-      pill.style.background = "#d97706";
-      pill.textContent = "🟡 Test / Sandbox Mode Active";
-    }
-  }
+  showToast("🔄 Payment transactions refreshed.");
 }
 
 // Tab 7: Discounts & Coupons

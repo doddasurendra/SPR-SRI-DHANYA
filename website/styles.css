@@ -5987,69 +5987,6 @@ body {
 
 
 /* =========================================================================
-   RAZORPAY PAYMENT GATEWAY STYLES (REAL BUSINESS BANK INTEGRATION)
-   ========================================================================= */
-.razorpay-checkout-banner {
-  background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%) !important;
-  border: 1.5px solid #0284c7 !important;
-  border-radius: 8px !important;
-  padding: 12px 14px !important;
-  margin-bottom: 14px !important;
-  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.1) !important;
-}
-
-.rzp-banner-header {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  flex-wrap: wrap !important;
-  gap: 8px !important;
-  margin-bottom: 6px !important;
-}
-
-.rzp-brand-group {
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-}
-
-.rzp-chip {
-  background: #0c2340 !important;
-  color: #ffffff !important;
-  font-weight: 900 !important;
-  font-size: 12px !important;
-  padding: 3px 8px !important;
-  border-radius: 4px !important;
-  letter-spacing: 0.5px !important;
-}
-
-.rzp-title {
-  font-size: 13.5px !important;
-  color: #0f172a !important;
-}
-
-.rzp-bank-seal {
-  background: #166534 !important;
-  color: #ffffff !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  padding: 3px 8px !important;
-  border-radius: 20px !important;
-}
-
-.rzp-banner-sub {
-  margin: 0 !important;
-  font-size: 11.5px !important;
-  color: #334155 !important;
-  line-height: 1.4 !important;
-}
-
-.razorpay-admin-card {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
-}
-
-
-/* =========================================================================
    PAYMENT STATUS BADGES & REFUND MANAGER STYLES
    ========================================================================= */
 .pay-status-pill {
