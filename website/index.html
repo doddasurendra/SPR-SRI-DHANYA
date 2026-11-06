@@ -712,7 +712,21 @@
         <div class="payment-layout">
           <!-- Left side: Payment Methods List (Flipkart Style Accordion) -->
           <div class="payment-methods-tabs">
-            <h4 class="step-heading">3. SELECT PAYMENT METHOD</h4>
+                        <h4 class="step-heading">3. SELECT PAYMENT METHOD</h4>
+
+            <!-- Razorpay Official Gateway Trust Banner -->
+            <div class="razorpay-checkout-banner">
+              <div class="rzp-banner-header">
+                <div class="rzp-brand-group">
+                  <span class="rzp-chip">Razorpay</span>
+                  <strong class="rzp-title">Official Payment Gateway</strong>
+                </div>
+                <span class="rzp-bank-seal">🏦 Real Direct Bank Settlement</span>
+              </div>
+              <p class="rzp-banner-sub">
+                Supports all UPI Apps (Google Pay, PhonePe, Paytm, BHIM), Cards (Visa, MasterCard, RuPay), and Net Banking. All payments settle directly into the <strong>S.P.R. SIRI DHANYA</strong> business bank account.
+              </p>
+            </div>
 
             <!-- UPI Option -->
             <div class="pay-option" onclick="selectPayMethod('upi')">
@@ -1461,11 +1475,87 @@
         </div>
       </div>
 
-      <!-- TAB: PAYMENTS & TRANSACTIONS -->
+            <!-- TAB: PAYMENTS & TRANSACTIONS -->
       <div id="adminTabPaymentsContent" style="display: none;">
         <div style="margin-bottom: 12px;">
-          <h4 style="margin: 0;">💳 PAYMENT TRANSACTIONS & RECONCILIATION</h4>
-          <p style="font-size: 12px; color: #666; margin: 0;">Online transaction records (UPI, Cards, Net Banking) and gateway verification status.</p>
+          <h4 style="margin: 0;">💳 PAYMENT GATEWAY (RAZORPAY) & TRANSACTION RECONCILIATION</h4>
+          <p style="font-size: 12px; color: #666; margin: 0;">Configure your live Razorpay Business account so customer payments settle directly into your business bank account.</p>
+        </div>
+
+        <!-- RAZORPAY REAL GATEWAY INTEGRATION CARD -->
+        <div class="detail-card razorpay-admin-card" style="margin-bottom: 20px; border-left: 4px solid #0284c7; background: #ffffff;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 26px;">💳</span>
+              <div>
+                <h4 style="margin: 0; color: #0f172a; font-size: 16px;">RAZORPAY BUSINESS PAYMENT GATEWAY</h4>
+                <span style="font-size: 12px; color: #64748b;">Enterprise Merchant Account • Real Direct Bank Account Settlement</span>
+              </div>
+            </div>
+            <span id="adminRazorpayStatusPill" class="live-status-pill" style="background: #0284c7; color: #ffffff;">🟢 Razorpay Gateway Ready</span>
+          </div>
+
+          <!-- Gateway Configuration Form -->
+          <form onsubmit="saveRazorpayConfigFromAdmin(event)" style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-bottom: 14px;">
+              <div class="form-group">
+                <label style="font-weight: 700; font-size: 12.5px; color: #1e293b; display: block; margin-bottom: 4px;">
+                  Razorpay Key ID (API Key from dashboard.razorpay.com) *
+                </label>
+                <input type="text" id="adminRazorpayKeyInput" placeholder="e.g. rzp_live_xxxxxxxxxxxxxx or rzp_test_xxxxxxxxxxxxxx" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: monospace; font-size: 13px;" required>
+                <small style="font-size: 11px; color: #64748b; margin-top: 4px; display: block;">
+                  Use <code>rzp_live_...</code> for real money straight to your bank account, or <code>rzp_test_...</code> for testing.
+                </small>
+              </div>
+
+              <div class="form-group">
+                <label style="font-weight: 700; font-size: 12.5px; color: #1e293b; display: block; margin-bottom: 4px;">
+                  Gateway Operation Mode
+                </label>
+                <select id="adminRazorpayModeSelect" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                  <option value="live">🟢 Live Production Mode (Real Bank Account Money)</option>
+                  <option value="test">🟡 Test / Sandbox Mode</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Business Settlement Info Row -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; background: #ffffff; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0; margin-bottom: 14px;">
+              <div>
+                <span style="font-size: 11px; color: #64748b; display: block;">Merchant Name</span>
+                <strong style="font-size: 13px; color: #0f172a;">S.P.R. SIRI DHANYA</strong>
+              </div>
+              <div>
+                <span style="font-size: 11px; color: #64748b; display: block;">Bank Settlement Cycle</span>
+                <strong style="font-size: 13px; color: #166534;">T+1 / T+2 Days (Daily Auto Bank Transfer)</strong>
+              </div>
+              <div>
+                <span style="font-size: 11px; color: #64748b; display: block;">FSSAI Compliance</span>
+                <strong style="font-size: 13px; color: #0f172a;">Lic #20126152000402</strong>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+              <button type="submit" class="btn btn-primary btn-sm">💾 Save Razorpay Settings</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="loadFreeTestRazorpayKey()">⚡ Load Test / Sandbox Key</button>
+              <a href="https://dashboard.razorpay.com/#/access/api-keys" target="_blank" class="btn btn-warning-gold btn-sm" style="text-decoration: none;">
+                🔗 Open Razorpay Dashboard (Get Key ID)
+              </a>
+            </div>
+          </form>
+
+          <!-- 4-Step Instructions on How to Connect Business Bank Account -->
+          <div class="razorpay-setup-guide" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 14px;">
+            <h5 style="margin: 0 0 8px 0; color: #166534; font-size: 13.5px; display: flex; align-items: center; gap: 6px;">
+              <span>📋</span> What You Need to Do for Real Money to Enter Your Business Bank Account:
+            </h5>
+            <ol style="margin: 0; padding-left: 20px; font-size: 12px; color: #1e293b; line-height: 1.6;">
+              <li><strong>Sign Up on Razorpay:</strong> Go to <a href="https://razorpay.com" target="_blank" style="color: #0284c7; font-weight: 700;">razorpay.com</a> and sign up using your email <code>sdodda073@gmail.com</code>.</li>
+              <li><strong>Complete Business KYC:</strong> Submit Business Name (<em>S.P.R. SIRI DHANYA</em>), Food Category, and FSSAI License Number (<code>20126152000402</code>).</li>
+              <li><strong>Link Your Business Bank Account:</strong> Enter your Bank Account Number & IFSC code where customer payments should be deposited. Razorpay will verify it.</li>
+              <li><strong>Generate API Key:</strong> In your Razorpay Dashboard, go to <strong>Settings ➔ API Keys</strong> ➔ click <strong>Generate Key</strong>. Copy the <code>Key ID</code> (starts with <code>rzp_live_...</code>) and paste it into the box above!</li>
+            </ol>
+          </div>
         </div>
 
         <div class="admin-table-wrap">
@@ -2897,6 +2987,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="firebase-config.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="app.js"></script>
   <!-- ============================================== -->
   <!-- FLIPKART MOBILE BOTTOM SHEET: SORT OPTIONS     -->
