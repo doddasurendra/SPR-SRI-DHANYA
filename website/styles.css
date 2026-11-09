@@ -3871,14 +3871,26 @@ body {
     display: none !important;
   }
 
-  /* Hide Desktop Action Buttons from header on mobile */
+  /* Hide Desktop Action Buttons from header on mobile (KEEP ADMIN & CART VISIBLE) */
   .fk-header-actions .qr-hub-btn,
   .fk-header-actions .pdf-nav-btn,
-  .fk-header-actions .fk-admin-badge-btn,
   .fk-header-actions .wholesale-nav-btn,
   .fk-header-actions .policy-nav-btn,
   .fk-header-actions .fk-dropdown {
     display: none !important;
+  }
+
+  /* Admin Badge Button on Mobile: Prominently displayed */
+  .fk-header-actions .fk-admin-badge-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 5px 10px !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    border-radius: 4px !important;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important;
+    color: #103B2B !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2) !important;
   }
 
   .fk-header-actions {
@@ -6339,4 +6351,35 @@ body {
   .about-pillars-grid {
     grid-template-columns: 1fr;
   }
+}
+
+
+/* =========================================================================
+   Z-INDEX HIERARCHY: ADMIN CHILD MODALS & OVERLAYS
+   Ensures child modals (View Order, Add Product, Categories, Coupons, etc.)
+   render ABOVE .full-page-modal (z-index: 10050)
+   ========================================================================= */
+#adminOrderDetailsModal,
+#adminProductFormModal,
+#categoryManagerModal,
+#adminAddCouponModal,
+#adminRefundModal,
+#addKnowledgeArticleModal,
+#adminLoginModal {
+  z-index: 10500 !important;
+}
+
+#adminOrderDetailsModal .modal-card,
+#adminProductFormModal .modal-card,
+#categoryManagerModal .modal-card,
+#adminAddCouponModal .modal-card,
+#adminRefundModal .modal-card,
+#addKnowledgeArticleModal .modal-card,
+#adminLoginModal .modal-card {
+  z-index: 10501 !important;
+  position: relative !important;
+}
+
+.toast-container {
+  z-index: 12000 !important;
 }

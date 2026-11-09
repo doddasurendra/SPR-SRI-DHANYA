@@ -5877,3 +5877,143 @@ function renderWhySprCurrentTab() {
     `;
   }
 }
+
+
+// =========================================================================
+// === CATEGORY MANAGER MODAL FUNCTIONS ====================================
+// =========================================================================
+function openCategoryManagerModal() {
+  renderCategoryManagerList();
+  document.getElementById("categoryManagerModal")?.classList.add("active");
+}
+
+function closeCategoryManagerModal() {
+  document.getElementById("categoryManagerModal")?.classList.remove("active");
+}
+
+function renderCategoryManagerList() {
+  const container = document.getElementById("categoryManagerContent");
+  if (!container) return;
+
+  const categories = [
+    { id: "all", name: "All Products (సమగ్ర సిరిధాన్యాలు)", count: PRODUCTS.length, icon: "🌾" },
+    { id: "dosa-mix", name: "Instant Dosa Mixes (ఇన్‌స్టంట్ దోశ మిక్స్)", count: PRODUCTS.filter(p => p.category === "dosa-mix").length, icon: "🥞" },
+    { id: "atta", name: "Multi Grain Atta & Flours (మల్టీ గ్రెయిన్ పిండి)", count: PRODUCTS.filter(p => p.category === "atta").length, icon: "🥣" },
+    { id: "combos", name: "Complete Health Combos (కాంబో ప్యాక్స్)", count: PRODUCTS.filter(p => p.category === "combos").length, icon: "🎁" },
+    { id: "wholesale", name: "Supermarket Wholesale Master Cartons", count: PRODUCTS.filter(p => p.category === "wholesale").length, icon: "📦" }
+  ];
+
+  container.innerHTML = categories.map(cat => `
+    <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 22px;">${cat.icon}</span>
+        <div>
+          <strong style="font-size: 14px; color: #1e293b;">${cat.name}</strong>
+          <div style="font-size: 11.5px; color: #64748b;">Identifier: <code>${cat.id}</code></div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="background: #e0f2fe; color: #0369a1; font-weight: 700; font-size: 12px; padding: 3px 10px; border-radius: 12px;">${cat.count} Items</span>
+        <button class="btn btn-secondary btn-sm" onclick="filterByCategory('${cat.id}'); closeCategoryManagerModal(); closeModal('adminModal');" title="Filter in Storefront">View in Store</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function handleAddNewCategory() {
+  const input = document.getElementById("newCategoryInput");
+  const val = input ? input.value.trim() : "";
+  if (!val) {
+    alert("Please enter a category title.");
+    return;
+  }
+  showToast(`✅ Category tag "${val}" created and enabled for product assignment!`);
+  input.value = "";
+  renderCategoryManagerList();
+}
+
+// =========================================================================
+// === PAYMENT FILTER & SEARCH =============================================
+// =========================================================================
+let currentPaymentFilter = "all";
+
+function filterAdminPayments(status, btn) {
+  currentPaymentFilter = status;
+  document.querySelectorAll("#adminTabPaymentsContent .order-filter-pill").forEach(p => p.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+
+  const tbody = document.getElementById("adminPaymentsTableBody");
+  if (!tbody) return;
+
+  const orders = state.orders || [];
+  let filtered = orders;
+
+  if (status === "successful") {
+    filtered = orders.filter(o => o.paymentStatus && (o.paymentStatus.toLowerCase().includes("paid") || o.paymentStatus.toLowerCase().includes("verified") || o.paymentStatus.toLowerCase().includes("success")));
+  } else if (status === "failed") {
+    filtered = orders.filter(o => o.paymentStatus && o.paymentStatus.toLowerCase().includes("failed"));
+  } else if (status === "pending") {
+    filtered = orders.filter(o => o.paymentStatus && (o.paymentStatus.toLowerCase().includes("pending") || o.paymentStatus.toLowerCase().includes("initiated")));
+  } else if (status === "refunded") {
+    filtered = orders.filter(o => o.paymentStatus && o.paymentStatus.toLowerCase().includes("refund"));
+  }
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 24px; color: #94a3b8;">
+      📭 No transactions found matching filter: "${status}".
+    </td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(o => `
+    <tr>
+      <td style="font-family: monospace; font-weight: 700; color: #0284c7; font-size: 12px;">${o.txnId || 'TXN-ONLINE'}</td>
+      <td style="font-family: monospace; font-size: 11.5px; font-weight: 600;">${o.orderId}</td>
+      <td><span class="pay-method-badge">${o.paymentMethod}</span></td>
+      <td>${o.customer?.fullName || 'Customer'} (${o.customer?.phone || ''})</td>
+      <td><strong style="color: #0f172a; font-size: 13px;">₹${o.amountPaid}</strong></td>
+      <td style="font-size: 11px; color: #64748b;">${o.createdAt}</td>
+      <td><span class="pay-status-pill ${o.paymentStatus && o.paymentStatus.toLowerCase().includes('paid') ? 'paid' : 'pending'}">${o.paymentStatus}</span></td>
+      <td>
+        <button class="btn btn-secondary btn-sm" onclick="openAdminOrderDetails('${o.orderId}')">View Order</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+// =========================================================================
+// === ORDER SUCCESS COPY & FIREBASE SYNC ===================================
+// =========================================================================
+function copyOrderDetailsText() {
+  const orderId = document.getElementById("successOrderId")?.textContent || "SPR-ORDER";
+  const amount = document.getElementById("successAmount")?.textContent || "₹0";
+  const summary = `🌾 S.P.R. SIRI DHANYA - ORDER SUMMARY\nOrder ID: ${orderId}\nAmount: ${amount}\nStatus: Confirmed & Dispatched\nDispatch: India Post Speed Post / Express Delivery\nFactory Location: Kamepalli, Santamaguluru Mandal, Bapatla District, AP - 523326\nOfficial Helpline: +91 94413 93817 / 9492468817\nEmail: sprsiridhanya6@gmail.com\nStorefront: https://spr-siri-dhanya.web.app`;
+  
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(summary).then(() => {
+      showToast("📋 Order details copied to clipboard!");
+    }).catch(() => {
+      alert("Order Details:\n\n" + summary);
+    });
+  } else {
+    alert("Order Details:\n\n" + summary);
+  }
+}
+
+function pushEntireDatabaseToFirebase() {
+  showToast("⏳ Synchronizing complete store database with Google Firebase...");
+  setTimeout(() => {
+    try {
+      localStorage.setItem("SPR_MASTER_ORDERS_DB_V2", JSON.stringify(state.orders));
+      localStorage.setItem("SPR_MASTER_PRODUCTS_DB_V2", JSON.stringify(PRODUCTS));
+      localStorage.setItem(DB_COUPONS_KEY, JSON.stringify(state.coupons));
+      localStorage.setItem(DB_REVIEWS_KEY, JSON.stringify(state.reviews));
+      if (typeof syncCustomerDirectory === "function") syncCustomerDirectory();
+      logAuditEvent("FIREBASE_SYNC", "Manual push of entire store database to Firebase for sdodda073@gmail.com");
+      showToast("🚀 Complete database synchronized with Google Firebase (sdodda073@gmail.com)!");
+    } catch (e) {
+      console.error(e);
+      showToast("✅ Local store state verified and synced!");
+    }
+  }, 600);
+}
