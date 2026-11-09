@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S.P.R. Siri Dhanya — Executive Admin Back-End Portal</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="assets/brand_round_logo.png">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0f172a;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .loader-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 32px 40px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      max-width: 440px;
+      width: 90%;
+    }
+    .crown-icon {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+    h2 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+      color: #f1f5f9;
+    }
+    p {
+      margin: 0 0 20px 0;
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3.5px solid #334155;
+      border-top-color: #f59e0b;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader-card">
+    <div class="crown-icon">👑</div>
+    <h2>S.P.R. SIRI DHANYA</h2>
+    <p>Connecting to Back-End Operations & Order Command Center...</p>
+    <div class="spinner"></div>
+    <div style="font-size: 11px; color: #64748b;">Redirecting to Authorized Admin Console</div>
+  </div>
+
+  <script>
+    // Redirect to main app with #admin hash which immediately triggers authenticated admin portal
+    setTimeout(function() {
+      window.location.replace("index.html#admin");
+    }, 300);
+  </script>
+</body>
+</html>

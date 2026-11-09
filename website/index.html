@@ -74,13 +74,6 @@
           <span>Direct factory carton orders (25-30% margins)</span>
         </div>
       </a>
-      <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); openAdminModalAuth();" class="mobile-nav-item highlight-admin">
-        <span class="nav-icon">👑</span> 
-        <div class="nav-item-text">
-          <strong>Admin Management Portal</strong>
-          <span>Control center: Orders, Stock, Sales</span>
-        </div>
-      </a>
       <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); openPolicyModal('privacy');" class="mobile-nav-item">
         <span class="nav-icon">📜</span> 
         <div class="nav-item-text">
@@ -136,7 +129,7 @@
     <div class="container announcement-inner">
       <span class="announcement-left">🎉 <strong>Special Launch Offer:</strong> Flat 20% Off Instant Dosa Mixes! Free Delivery > ₹299</span>
       <div class="top-contacts">
-        <span class="phone-link">📞 Call / WhatsApp: <a href="tel:9441393817">+91 94413 93817</a> | <a href="tel:9492468817">9492468817</a></span> <span style="margin: 0 6px; opacity: 0.6;">|</span> <span class="email-link">✉️ <a href="mailto:sprsiridhanya6@gmail.com" style="color: #fff; text-decoration: underline;">sprsiridhanya6@gmail.com</a></span> <span style="margin: 0 6px; opacity: 0.6;">|</span> <span class="top-admin-link">👑 <a href="javascript:void(0)" onclick="openAdminModalAuth()" style="color: #ffe500; font-weight: 800; text-decoration: underline;">Admin Portal</a></span>
+        <span class="phone-link">📞 Call / WhatsApp: <a href="tel:9441393817">+91 94413 93817</a> | <a href="tel:9492468817">9492468817</a></span> <span style="margin: 0 6px; opacity: 0.6;">|</span> <span class="email-link">✉️ <a href="mailto:sprsiridhanya6@gmail.com" style="color: #fff; text-decoration: underline;">sprsiridhanya6@gmail.com</a></span>
       </div>
     </div>
   </div>
@@ -149,7 +142,7 @@
         <span>☰</span>
       </button>
       <!-- Logo with Round Emblem placed above S.P.R. letters -->
-      <a href="#" class="fk-logo" onclick="resetFilters()" title="S.P.R. Siri Dhanya - 100% Traditional Positive Millets">
+      <a href="#" class="fk-logo" onclick="resetFilters()" ondblclick="openAdminModalAuth()" title="S.P.R. Siri Dhanya - 100% Traditional Positive Millets">
         <div class="logo-top-seal-wrap">
           <img src="assets/brand_round_logo.png" alt="S.P.R. Siri Dhanya Round Logo" class="brand-round-logo-img">
         </div>
@@ -193,11 +186,6 @@
           </div>
           <span class="cart-text">Cart</span>
         </div>
-
-        <!-- 2. Admin Operations Portal -->
-        <button class="fk-admin-badge-btn" onclick="openAdminModalAuth()" title="Executive Management Console">
-          👑 Admin Portal
-        </button>
 
         <!-- 3. Customer Orders Tracking -->
         <button class="fk-nav-btn my-orders-btn" onclick="openMyOrdersModal()" title="Track Your Orders">
@@ -1172,7 +1160,6 @@
             <li><a href="javascript:void(0)" onclick="document.getElementById('productCatalog')?.scrollIntoView({behavior: 'smooth'})">Shop</a></li>
             <li><a href="javascript:void(0)" onclick="openAboutModal()">About Us</a></li>
             <li><a href="javascript:void(0)" onclick="openContactModal()">Contact Us</a></li>
-            <li><a href="javascript:void(0)" onclick="openAdminModalAuth()">👑 Admin Portal</a></li>
           </ul>
         </div>
 
@@ -1262,7 +1249,11 @@
     <!-- Bottom Copyright & Trust Bar -->
     <div class="spr-heritage-bottom-bar">
       <div class="container spr-bottom-bar-inner">
-        <div>© 2026 S.P.R. Siri Dhanya • Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326. All rights reserved.</div>
+        <div>
+          © 2026 S.P.R. Siri Dhanya • Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326. All rights reserved.
+          <span style="margin: 0 8px; opacity: 0.3;">•</span>
+          <a href="javascript:void(0)" onclick="openAdminModalAuth()" style="color: rgba(255,255,255,0.35); text-decoration: none; font-size: 11px;" title="Authorized Staff Access Only">Staff Access</a>
+        </div>
         <div class="spr-payment-trust-tags">
           <span>💳 Visa</span>
           <span>MasterCard</span>
