@@ -1400,6 +1400,9 @@
           </div>
         </div>
         <div class="admin-top-actions">
+          <button class="btn btn-primary btn-sm btn-back-dashboard" onclick="switchAdminTab('dashboard')" title="Go back to main Admin Dashboard Overview">
+            ⬅️ Back to Dashboard
+          </button>
           <span class="live-status-pill">🟢 Live Storefront Online</span>
           <span class="admin-clock-pill" id="adminClockPill">Live IST</span>
           <button class="btn btn-warning-gold btn-sm" onclick="pushEntireDatabaseToFirebase()" title="Push entire store database to Google Firebase for sdodda073@gmail.com">🚀 Push Database to Firebase</button>
@@ -1430,6 +1433,20 @@
       </div>
 
       <div id="adminTabOrdersContent" style="display: none;">
+        <!-- Orders Tab Back Navigation Bar -->
+        <div class="admin-tab-back-bar">
+          <div class="admin-tab-back-left">
+            <button type="button" class="btn btn-primary btn-sm btn-back-dashboard" onclick="switchAdminTab('dashboard')">
+              ⬅️ Back to Dashboard
+            </button>
+            <span class="admin-tab-back-sep">|</span>
+            <span class="admin-tab-back-title">📋 Live Orders & Customer Dispatch Control</span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="refreshAdminData()">🔄 Live Sync Orders</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="exportOrdersCSV()">📥 Export CSV</button>
+          </div>
+        </div>
       <!-- 1. Admin KPI Dashboard (Section 1) -->
       <div class="admin-kpi-grid">
         <div class="kpi-card total-orders">
@@ -1627,7 +1644,13 @@
       <div id="adminTabProductsContent" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
-            <h4 style="margin: 0;">📦 PRODUCT CATALOGUE & INVENTORY MANAGEMENT</h4>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+              <button type="button" class="btn btn-primary btn-sm btn-back-dashboard" onclick="switchAdminTab('dashboard')">
+                ⬅️ Back to Dashboard
+              </button>
+              <span class="admin-tab-back-sep">|</span>
+              <h4 style="margin: 0; display: inline-block;">📦 PRODUCT CATALOGUE & INVENTORY MANAGEMENT</h4>
+            </div>
             <p style="font-size: 12px; color: #666; margin: 0;">Add, modify pricing, update descriptions, and manage categories.</p>
           </div>
           <div style="display: flex; gap: 8px;">
@@ -1659,6 +1682,15 @@
 
       <!-- TAB: INVENTORY & LOW-STOCK ALERTS -->
       <div id="adminTabInventoryContent" style="display: none;">
+        <div class="admin-tab-back-bar">
+          <div class="admin-tab-back-left">
+            <button type="button" class="btn btn-primary btn-sm btn-back-dashboard" onclick="switchAdminTab('dashboard')">
+              ⬅️ Back to Dashboard
+            </button>
+            <span class="admin-tab-back-sep">|</span>
+            <span class="admin-tab-back-title">📈 Live Warehouse Stock & Depletion Alerts</span>
+          </div>
+        </div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <h4 style="margin: 0;">📈 LIVE FACTORY INVENTORY & RESTOCKING</h4>
@@ -1687,6 +1719,15 @@
 
       <!-- TAB: CUSTOMER MANAGEMENT -->
       <div id="adminTabCustomersContent" style="display: none;">
+        <div class="admin-tab-back-bar">
+          <div class="admin-tab-back-left">
+            <button type="button" class="btn btn-primary btn-sm btn-back-dashboard" onclick="switchAdminTab('dashboard')">
+              ⬅️ Back to Dashboard
+            </button>
+            <span class="admin-tab-back-sep">|</span>
+            <span class="admin-tab-back-title">👥 Verified Customer Directory & Order History</span>
+          </div>
+        </div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <div>
             <h4 style="margin: 0;">👥 REGISTERED CUSTOMER DIRECTORY</h4>
@@ -1717,6 +1758,18 @@
 
             <!-- TAB: PAYMENTS & TRANSACTIONS -->
       <div id="adminTabPaymentsContent" style="display: none;">
+        <div class="admin-tab-back-bar">
+          <div class="admin-tab-back-left">
+            <button type="button" class="btn btn-primary btn-sm btn-back-dashboard" onclick="switchAdminTab('dashboard')">
+              ⬅️ Back to Dashboard
+            </button>
+            <span class="admin-tab-back-sep">|</span>
+            <span class="admin-tab-back-title">💳 Payments & Real Bank Settlement History</span>
+          </div>
+          <div>
+            <button class="btn btn-primary btn-sm" onclick="refreshAdminPaymentHistory()">🔄 Refresh Transactions</button>
+          </div>
+        </div>
         <div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
           <div>
             <h4 style="margin: 0; color: #0f172a; font-size: 16px;">💳 PAYMENT & ORDER TRANSACTIONS RECONCILIATION</h4>
@@ -1787,6 +1840,15 @@
 
       <!-- TAB: SHIPPING & DELIVERY -->
       <div id="adminTabShippingContent" style="display: none;">
+        <div class="admin-tab-back-bar">
+          <div class="admin-tab-back-left">
+            <button type="button" class="btn btn-primary btn-sm btn-back-dashboard" onclick="switchAdminTab('dashboard')">
+              ⬅️ Back to Dashboard
+            </button>
+            <span class="admin-tab-back-sep">|</span>
+            <span class="admin-tab-back-title">🚚 Courier Dispatch & India Post Tracking Management</span>
+          </div>
+        </div>
         <div style="margin-bottom: 12px;">
           <h4 style="margin: 0;">🚚 SHIPPING, CARRIERS & TRACKING DISPATCH</h4>
           <p style="font-size: 12px; color: #666; margin: 0;">Real-time shipment assignments (India Post, Delhivery, DTDC) and customer SMS/WhatsApp tracking alerts.</p>
@@ -2190,7 +2252,13 @@
       </div>
 
     </div>
-  </div>
+  
+      <!-- Floating Back to Dashboard Button (Visible when scrolling in any section) -->
+      <button type="button" class="admin-floating-dashboard-btn" onclick="switchAdminTab('dashboard')" title="Return to Dashboard Overview">
+        ⬅️ Back to Dashboard
+      </button>
+
+    </div>
 
   <!-- Complete Order Details Modal for Admin (Section 3, 4, 5) -->
   <div class="modal-overlay" id="adminOrderDetailsModal">
@@ -2198,6 +2266,9 @@
       <button class="modal-close" onclick="closeModal('adminOrderDetailsModal')">✕</button>
       
       <div class="order-detail-header">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal('adminOrderDetailsModal'); switchAdminTab('dashboard');" style="margin-right: 12px; font-weight: 700;">
+          ⬅️ Back to Dashboard
+        </button>
         <div>
           <h3>Order Details: <span id="detailOrderId" class="text-primary">OD...</span></h3>
           <span class="detail-order-date" id="detailOrderDate">Date: ...</span>

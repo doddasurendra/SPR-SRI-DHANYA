@@ -4063,7 +4063,11 @@ function switchAdminTab(tabName) {
   if (chosenContent) chosenContent.style.display = "block";
 
   // Trigger specific renderer
-  if (tabName === "dashboard") renderAdminDashboardOverview();
+  if (tabName === "dashboard") {
+    renderAdminDashboardOverview();
+    const adminCard = document.querySelector("#adminModal .admin-modal-card");
+    if (adminCard) adminCard.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   else if (tabName === "orders") refreshAdminData();
   else if (tabName === "products") renderAdminProductsTable();
   else if (tabName === "inventory") renderAdminInventoryTable();

@@ -6383,3 +6383,83 @@ body {
 .toast-container {
   z-index: 12000 !important;
 }
+
+
+/* =========================================================================
+   PERSISTENT BACK TO DASHBOARD NAVIGATION FOR ADMIN COMMAND CENTER
+   ========================================================================= */
+.btn-back-dashboard {
+  background: #1d4ed8 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 14px !important;
+  border-radius: 4px !important;
+  border: none !important;
+  box-shadow: 0 2px 6px rgba(29, 78, 216, 0.4) !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.btn-back-dashboard:hover {
+  background: #1e40af !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 10px rgba(29, 78, 216, 0.5) !important;
+}
+
+.admin-floating-dashboard-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  z-index: 10060;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.admin-floating-dashboard-btn:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1d4ed8 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.admin-tab-back-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-left: 5px solid #2563eb;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+.admin-tab-back-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-tab-back-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e1b4b;
+}
+
+.admin-tab-back-sep {
+  color: #94a3b8;
+  font-weight: 300;
+}
