@@ -2183,16 +2183,25 @@
       <!-- ============================================== -->
       <div id="adminTabKnowledgeContent" style="display: none;">
         <div class="knowledge-admin-container">
-          <div class="knowledge-top-strip">
-            <div>
-              <h4>🧠 S.P.R. SIRI DHANYA UNIVERSAL BUSINESS KNOWLEDGE BASE</h4>
-              <p style="font-size: 12px; color: #666;">
-                Centralized multi-lingual repository (Telugu • English • Hindi) powering the Voice AI Agent & Chatbot across 36 business domains.
-              </p>
+          <!-- Knowledge Base Back & Action Bar -->
+          <div class="admin-tab-back-bar">
+            <div class="admin-tab-back-left">
+              <button type="button" class="btn btn-primary btn-sm btn-back-dashboard" onclick="switchAdminTab('dashboard')">
+                ⬅️ Back to Dashboard
+              </button>
+              <span class="admin-tab-back-sep">|</span>
+              <span class="admin-tab-back-title">🧠 Universal Business Knowledge Base & AI Specifications (RAG)</span>
             </div>
-            <div style="display: flex; gap: 8px;">
-              <button class="btn btn-primary btn-sm" onclick="openAddKnowledgeArticleModal()">➕ Add Knowledge Article</button>
-              <button class="btn btn-secondary btn-sm" onclick="reindexKnowledgeBase()">⚡ Re-Index RAG Engine</button>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button type="button" class="btn btn-success btn-sm" onclick="toggleKnowledgeTools()" id="toggleKbToolsBtn" style="font-weight: 700;">
+                ⛶ Full-Screen Table View
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="openAddKnowledgeArticleModal()">
+                ➕ Add Knowledge Article
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="reindexKnowledgeBase()">
+                ⚡ Re-Index RAG Engine
+              </button>
             </div>
           </div>
 
@@ -2252,11 +2261,6 @@
       </div>
 
     </div>
-  
-      <!-- Floating Back to Dashboard Button (Visible when scrolling in any section) -->
-      <button type="button" class="admin-floating-dashboard-btn" onclick="switchAdminTab('dashboard')" title="Return to Dashboard Overview">
-        ⬅️ Back to Dashboard
-      </button>
 
     </div>
 
@@ -3457,6 +3461,39 @@
           <button type="submit" class="btn btn-danger btn-sm" id="refundSubmitBtn">Confirm & Process Refund</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: VIEW KNOWLEDGE ARTICLE DETAILS (FULL SCREEN VIEW) -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="viewKnowledgeArticleModal" style="z-index: 10500 !important;">
+    <div class="modal-card" style="max-width: 800px; border-top: 5px solid #103B2B; max-height: 85vh;">
+      <button class="modal-close" onclick="closeViewKnowledgeModal()">✕</button>
+      
+      <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 26px;">📖</span>
+          <div>
+            <h3 id="viewKbTitle" style="margin: 0; font-size: 19px; color: #103B2B;">Article Title</h3>
+            <div style="display: flex; gap: 8px; margin-top: 4px; font-size: 12px;">
+              <span id="viewKbCategory" class="pay-method-badge">Category</span>
+              <span id="viewKbLanguage" class="pay-status-pill paid">Language</span>
+              <span id="viewKbId" style="font-family: monospace; font-weight: 700; color: #64748b;">ID: KB-00</span>
+            </div>
+          </div>
+        </div>
+        <span id="viewKbUpdated" style="font-size: 12px; color: #64748b;">Updated: ...</span>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin-bottom: 16px; max-height: 50vh; overflow-y: auto;">
+        <h5 style="margin: 0 0 8px 0; color: #334155; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Verified Specification / Knowledge Content:</h5>
+        <div id="viewKbContent" style="font-size: 14px; line-height: 1.7; color: #1e293b; white-space: pre-wrap; word-break: break-word;"></div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button type="button" class="btn btn-secondary" onclick="closeViewKnowledgeModal()">Close</button>
+      </div>
     </div>
   </div>
 

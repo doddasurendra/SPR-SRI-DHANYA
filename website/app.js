@@ -3113,14 +3113,15 @@ function renderKnowledgeBaseTable() {
 
   tbody.innerHTML = state.knowledgeBase.map(a => `
     <tr>
-      <td style="font-family: monospace; font-weight: 700; color: #1565c0;">${a.id}</td>
+      <td style="font-family: monospace; font-weight: 700; color: #1565c0; white-space: nowrap;">${a.id}</td>
       <td><span class="pay-method-badge">${a.category}</span></td>
-      <td><strong>${a.title}</strong></td>
+      <td><strong style="color: #0f172a; font-size: 13px;">${a.title}</strong></td>
       <td><span class="pay-status-pill paid">${a.language}</span></td>
-      <td style="max-width: 250px; font-size: 11.5px; line-height: 1.4; color: #444;">${a.content.substring(0, 120)}...</td>
-      <td style="font-size: 11px;">${a.updated}</td>
-      <td>
-        <button class="btn btn-secondary btn-sm" onclick="deleteKnowledgeArticle('${a.id}')">🗑️ Delete</button>
+      <td style="max-width: 420px; font-size: 12px; line-height: 1.5; color: #334155; word-break: break-word;">${a.content.substring(0, 140)}...</td>
+      <td style="font-size: 11.5px; white-space: nowrap; color: #64748b;">${a.updated}</td>
+      <td style="white-space: nowrap;">
+        <button class="btn btn-primary btn-sm" onclick="openViewKnowledgeModal('${a.id}')" style="margin-right: 4px;">👁️ View Details</button>
+        <button class="btn btn-danger-outline btn-sm" onclick="deleteKnowledgeArticle('${a.id}')">🗑️</button>
       </td>
     </tr>
   `).join("");
@@ -3217,14 +3218,15 @@ function filterKnowledgeArticles() {
 
   tbody.innerHTML = filtered.map(a => `
     <tr>
-      <td style="font-family: monospace; font-weight: 700; color: #1565c0;">${a.id}</td>
+      <td style="font-family: monospace; font-weight: 700; color: #1565c0; white-space: nowrap;">${a.id}</td>
       <td><span class="pay-method-badge">${a.category}</span></td>
-      <td><strong>${a.title}</strong></td>
+      <td><strong style="color: #0f172a; font-size: 13px;">${a.title}</strong></td>
       <td><span class="pay-status-pill paid">${a.language}</span></td>
-      <td style="max-width: 250px; font-size: 11.5px; line-height: 1.4; color: #444;">${a.content.substring(0, 120)}...</td>
-      <td style="font-size: 11px;">${a.updated}</td>
-      <td>
-        <button class="btn btn-secondary btn-sm" onclick="deleteKnowledgeArticle('${a.id}')">🗑️ Delete</button>
+      <td style="max-width: 420px; font-size: 12px; line-height: 1.5; color: #334155; word-break: break-word;">${a.content.substring(0, 140)}...</td>
+      <td style="font-size: 11.5px; white-space: nowrap; color: #64748b;">${a.updated}</td>
+      <td style="white-space: nowrap;">
+        <button class="btn btn-primary btn-sm" onclick="openViewKnowledgeModal('${a.id}')" style="margin-right: 4px;">👁️ View Details</button>
+        <button class="btn btn-danger-outline btn-sm" onclick="deleteKnowledgeArticle('${a.id}')">🗑️</button>
       </td>
     </tr>
   `).join("");
@@ -6042,3 +6044,54 @@ window.addEventListener("keydown", function(e) {
     if (typeof openAdminModalAuth === "function") openAdminModalAuth();
   }
 });
+
+
+// =========================================================================
+// === KNOWLEDGE BASE FULL-SCREEN & VIEW ARTICLE FUNCTIONS =================
+// =========================================================================
+function toggleKnowledgeTools() {
+  const toolsGrid = document.querySelector(".knowledge-tools-grid");
+  const btn = document.getElementById("toggleKbToolsBtn");
+  if (!toolsGrid) return;
+
+  if (toolsGrid.style.display === "none") {
+    toolsGrid.style.display = "grid";
+    if (btn) {
+      btn.innerHTML = "⛶ Full-Screen Table View";
+      btn.className = "btn btn-success btn-sm";
+    }
+    showToast("Standard view: AI Import and Sandbox tools visible.");
+  } else {
+    toolsGrid.style.display = "none";
+    if (btn) {
+      btn.innerHTML = "🔽 Show AI Import & Testing Tools";
+      btn.className = "btn btn-secondary btn-sm";
+    }
+    showToast("Full-Screen mode: Knowledge Articles Table maximized!");
+  }
+}
+
+function openViewKnowledgeModal(id) {
+  const art = state.knowledgeBase.find(k => k.id === id);
+  if (!art) return;
+
+  const titleEl = document.getElementById("viewKbTitle");
+  const catEl = document.getElementById("viewKbCategory");
+  const langEl = document.getElementById("viewKbLanguage");
+  const idEl = document.getElementById("viewKbId");
+  const updatedEl = document.getElementById("viewKbUpdated");
+  const contentEl = document.getElementById("viewKbContent");
+
+  if (titleEl) titleEl.textContent = art.title;
+  if (catEl) catEl.textContent = art.category;
+  if (langEl) langEl.textContent = art.language;
+  if (idEl) idEl.textContent = `ID: ${art.id}`;
+  if (updatedEl) updatedEl.textContent = `Last Updated: ${art.updated}`;
+  if (contentEl) contentEl.textContent = art.content;
+
+  document.getElementById("viewKnowledgeArticleModal")?.classList.add("active");
+}
+
+function closeViewKnowledgeModal() {
+  document.getElementById("viewKnowledgeArticleModal")?.classList.remove("active");
+}

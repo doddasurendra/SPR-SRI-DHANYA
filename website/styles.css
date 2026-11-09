@@ -5152,8 +5152,71 @@ body {
   padding: 0 !important;
   display: flex !important;
   flex-direction: column !important;
-  overflow: hidden !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scroll-behavior: smooth !important;
+  -webkit-overflow-scrolling: touch !important;
 }
+
+/* Sticky top navigation in Admin so it stays pinned while scrolling freely */
+#adminModal .admin-top-bar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+  background: #ffffff !important;
+  padding: 14px 24px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  flex-shrink: 0 !important;
+}
+
+#adminModal .admin-tabs-nav {
+  position: sticky !important;
+  top: 66px !important;
+  z-index: 99 !important;
+  background: #f8fafc !important;
+  padding: 8px 24px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+  flex-shrink: 0 !important;
+}
+
+/* Ensure tab contents have full breathing room and smooth scroll */
+#adminModal [id^="adminTab"] {
+  padding: 20px 24px 60px 24px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Knowledge Base Fullscreen & Unconstrained Table Styles */
+.knowledge-table-card .admin-table-wrap {
+  max-height: none !important;
+  overflow-y: visible !important;
+  overflow-x: auto !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+  background: #ffffff !important;
+}
+
+.knowledge-table-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 18px;
+  margin-top: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.knowledge-tools-grid {
+  transition: all 0.25s ease-in-out;
+}
+
+#viewKnowledgeArticleModal {
+  z-index: 10500 !important;
+}
+#viewKnowledgeArticleModal .modal-card {
+  z-index: 10501 !important;
+}
+
 
 .admin-header-logo-img {
   height: 38px;
