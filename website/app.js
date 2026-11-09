@@ -931,6 +931,16 @@ function openContactModal() {
   document.getElementById("contactModal").classList.add("active");
 }
 
+function openAboutModal() {
+  const m = document.getElementById("aboutUsModal");
+  if (m) m.classList.add("active");
+}
+
+function closeAboutModal() {
+  const m = document.getElementById("aboutUsModal");
+  if (m) m.classList.remove("active");
+}
+
 function openFssaiModal() {
   document.getElementById("fssaiModal").classList.add("active");
 }
@@ -1159,7 +1169,7 @@ window.processPayment = function() {
   // Get customer inputs
   const name = document.getElementById("custName")?.value || "Venkatesh Kumar";
   const phone = document.getElementById("custPhone")?.value || "9492468817";
-  const email = "support@sprsiridhanya.com";
+  const email = document.getElementById("custEmail")?.value || "sprsiridhanya6@gmail.com";
   const houseNo = document.getElementById("custAddress")?.value || "D.No 12-4, Siri Dhanya Nilayam";
   const locality = document.getElementById("custLocality")?.value || "Kamepalli";
   const city = document.getElementById("custCity")?.value || "Santamaguluru / Bapatla";
@@ -4705,7 +4715,7 @@ function switchPolicyTab(tab) {
         <li><strong>Payment Data:</strong> All payments are processed through RBI-approved secure online gateways with 256-bit encryption. S.P.R. Siri Dhanya never stores your credit/debit card CVV, PINs, or bank passwords.</li>
         <li><strong>Zero Third-Party Selling:</strong> We never sell, rent, or trade your personal information to third-party advertisers.</li>
       </ul>
-      <p>For data privacy queries or account deletion, write to us at support@sprsiridhanya.com or call 9492468817.</p>
+      <p>For data privacy queries, orders or account requests, write to us at <a href="mailto:sprsiridhanya6@gmail.com" style="color: var(--fk-blue); font-weight: 700;">sprsiridhanya6@gmail.com</a> or call / WhatsApp <strong>+91 94413 93817 / 9492468817</strong>.</p>
     `;
   } else if (tab === "terms") {
     document.getElementById("polTabTerms")?.classList.add("active");

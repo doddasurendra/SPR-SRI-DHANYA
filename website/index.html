@@ -89,19 +89,42 @@
         </div>
       </a>
 
-      <div class="mobile-nav-section-title">DIRECT HELPLINE</div>
+      <div class="mobile-nav-section-title">QUICK LINKS & POLICIES</div>
+      <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); openAboutModal();" class="mobile-nav-item">
+        <span class="nav-icon">🌾</span> 
+        <div class="nav-item-text">
+          <strong>About S.P.R. Siri Dhanya</strong>
+          <span>4 Heritage Pillars & Mission from Catalogue</span>
+        </div>
+      </a>
+      <a href="javascript:void(0)" onclick="closeMobileNavDrawer(); openContactModal();" class="mobile-nav-item">
+        <span class="nav-icon">📍</span> 
+        <div class="nav-item-text">
+          <strong>Contact Us & Factory Location</strong>
+          <span>Kamepalli, Bapatla Dist • Google Map</span>
+        </div>
+      </a>
+
+      <div class="mobile-nav-section-title">DIRECT HELPLINE & EMAIL</div>
+      <a href="tel:9441393817" class="mobile-nav-item">
+        <span class="nav-icon">📞</span> 
+        <div class="nav-item-text">
+          <strong>Management Call / WA: +91 94413 93817</strong>
+          <span>Direct helpline & bulk bookings</span>
+        </div>
+      </a>
       <a href="tel:9492468817" class="mobile-nav-item">
         <span class="nav-icon">📞</span> 
         <div class="nav-item-text">
-          <strong>Call Factory: 9492468817</strong>
+          <strong>Factory Desk: 9492468817</strong>
           <span>Kamepalli, Bapatla District, A.P.</span>
         </div>
       </a>
-      <a href="https://wa.me/919492468817?text=Hi%20SPR%20Siri%20Dhanya" target="_blank" class="mobile-nav-item">
-        <span class="nav-icon">💬</span> 
+      <a href="mailto:sprsiridhanya6@gmail.com" class="mobile-nav-item">
+        <span class="nav-icon">✉️</span> 
         <div class="nav-item-text">
-          <strong>WhatsApp Management (+91 94413 93817)</strong>
-          <span>Instant chat order assistance</span>
+          <strong>Email: sprsiridhanya6@gmail.com</strong>
+          <span>Official customer & distributor correspondence</span>
         </div>
       </a>
     </div>
@@ -113,7 +136,7 @@
     <div class="container announcement-inner">
       <span class="announcement-left">🎉 <strong>Special Launch Offer:</strong> Flat 20% Off Instant Dosa Mixes! Free Delivery > ₹299</span>
       <div class="top-contacts">
-        <span class="phone-link">📞 Call / WhatsApp: <a href="tel:9441393817">+91 94413 93817</a> | <a href="tel:9492468817">9492468817</a></span>
+        <span class="phone-link">📞 Call / WhatsApp: <a href="tel:9441393817">+91 94413 93817</a> | <a href="tel:9492468817">9492468817</a></span> <span style="margin: 0 6px; opacity: 0.6;">|</span> <span class="email-link">✉️ <a href="mailto:sprsiridhanya6@gmail.com" style="color: #fff; text-decoration: underline;">sprsiridhanya6@gmail.com</a></span>
       </div>
     </div>
   </div>
@@ -935,16 +958,121 @@
   </div>
 
   <!-- Simple Information Modals (Contact, FSSAI, Track) -->
+  <!-- MODAL: OFFICIAL CONTACT US & LOCATION -->
   <div class="modal-overlay" id="contactModal">
-    <div class="modal-card">
+    <div class="modal-card" style="max-width: 650px; border-top: 5px solid #e67e22;">
       <button class="modal-close" onclick="closeModal('contactModal')">✕</button>
-      <h3>S.P.R. Siri Dhanya - Official Support</h3>
-      <p>సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం | ప్రతి గింజలో ఆరోగ్యం</p>
-      <div class="contact-details-box">
-        <p>📞 <strong>Phone & WhatsApp:</strong> <a href="tel:9492468817">9492468817</a></p>
-        <p>🏭 <strong>Manufacturing Plant:</strong> Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh.</p>
-        <p>📜 <strong>FSSAI License:</strong> 20126152000402</p>
-        <p>⏰ <strong>Working Hours:</strong> Mon - Sat: 8:00 AM - 8:00 PM</p>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+        <span style="font-size: 26px;">🌾</span>
+        <div>
+          <h3 style="margin: 0; color: #b75306; font-size: 19px;">S.P.R. Siri Dhanya - Official Support</h3>
+          <p style="margin: 2px 0 0; font-size: 12.5px; color: #666;">సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం | ప్రతి గింజలో ఆరోగ్యం</p>
+        </div>
+      </div>
+
+      <div class="contact-details-box" style="margin-bottom: 14px;">
+        <p style="margin: 6px 0;">✉️ <strong>Official Email:</strong> <a href="mailto:sprsiridhanya6@gmail.com" style="color: var(--fk-blue); font-weight: 700;">sprsiridhanya6@gmail.com</a></p>
+        <p style="margin: 6px 0;">📞 <strong>Management & WhatsApp:</strong> <a href="tel:9441393817" style="color: var(--fk-blue); font-weight: 700;">+91 94413 93817</a></p>
+        <p style="margin: 6px 0;">📞 <strong>Factory Desk:</strong> <a href="tel:9492468817" style="color: var(--fk-blue); font-weight: 700;">9492468817</a></p>
+        <p style="margin: 6px 0;">🏭 <strong>Manufacturing Plant:</strong> Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh, India - 523326.</p>
+        <p style="margin: 6px 0;">📜 <strong>FSSAI License:</strong> <code>20126152000402</code></p>
+        <p style="margin: 6px 0;">⏰ <strong>Working Hours:</strong> Mon - Sat: 8:00 AM - 8:00 PM</p>
+      </div>
+
+      <!-- Google Maps Embed inside Contact Modal -->
+      <div class="spr-footer-map-wrap" style="margin-bottom: 14px;">
+        <iframe 
+          src="https://maps.google.com/maps?q=Kamepalli,Santamaguluru,Bapatla,Andhra+Pradesh,523326&t=&z=12&ie=UTF8&iwloc=&output=embed" 
+          class="spr-footer-map-frame" 
+          title="S.P.R. Siri Dhanya Factory Location - Kamepalli, Bapatla District, Andhra Pradesh" 
+          loading="lazy" 
+          allowfullscreen>
+        </iframe>
+        <div class="spr-map-btn-bar">
+          <a href="https://maps.google.com/?q=Kamepalli,+Santamaguluru+Mandal,+Bapatla+District,+Andhra+Pradesh+523326" target="_blank" rel="noopener noreferrer" class="spr-open-maps-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: middle; margin-right: 4px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            Open in Maps
+          </a>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <a href="https://wa.me/919441393817?text=Hello%20SPR%20Siri%20Dhanya" target="_blank" class="btn btn-whatsapp" style="flex: 1; text-align: center; justify-content: center;">
+          💬 WhatsApp Line 1 (+91 94413 93817)
+        </a>
+        <a href="mailto:sprsiridhanya6@gmail.com" class="btn btn-secondary" style="flex: 1; text-align: center; justify-content: center;">
+          ✉️ Send Email
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: ABOUT S.P.R. SIRI DHANYA (4 Catalogue Pillars)     -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="aboutUsModal">
+    <div class="modal-card" style="max-width: 780px; border-top: 5px solid #e67e22;">
+      <button class="modal-close" onclick="closeAboutModal()">✕</button>
+      
+      <div style="display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 14px;">
+        <span style="font-size: 30px;">🌾</span>
+        <div>
+          <h3 style="margin: 0; color: #b75306; font-size: 20px;">ABOUT S.P.R. SIRI DHANYA</h3>
+          <p style="margin: 2px 0 0; font-size: 13px; color: #666;">సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం | ప్రతి గింజలో ఆరోగ్యం</p>
+        </div>
+      </div>
+
+      <div style="font-size: 13.5px; line-height: 1.6; color: #333;">
+        <p style="margin-top: 0;">
+          <strong>S.P.R. Siri Dhanya</strong> was established with the sole mission of reconnecting modern families with India's ancestral superfoods — pure, unadulterated <strong>Positive Millets (సిరిధాన్యాలు)</strong>. By blending ancient Ayurvedic wisdom with state-of-the-art hygienic milling, we make traditional nutrition instant and effortless.
+        </p>
+
+        <!-- 4 Foundation Pillars from Page 2 of Catalogue PDF -->
+        <h4 style="color: #b75306; margin: 14px 0 8px 0; font-size: 15px; border-bottom: 1px dashed #e67e22; padding-bottom: 4px;">
+          🏛️ OUR 4 FOUNDATION PILLARS (ఆధార స్తంభాలు)
+        </h4>
+
+        <div class="about-pillars-grid">
+          <div class="about-pillar-card">
+            <h4>🌾 1. Handpicked Heritage Millets</h4>
+            <p><strong>సంప్రదాయ సిరిధాన్యాలు:</strong> 100% positive millets (Korralu, Samalu, Arikelu, Udalu, Andu Korralu, Ragi, Jowar) sourced directly from verified dryland farmers. Stone-milled to retain live bran and essential nutrients.</p>
+          </div>
+
+          <div class="about-pillar-card">
+            <h4>🛡️ 2. Uncompromising Hygiene & Purity</h4>
+            <p><strong>పరిశుభ్రత మరియు స్వచ్ఛత:</strong> Certified under <strong>FSSAI Lic No: 20126152000402</strong>. Processed in cleanroom environments with zero chemical preservatives, zero artificial food coloring, zero maida, and 100% pure vegetarian assurance.</p>
+          </div>
+
+          <div class="about-pillar-card">
+            <h4>⏱️ 3. Healthy Food in Minimal Time</h4>
+            <p><strong>అతి తక్కువ సమయంలో ఆరోగ్యకరమైన ఆహారం:</strong> Say goodbye to overnight 8-hour soaking and grinding. Wholesome, fiber-rich dosa batter or roti dough ready to cook in just 15 minutes.</p>
+          </div>
+
+          <div class="about-pillar-card">
+            <h4>🥣 4. Modern Form for Traditional Food</h4>
+            <p><strong>సంప్రదాయ ఆహారానికి ఆధునిక రూపం:</strong> Formulated for busy working parents, diabetic care, and health enthusiasts who seek ancestral health without tedious preparation.</p>
+          </div>
+        </div>
+
+        <div class="about-cert-box">
+          <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <strong>🏭 Manufacturing Facility:</strong><br>
+              Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326.
+            </div>
+            <div>
+              <strong>✉️ Email:</strong> <a href="mailto:sprsiridhanya6@gmail.com">sprsiridhanya6@gmail.com</a><br>
+              <strong>📞 Phone:</strong> <a href="tel:9441393817">+91 94413 93817</a> | <a href="tel:9492468817">9492468817</a>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
+          <button type="button" class="btn btn-secondary" onclick="closeAboutModal()">Close</button>
+          <button type="button" class="btn btn-primary" onclick="closeAboutModal(); document.getElementById('productCatalog')?.scrollIntoView({behavior: 'smooth'});">
+            🛒 Explore Millet Products
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -963,63 +1091,184 @@
     </div>
   </div>
 
-  <!-- Flipkart-style Footer -->
-  <footer class="fk-footer">
-    <div class="container footer-grid">
-      <div class="footer-col">
-        <h4>ABOUT S.P.R. SIRI DHANYA</h4>
-        <p class="footer-about">
-          Reviving the timeless nutritional power of millets and traditional pulses for modern families. Ready in 15 minutes with no soaking or grinding needed.
-        </p>
-        <div class="veg-emblem-wrap">
-          <span class="veg-box"><span class="veg-circle"></span></span>
-          <span>100% Pure Vegetarian Certified</span>
+    <!-- ======================================================== -->
+  <!-- S.P.R. SIRI DHANYA HERITAGE FOOTER (Golden Orange Banner) -->
+  <!-- ======================================================== -->
+  <footer class="spr-heritage-footer">
+    <!-- Heritage Temple Skyline Silhouette SVG Watermark -->
+    <div class="spr-skyline-silhouette" aria-hidden="true">
+      <svg class="spr-skyline-svg" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="rgba(255,255,255,0.32)" stroke-width="1.3" fill="rgba(255,255,255,0.08)" stroke-linejoin="round" stroke-linecap="round">
+          <!-- Building 1: Left Gopuram & Spires -->
+          <path d="M 20 120 L 20 90 L 35 90 L 35 70 L 45 70 L 45 50 L 55 50 L 55 30 L 60 15 L 65 30 L 65 50 L 75 50 L 75 70 L 85 70 L 85 90 L 100 90 L 100 120 Z" />
+          <circle cx="60" cy="12" r="3" />
+          <line x1="35" y1="70" x2="85" y2="70" />
+          <line x1="45" y1="50" x2="75" y2="50" />
+          <line x1="55" y1="30" x2="65" y2="30" />
+
+          <!-- Building 2: Mandapam with Chhatri Dome -->
+          <path d="M 115 120 L 115 85 Q 140 50 165 85 L 165 120 Z" />
+          <line x1="140" y1="55" x2="140" y2="35" />
+          <circle cx="140" cy="32" r="3" />
+
+          <!-- Building 3: Stepped Shikhara Temple -->
+          <path d="M 185 120 L 185 95 L 200 95 L 200 75 L 210 75 L 210 55 L 220 35 L 225 20 L 230 35 L 240 55 L 250 75 L 250 95 L 265 95 L 265 120 Z" />
+          <circle cx="225" cy="16" r="3" />
+
+          <!-- Building 4: Big Central Gopuram (Heritage Temple Gateway) -->
+          <path d="M 310 120 L 310 95 L 325 95 L 330 75 L 340 75 L 345 55 L 355 55 L 360 35 L 370 20 L 375 10 L 380 20 L 390 35 L 395 55 L 405 55 L 410 75 L 420 75 L 425 95 L 440 95 L 440 120 Z" />
+          <circle cx="375" cy="7" r="3.5" />
+          <path d="M 360 120 L 360 100 Q 375 90 390 100 L 390 120 Z" fill="rgba(255,255,255,0.18)" />
+
+          <!-- Building 5: Stupa & Domes -->
+          <path d="M 480 120 L 480 85 Q 515 45 550 85 L 550 120 Z" />
+          <line x1="515" y1="52" x2="515" y2="28" />
+          <circle cx="515" cy="25" r="3" />
+
+          <!-- Building 6: Medium Temple Shikhara -->
+          <path d="M 580 120 L 580 90 L 595 90 L 605 65 L 615 40 L 620 22 L 625 40 L 635 65 L 645 90 L 660 90 L 660 120 Z" />
+          <circle cx="620" cy="18" r="3" />
+
+          <!-- Building 7: Second Grand Gopuram -->
+          <path d="M 720 120 L 720 95 L 735 95 L 740 75 L 750 75 L 755 55 L 765 55 L 770 35 L 780 20 L 785 10 L 790 20 L 800 35 L 805 55 L 815 55 L 820 75 L 830 75 L 835 95 L 850 95 L 850 120 Z" />
+          <circle cx="785" cy="7" r="3.5" />
+          <path d="M 770 120 L 770 100 Q 785 90 800 100 L 800 120 Z" fill="rgba(255,255,255,0.18)" />
+
+          <!-- Building 8: Heritage Arch & Kalash -->
+          <path d="M 880 120 L 880 80 Q 910 40 940 80 L 940 120 Z" />
+          <circle cx="910" cy="28" r="3.5" />
+          <line x1="910" y1="46" x2="910" y2="32" />
+
+          <!-- Building 9: Stepped Shikhara -->
+          <path d="M 975 120 L 975 92 L 990 92 L 1000 68 L 1010 45 L 1015 25 L 1020 45 L 1030 68 L 1040 92 L 1055 92 L 1055 120 Z" />
+          <circle cx="1015" cy="20" r="3" />
+
+          <!-- Building 10: Right Grand Gopuram -->
+          <path d="M 1120 120 L 1120 95 L 1135 95 L 1140 75 L 1150 75 L 1155 55 L 1165 55 L 1170 35 L 1180 20 L 1185 10 L 1190 20 L 1200 35 L 1205 55 L 1215 55 L 1220 75 L 1230 75 L 1235 95 L 1250 95 L 1250 120 Z" />
+          <circle cx="1185" cy="7" r="3.5" />
+          <path d="M 1170 120 L 1170 100 Q 1185 90 1200 100 L 1200 120 Z" fill="rgba(255,255,255,0.18)" />
+
+          <!-- Building 11: End Pavilion -->
+          <path d="M 1290 120 L 1290 85 Q 1320 50 1350 85 L 1350 120 Z" />
+          <circle cx="1320" cy="35" r="3" />
+          <line x1="1320" y1="56" x2="1320" y2="38" />
+
+          <!-- Building 12: Far Right Spire -->
+          <path d="M 1375 120 L 1375 90 L 1390 90 L 1400 65 L 1410 40 L 1415 22 L 1420 40 L 1430 65 L 1440 90 L 1440 120 Z" />
+          <circle cx="1415" cy="18" r="3" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- Main Footer Content -->
+    <div class="container spr-heritage-container">
+      <div class="spr-heritage-grid">
+
+        <!-- Column 1: QUICK LINKS -->
+        <div class="spr-footer-col">
+          <h3 class="spr-footer-heading">QUICK LINKS</h3>
+          <ul class="spr-footer-nav-list">
+            <li><a href="javascript:void(0)" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="document.getElementById('productCatalog')?.scrollIntoView({behavior: 'smooth'})">Shop</a></li>
+            <li><a href="javascript:void(0)" onclick="openAboutModal()">About Us</a></li>
+            <li><a href="javascript:void(0)" onclick="openContactModal()">Contact Us</a></li>
+          </ul>
         </div>
-      </div>
 
-      <div class="footer-col">
-        <h4>HELP & SUPPORT</h4>
-        <ul>
-          <li><a href="javascript:void(0)" onclick="openContactModal()">Payments & Security</a></li>
-          <li><a href="javascript:void(0)" onclick="openContactModal()">Shipping & Delivery</a></li>
-          <li><a href="javascript:void(0)" onclick="openContactModal()">Cancellations & Returns</a></li>
-          <li><a href="javascript:void(0)" onclick="openContactModal()">FAQ & Support</a></li>
-        </ul>
-      </div>
+        <!-- Column 2: OUR POLICIES -->
+        <div class="spr-footer-col">
+          <h3 class="spr-footer-heading">OUR POLICIES</h3>
+          <ul class="spr-footer-nav-list">
+            <li><a href="javascript:void(0)" onclick="openPolicyModal('terms')">Terms & Conditions</a></li>
+            <li><a href="javascript:void(0)" onclick="openPolicyModal('privacy')">Privacy Policy</a></li>
+            <li><a href="javascript:void(0)" onclick="openPolicyModal('refund')">Refund and Returns Policy</a></li>
+            <li><a href="javascript:void(0)" onclick="openPolicyModal('shipping')">Shipping Policy</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-col">
-        <h4>COMMERCIAL & B2B</h4>
-        <ul>
-          <li><a href="#b2b" onclick="filterByCategory('b2b')">Supermarket Slabs</a></li>
-          <li><a href="#b2b" onclick="filterByCategory('b2b')">Distributor Pricing</a></li>
-          <li><a href="../SPR_Siri_Dhanya_Catalogue_Telugu.pdf" target="_blank">Download Telugu Catalogue (PDF)</a></li>
-          <li><a href="../SPR_Siri_Dhanya_Catalogue_English.pdf" target="_blank">Download English Catalogue (PDF)</a></li>
-        </ul>
-      </div>
+        <!-- Column 3: FACTORY LOCATION & GOOGLE MAP -->
+        <div class="spr-footer-col spr-footer-location-col">
+          <h3 class="spr-footer-heading">FACTORY LOCATION</h3>
+          <div class="spr-footer-address-card">
+            <div class="spr-factory-name">S.P.R. SIRI DHANYA</div>
+            <div class="spr-factory-full-address">
+              Kamepalli, Santamaguluru Mandal,<br>
+              Bapatla District, Andhra Pradesh, India - 523326
+            </div>
+          </div>
+          <!-- Google Maps Interactive Embed -->
+          <div class="spr-footer-map-wrap">
+            <iframe 
+              src="https://maps.google.com/maps?q=Kamepalli,Santamaguluru,Bapatla,Andhra+Pradesh,523326&t=&z=12&ie=UTF8&iwloc=&output=embed" 
+              class="spr-footer-map-frame" 
+              title="S.P.R. Siri Dhanya Factory Location - Kamepalli, Bapatla District, Andhra Pradesh" 
+              loading="lazy" 
+              allowfullscreen>
+            </iframe>
+            <div class="spr-map-btn-bar">
+              <a href="https://maps.google.com/?q=Kamepalli,+Santamaguluru+Mandal,+Bapatla+District,+Andhra+Pradesh+523326" target="_blank" rel="noopener noreferrer" class="spr-open-maps-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: middle; margin-right: 4px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                Open in Maps
+              </a>
+            </div>
+          </div>
+        </div>
 
-      <div class="footer-col">
-        <h4>REGISTERED OFFICE & FACTORY</h4>
-        <p class="address-text">
-          <strong>S.P.R. Siri Dhanya</strong><br>
-          Kamepalli, Santamaguluru Mandal,<br>
-          Bapatla District, Andhra Pradesh, India.<br>
-          Phone: <a href="tel:9492468817" style="color: #ffe500;">9492468817</a><br>
-          FSSAI Lic: 20126152000402
-        </p>
+        <!-- Column 4: OFFICIAL CONTACT & FSSAI -->
+        <div class="spr-footer-col">
+          <h3 class="spr-footer-heading">OFFICIAL CONTACT</h3>
+          <div class="spr-contact-info-list">
+            <div class="spr-contact-item">
+              <span class="spr-contact-icon">✉️</span>
+              <div>
+                <strong>Official Email:</strong><br>
+                <a href="mailto:sprsiridhanya6@gmail.com" class="spr-contact-link">sprsiridhanya6@gmail.com</a>
+              </div>
+            </div>
+            <div class="spr-contact-item">
+              <span class="spr-contact-icon">📞</span>
+              <div>
+                <strong>Customer Care & WhatsApp:</strong><br>
+                <a href="tel:9441393817" class="spr-contact-link">+91 94413 93817</a>
+                <span class="spr-inline-sep">|</span>
+                <a href="tel:9492468817" class="spr-contact-link">9492468817</a>
+              </div>
+            </div>
+            <div class="spr-contact-item">
+              <span class="spr-contact-icon">🛡️</span>
+              <div>
+                <strong>FSSAI Central / State License:</strong><br>
+                <span class="spr-fssai-num">20126152000402</span>
+              </div>
+            </div>
+            <div class="spr-contact-item">
+              <span class="spr-contact-icon">⏰</span>
+              <div>
+                <strong>Factory Working Hours:</strong><br>
+                <span>Mon - Sat: 8:00 AM - 8:00 PM</span>
+              </div>
+            </div>
+            <div class="spr-veg-cert-badge">
+              <span class="veg-box"><span class="veg-circle"></span></span>
+              <span>100% Pure Vegetarian & Preservative-Free</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- Bottom strip with payment logos -->
-    <div class="footer-bottom">
-      <div class="container footer-bottom-inner">
-        <div>© 2026 S.P.R. Siri Dhanya. Flipkart-Style Sample Store Model. All rights reserved.</div>
-        <div class="payment-badges-row">
+    <!-- Bottom Copyright & Trust Bar -->
+    <div class="spr-heritage-bottom-bar">
+      <div class="container spr-bottom-bar-inner">
+        <div>© 2026 S.P.R. Siri Dhanya • Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326. All rights reserved.</div>
+        <div class="spr-payment-trust-tags">
           <span>💳 Visa</span>
           <span>MasterCard</span>
           <span>RuPay</span>
           <span>UPI / GPay / PhonePe</span>
           <span>Net Banking</span>
-          <span>Instant Fast Dispatch</span>
+          <span>Cash on Delivery</span>
         </div>
       </div>
     </div>

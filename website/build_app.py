@@ -203,7 +203,7 @@ window.processPayment = function() {
   // Get customer inputs
   const name = document.getElementById("custName")?.value || "Venkatesh Kumar";
   const phone = document.getElementById("custPhone")?.value || "9492468817";
-  const email = "support@sprsiridhanya.com";
+  const email = document.getElementById("custEmail")?.value || "sprsiridhanya6@gmail.com";
   const houseNo = document.getElementById("custAddress")?.value || "D.No 12-4, Siri Dhanya Nilayam";
   const locality = document.getElementById("custLocality")?.value || "Kamepalli";
   const city = document.getElementById("custCity")?.value || "Santamaguluru / Bapatla";
