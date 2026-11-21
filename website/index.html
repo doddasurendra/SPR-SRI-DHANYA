@@ -143,10 +143,11 @@
       <button class="mobile-hamburger-btn" onclick="toggleMobileNavDrawer()" aria-label="Open Navigation Menu">
         <span>☰</span>
       </button>
-      <!-- Official S.P.R. Siri Dhanya Brand Logo (Big Size & Clearly Visible) -->
-      <a href="#" class="fk-logo brand-logo-link" onclick="resetFilters()" ondblclick="openAdminModalAuth()" title="S.P.R. Siri Dhanya - 100% Traditional Positive Millets">
-        <div class="brand-logo-badge">
+      <!-- Official S.P.R. Siri Dhanya Brand Logo (Small on Left Side, Click to View Full Big Logo) -->
+      <a href="javascript:void(0)" class="fk-logo brand-logo-link" onclick="openBrandLogoModal(event)" ondblclick="openAdminModalAuth()" title="Click to view full official logo (Double-click for Staff Access)">
+        <div class="brand-logo-badge" title="Click to view full official logo in high resolution">
           <img src="assets/siri_dhanya_official_logo.png" alt="S.P.R. Siri Dhanya Official Brand Logo" class="brand-official-logo-img">
+          <span class="brand-zoom-indicator" title="Click to enlarge">🔍</span>
         </div>
         <div class="brand-text">
           <div class="logo-main-title"><span class="spr-highlight">S.P.R.</span> SIRI DHANYA</div>
@@ -3495,6 +3496,42 @@
 
       <div style="display: flex; justify-content: flex-end; gap: 8px;">
         <button type="button" class="btn btn-secondary" onclick="closeViewKnowledgeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================== -->
+  <!-- OFFICIAL BRAND LOGO FULL-SIZE LIGHTBOX MODAL  -->
+  <!-- ============================================== -->
+  <div class="modal-overlay brand-logo-lightbox-overlay" id="brandLogoModal" onclick="if(event.target===this) closeBrandLogoModal()">
+    <div class="modal-card brand-logo-modal-card">
+      <button class="modal-close" onclick="closeBrandLogoModal()" aria-label="Close Logo View">✕</button>
+      
+      <div class="brand-logo-modal-header">
+        <span class="brand-modal-seal-badge">🌾 Official Brand Identity</span>
+        <h3 class="brand-modal-h3">S.P.R. SIRI DHANYA</h3>
+        <p class="brand-modal-tagline">సంప్రదాయ సిరిధాన్యాలు • Pure by Nature • 100% Traditional Positive Millets</p>
+      </div>
+
+      <div class="brand-logo-modal-content">
+        <div class="brand-logo-preview-box">
+          <img src="assets/siri_dhanya_brand_original.jpg" alt="S.P.R. Siri Dhanya Official Registered Logo" class="brand-modal-hero-img">
+        </div>
+        
+        <div class="brand-logo-meta-pills">
+          <span class="logo-meta-pill">🛡️ Registered Trademark ®</span>
+          <span class="logo-meta-pill">🌾 Pure Positive Millets</span>
+          <span class="logo-meta-pill">✅ 100% Natural & Chemical-Free</span>
+          <span class="logo-meta-pill">📍 Kadiri, Anantapuramu & Hyderabad</span>
+        </div>
+      </div>
+
+      <div class="brand-logo-modal-footer">
+        <button class="btn btn-secondary" onclick="closeBrandLogoModal()">✕ Close View</button>
+        <a href="assets/siri_dhanya_brand_original.jpg" download="SPR_Siri_Dhanya_Official_Logo.jpg" class="btn btn-warning-gold" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+          ⬇️ Download Official Logo
+        </a>
       </div>
     </div>
   </div>

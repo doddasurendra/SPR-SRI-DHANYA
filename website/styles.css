@@ -6720,3 +6720,277 @@ body {
     font-size: 9px !important;
   }
 }
+
+
+/* =========================================================================
+   SMALL COMPACT HEADER LOGO ON LEFT SIDE & FULL LIGHTBOX MODAL
+   ========================================================================= */
+.fk-header-inner {
+  min-height: 64px !important;
+  height: auto !important;
+  padding: 8px 0 !important;
+  gap: 20px !important;
+}
+
+.fk-logo.brand-logo-link {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  cursor: pointer !important;
+}
+
+.brand-logo-badge {
+  background: #ffffff !important;
+  border: 1.8px solid #ffd700 !important;
+  border-radius: 8px !important;
+  padding: 3px 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  position: relative !important;
+  cursor: pointer !important;
+}
+
+.brand-logo-badge:hover {
+  transform: scale(1.08) !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(255, 215, 0, 0.5) !important;
+}
+
+.brand-zoom-indicator {
+  position: absolute !important;
+  bottom: -4px !important;
+  right: -4px !important;
+  background: #ffd700 !important;
+  color: #1e293b !important;
+  font-size: 9px !important;
+  width: 15px !important;
+  height: 15px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+  border: 1px solid #ffffff !important;
+}
+
+.brand-official-logo-img {
+  height: 40px !important;
+  width: auto !important;
+  max-width: 80px !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+.brand-text {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.logo-main-title {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1.1 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+.spr-highlight {
+  color: #ffd700 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.8px !important;
+}
+
+.logo-sub-tag {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  margin-top: 2px !important;
+}
+
+.telugu-motto {
+  font-family: 'Noto Sans Telugu', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #ffe500 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.sub-separator {
+  color: #ffffff !important;
+  opacity: 0.8 !important;
+}
+
+.english-motto {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #e0f2fe !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* Lightbox Modal for Big Full Logo */
+.brand-logo-lightbox-overlay {
+  background: rgba(4, 10, 20, 0.88) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  z-index: 10600 !important;
+  padding: 16px !important;
+}
+
+.brand-logo-modal-card {
+  max-width: 680px !important;
+  width: 95% !important;
+  background: #0f172a !important;
+  border: 2px solid #ffd700 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 30px rgba(255, 215, 0, 0.2) !important;
+  padding: 24px 28px !important;
+  color: #ffffff !important;
+  text-align: center !important;
+  position: relative !important;
+  animation: zoomInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@keyframes zoomInModal {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.brand-logo-modal-card .modal-close {
+  position: absolute !important;
+  top: 14px !important;
+  right: 16px !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 50% !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+.brand-logo-modal-card .modal-close:hover {
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+  transform: rotate(90deg) !important;
+}
+
+.brand-modal-seal-badge {
+  display: inline-block !important;
+  background: linear-gradient(135deg, #ffd700, #f59e0b) !important;
+  color: #1e293b !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  padding: 3px 12px !important;
+  border-radius: 20px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  margin-bottom: 8px !important;
+}
+
+.brand-modal-h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  letter-spacing: 1px !important;
+  margin: 0 0 4px 0 !important;
+}
+
+.brand-modal-tagline {
+  font-size: 13px !important;
+  color: #94a3b8 !important;
+  margin: 0 0 16px 0 !important;
+}
+
+.brand-logo-preview-box {
+  background: #000000 !important;
+  border: 2px solid rgba(255, 215, 0, 0.6) !important;
+  border-radius: 12px !important;
+  padding: 14px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  margin: 0 auto 16px auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+.brand-modal-hero-img {
+  max-width: 100% !important;
+  max-height: 380px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  border-radius: 6px !important;
+}
+
+.brand-logo-meta-pills {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  margin-bottom: 20px !important;
+}
+
+.logo-meta-pill {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #e2e8f0 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+}
+
+.brand-logo-modal-footer {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 12px !important;
+}
+
+@media (max-width: 768px) {
+  .fk-header-inner {
+    min-height: 56px !important;
+    padding: 6px 10px !important;
+    gap: 10px !important;
+  }
+  .fk-logo.brand-logo-link {
+    gap: 8px !important;
+  }
+  .brand-logo-badge {
+    padding: 2px 6px !important;
+    border-radius: 6px !important;
+  }
+  .brand-official-logo-img {
+    height: 34px !important;
+    max-width: 65px !important;
+  }
+  .logo-main-title {
+    font-size: 15px !important;
+  }
+  .logo-sub-tag {
+    display: none !important;
+  }
+  .brand-modal-hero-img {
+    max-height: 240px !important;
+  }
+  .brand-logo-modal-card {
+    padding: 18px 14px !important;
+  }
+}

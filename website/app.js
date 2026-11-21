@@ -6095,3 +6095,34 @@ function openViewKnowledgeModal(id) {
 function closeViewKnowledgeModal() {
   document.getElementById("viewKnowledgeArticleModal")?.classList.remove("active");
 }
+
+
+// =========================================================================
+// BRAND LOGO MODAL / LIGHTBOX (Click small logo to view full big logo)
+// =========================================================================
+function openBrandLogoModal(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  const modal = document.getElementById("brandLogoModal");
+  if (modal) {
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function closeBrandLogoModal() {
+  const modal = document.getElementById("brandLogoModal");
+  if (modal) {
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+}
+
+// Global escape key listener
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") {
+    closeBrandLogoModal();
+  }
+});
