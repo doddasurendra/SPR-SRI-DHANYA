@@ -233,7 +233,7 @@ const PRODUCTS = [
     mrp: 803,
     rating: 5.0,
     reviewsCount: "4,110",
-    image: "assets/brand_poster_logo.png",
+    image: "assets/spr_combo_pack.png",
     netWt: "3 KG Total",
     assured: true,
     highlights: [
@@ -260,7 +260,7 @@ const PRODUCTS = [
     mrp: 3120,
     rating: 4.9,
     reviewsCount: "540",
-    image: "assets/brand_poster_logo.png",
+    image: "assets/spr_combo_pack.png",
     netWt: "15 KG",
     assured: true,
     highlights: [
@@ -1108,7 +1108,7 @@ function initDatabase() {
             name: "S.P.R. Complete Health Pack (5-in-1 Combo)",
             price: 629,
             qty: 1,
-            image: "assets/brand_poster_logo.png"
+            image: "assets/spr_combo_pack.png"
           }
         ],
         shipping: {
@@ -1200,7 +1200,7 @@ function initDatabase() {
             name: "S.P.R. Wholesale Supermarket Master Carton (24 Packs)",
             price: 2490,
             qty: 1,
-            image: "assets/brand_poster_logo.png"
+            image: "assets/spr_combo_pack.png"
           }
         ],
         shipping: {
@@ -3396,7 +3396,7 @@ function initMasterDatabase() {
         estimatedDelivery: "Delivered on Nov 4, 2026",
         customer: { fullName: "Venkata Ramanamurthy", phone: "9848022338", email: "v.ramana@gmail.com" },
         delivery: { houseNo: "Plot No. 42", street: "Lakshmipuram Main Road", locality: "Lakshmipuram", city: "Guntur", state: "Andhra Pradesh", pincode: "522007" },
-        items: [{ id: 6, name: "S.P.R. Complete Health Pack (5-in-1 Combo)", price: 629, qty: 1, image: "assets/brand_poster_logo.png" }],
+        items: [{ id: 6, name: "S.P.R. Complete Health Pack (5-in-1 Combo)", price: 629, qty: 1, image: "assets/spr_combo_pack.png" }],
         shipping: { courier: "India Post Speed Post", trackingId: "AP9492468817IN", trackingUrl: "https://www.indiapost.gov.in/", dispatchDate: "2026-11-04" }
       },
       {
@@ -3434,7 +3434,7 @@ function initMasterDatabase() {
         estimatedDelivery: "Expected in 2-3 Business Days",
         customer: { fullName: "Sri Balaji Super Market (K. Srinivas)", phone: "9440123456", email: "balaji.supermarket@gmail.com" },
         delivery: { houseNo: "D.No 5-89", street: "Bazaar Street, Opp Bus Stand", locality: "Addanki Town", city: "Addanki / Bapatla", state: "Andhra Pradesh", pincode: "523201" },
-        items: [{ id: 7, name: "S.P.R. Wholesale Supermarket Master Carton (24 Packs)", price: 2490, qty: 1, image: "assets/brand_poster_logo.png" }],
+        items: [{ id: 7, name: "S.P.R. Wholesale Supermarket Master Carton (24 Packs)", price: 2490, qty: 1, image: "assets/spr_combo_pack.png" }],
         shipping: { courier: "Factory Direct Lorry Transport", trackingId: "LR-KMP-9492", trackingUrl: "", dispatchDate: "2026-11-04" }
       }
     ];
