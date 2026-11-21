@@ -6029,13 +6029,15 @@ function pushEntireDatabaseToFirebase() {
 // === SECURE BACK-SIDE ADMIN ACCESS HOOKS (HIDDEN FROM SHOPPERS) ==========
 // =========================================================================
 // 1. URL Hash / Query Parameter: https://spr-siri-dhanya.web.app/#admin
-window.addEventListener("DOMContentLoaded", function() {
+function handleAdminUrlTrigger() {
   if (window.location.hash === "#admin" || window.location.search.includes("admin")) {
     setTimeout(function() {
       if (typeof openAdminModalAuth === "function") openAdminModalAuth();
-    }, 400);
+    }, 300);
   }
-});
+}
+window.addEventListener("DOMContentLoaded", handleAdminUrlTrigger);
+window.addEventListener("hashchange", handleAdminUrlTrigger);
 
 // 2. Keyboard Shortcut: Press Ctrl + Shift + A (or Cmd + Shift + A) anywhere
 window.addEventListener("keydown", function(e) {

@@ -1255,7 +1255,7 @@
         <div>
           © 2026 S.P.R. Siri Dhanya • Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326. All rights reserved.
           <span style="margin: 0 8px; opacity: 0.3;">•</span>
-          <a href="javascript:void(0)" onclick="openAdminModalAuth()" style="color: rgba(255,255,255,0.35); text-decoration: none; font-size: 11px;" title="Authorized Staff Access Only">Staff Access</a>
+          <a href="javascript:void(0)" onclick="openAdminModalAuth()" class="admin-staff-access-link" title="Authorized Staff & Admin Portal Access">🔐 Staff / Admin Access</a>
         </div>
         <div class="spr-payment-trust-tags">
           <span>💳 Visa</span>
@@ -3528,10 +3528,13 @@
       </div>
 
       <div class="brand-logo-modal-footer">
-        <button class="btn btn-secondary" onclick="closeBrandLogoModal()">✕ Close View</button>
+        <button class="btn btn-secondary" onclick="closeBrandLogoModal()">✕ Close</button>
         <a href="assets/siri_dhanya_brand_original.jpg" download="SPR_Siri_Dhanya_Official_Logo.jpg" class="btn btn-warning-gold" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-          ⬇️ Download Official Logo
+          ⬇️ Download Logo
         </a>
+        <button class="btn btn-secondary" onclick="closeBrandLogoModal(); openAdminModalAuth();" style="border: 1px solid #ffd700; color: #ffd700; background: rgba(255,215,0,0.1);">
+          👑 Admin Portal
+        </button>
       </div>
     </div>
   </div>
