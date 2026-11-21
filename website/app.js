@@ -1,3 +1,82 @@
+/* =========================================================================
+   S.P.R. SIRI DHANYA — BULLETPROOF LIFETIME CRASH-GUARD & RESILIENCE ENGINE
+   ========================================================================= */
+(function() {
+  'use strict';
+
+  // 1. Memory storage fallback in case localStorage is full, blocked, or in private mode
+  window._sprMemoryStorage = window._sprMemoryStorage || {};
+
+  window.safeStorageGet = function(key, defaultVal) {
+    try {
+      if (typeof window.localStorage === 'undefined') {
+        return window._sprMemoryStorage[key] !== undefined ? window._sprMemoryStorage[key] : defaultVal;
+      }
+      const item = localStorage.getItem(key);
+      if (item === null || item === undefined || item === '') return defaultVal;
+      return JSON.parse(item);
+    } catch (e) {
+      console.warn("🛡️ safeStorageGet fallback to memory for key:", key, e);
+      return window._sprMemoryStorage[key] !== undefined ? window._sprMemoryStorage[key] : defaultVal;
+    }
+  };
+
+  window.safeStorageSet = function(key, val) {
+    try {
+      window._sprMemoryStorage[key] = val;
+      if (typeof window.localStorage !== 'undefined') {
+        localStorage.setItem(key, JSON.stringify(val));
+      }
+      return true;
+    } catch (e) {
+      console.warn("🛡️ safeStorageSet fallback to memory for key:", key, e);
+      // If Quota exceeded, attempt to clear non-essential audit logs
+      try {
+        if (e.name === 'QuotaExceededError' || e.code === 22) {
+          const audit = window.safeStorageGet("SPR_AUDIT_LOGS_DB_V2", []);
+          if (Array.isArray(audit) && audit.length > 10) {
+            localStorage.setItem("SPR_AUDIT_LOGS_DB_V2", JSON.stringify(audit.slice(-5)));
+            localStorage.setItem(key, JSON.stringify(val));
+            return true;
+          }
+        }
+      } catch (err2) {}
+      return false;
+    }
+  };
+
+  // 2. Global Runtime Error Handler & Promise Rejection Interceptor
+  window.addEventListener('error', function(event) {
+    console.warn("🛡️ CrashGuard safely handled window error:", event.message, event.filename, event.lineno);
+    return true; // Suppress disruptive browser popups
+  });
+
+  window.addEventListener('unhandledrejection', function(event) {
+    console.warn("🛡️ CrashGuard safely handled unhandled promise rejection:", event.reason);
+    if (event.preventDefault) event.preventDefault();
+  });
+
+  // 3. Global Broken Image Auto-Recovery for Lifetime Durability
+  document.addEventListener('error', function(e) {
+    if (e.target && e.target.tagName === 'IMG') {
+      if (!e.target.dataset.fallbackApplied) {
+        e.target.dataset.fallbackApplied = "true";
+        e.target.src = "assets/brand_round_logo.png";
+      }
+    }
+  }, true);
+
+  // 4. Safe Body Overflow Restoration on Modal Close
+  window.safeRestoreBodyScroll = function() {
+    try {
+      const activeModals = document.querySelectorAll('.modal-overlay.active, .drawer-overlay.active');
+      if (!activeModals || activeModals.length === 0) {
+        document.body.style.overflow = '';
+      }
+    } catch(e) {}
+  };
+})();
+
 /**
  * S.P.R. SIRI DHANYA - E-COMMERCE FRONTEND ENGINE (FLIPKART MODEL)
  * Pure Modern JavaScript (Zero external dependencies)
@@ -566,7 +645,7 @@ function closeCartDrawer() {
 
 function saveCartToStorage() {
   try {
-    localStorage.setItem("spr_cart", JSON.stringify(state.cart));
+    safeStorageSet("spr_cart", state.cart);
   } catch (e) {}
 }
 
@@ -950,7 +1029,9 @@ function openWholesaleInquiry() {
 }
 
 function closeModal(id) {
-  document.getElementById(id).classList.remove("active");
+  const modal = document.getElementById(id);
+  if (modal) modal.classList.remove("active");
+  if (typeof safeRestoreBodyScroll === "function") safeRestoreBodyScroll();
 }
 
 function scrollToSection(id) {
@@ -3371,7 +3452,7 @@ function initMasterDatabase() {
       { code: "HEALTH50", type: "flat", value: 50, minSpend: 300, status: "Active" },
       { code: "COMBO100", type: "flat", value: 100, minSpend: 600, status: "Active" }
     ];
-    localStorage.setItem(DB_COUPONS_KEY, JSON.stringify(state.coupons));
+    safeStorageSet(DB_COUPONS_KEY, state.coupons);
   }
 
   // 4. Reviews DB
@@ -3385,7 +3466,7 @@ function initMasterDatabase() {
       { id: "REV-2", name: "K. Annapurna", rating: 5, product: "S.P.R. 5-in-1 Complete Health Combo", comment: "The best purchase for our family. Every dosa mix has pure aroma without any chemicals. Delivered in 24 hours.", status: "Approved" },
       { id: "REV-3", name: "Ramesh Babu (Supermarket Owner)", rating: 5, product: "Wholesale Master Carton", comment: "Fast moving items in our retail shelves in Guntur. Margin is healthy and customers keep asking for repeat stock.", status: "Approved" }
     ];
-    localStorage.setItem(DB_REVIEWS_KEY, JSON.stringify(state.reviews));
+    safeStorageSet(DB_REVIEWS_KEY, state.reviews);
   }
 
   // 5. Wholesale Accounts DB
@@ -3412,7 +3493,7 @@ function initMasterDatabase() {
       { timestamp: "2026-11-04 11:15:40", event: "ORDER_SHIPPED", details: "Order OD784920194822 assigned to Delhivery AWB DLV-88391024" },
       { timestamp: "2026-11-04 14:02:18", event: "WHOLESALE_APPROVED", details: "Retailer Sri Balaji Supermarket approved for B2B pricing" }
     ];
-    localStorage.setItem(DB_AUDIT_KEY, JSON.stringify(state.auditLogs));
+    safeStorageSet(DB_AUDIT_KEY, state.auditLogs);
   }
 
   // Compile Customer Directory
@@ -3420,14 +3501,14 @@ function initMasterDatabase() {
 }
 
 function saveProductsDatabase() {
-  localStorage.setItem(DB_PRODUCTS_KEY, JSON.stringify(PRODUCTS));
+  safeStorageSet(DB_PRODUCTS_KEY, PRODUCTS);
   renderProducts();
   renderAdminProductsTable();
   renderAdminInventoryTable();
 }
 
 function saveOrdersDatabase() {
-  localStorage.setItem(DB_ORDERS_KEY, JSON.stringify(state.orders));
+  safeStorageSet(DB_ORDERS_KEY, state.orders);
   syncCustomerDirectory();
   updateAdminDashboardStats();
   updateCustomerOrdersBadge();
@@ -3470,7 +3551,7 @@ function logAuditEvent(event, details) {
   };
   state.auditLogs.unshift(entry);
   if (state.auditLogs.length > 100) state.auditLogs.pop();
-  localStorage.setItem(DB_AUDIT_KEY, JSON.stringify(state.auditLogs));
+  safeStorageSet(DB_AUDIT_KEY, state.auditLogs);
   renderAuditLogs();
 }
 
@@ -4382,7 +4463,7 @@ function handleCreateCouponSubmit(e) {
   const minSpend = parseInt(document.getElementById("newCouponMinSpend").value) || 0;
 
   state.coupons.unshift({ code, type, value, minSpend, status: "Active" });
-  localStorage.setItem(DB_COUPONS_KEY, JSON.stringify(state.coupons));
+  safeStorageSet(DB_COUPONS_KEY, state.coupons);
   logAuditEvent("COUPON_CREATED", `Created promo coupon: ${code} (${value} ${type})`);
   closeModal("adminAddCouponModal");
   renderAdminCouponsTable();
@@ -4392,7 +4473,7 @@ function handleCreateCouponSubmit(e) {
 function deleteCoupon(code) {
   if (!confirm(`Delete coupon "${code}"?`)) return;
   state.coupons = state.coupons.filter(c => c.code !== code);
-  localStorage.setItem(DB_COUPONS_KEY, JSON.stringify(state.coupons));
+  safeStorageSet(DB_COUPONS_KEY, state.coupons);
   logAuditEvent("COUPON_DELETED", `Removed coupon: ${code}`);
   renderAdminCouponsTable();
   showToast(`Coupon "${code}" deleted.`);
@@ -4439,7 +4520,7 @@ function renderAdminReviewsTable() {
 
 function deleteReview(id) {
   state.reviews = state.reviews.filter(r => r.id !== id);
-  localStorage.setItem(DB_REVIEWS_KEY, JSON.stringify(state.reviews));
+  safeStorageSet(DB_REVIEWS_KEY, state.reviews);
   renderAdminReviewsTable();
   showToast("Review deleted.");
 }
@@ -6014,8 +6095,8 @@ function pushEntireDatabaseToFirebase() {
     try {
       localStorage.setItem("SPR_MASTER_ORDERS_DB_V2", JSON.stringify(state.orders));
       localStorage.setItem("SPR_MASTER_PRODUCTS_DB_V2", JSON.stringify(PRODUCTS));
-      localStorage.setItem(DB_COUPONS_KEY, JSON.stringify(state.coupons));
-      localStorage.setItem(DB_REVIEWS_KEY, JSON.stringify(state.reviews));
+      safeStorageSet(DB_COUPONS_KEY, state.coupons);
+      safeStorageSet(DB_REVIEWS_KEY, state.reviews);
       if (typeof syncCustomerDirectory === "function") syncCustomerDirectory();
       logAuditEvent("FIREBASE_SYNC", "Manual push of entire store database to Firebase for sdodda073@gmail.com");
       showToast("🚀 Complete database synchronized with Google Firebase (sdodda073@gmail.com)!");
