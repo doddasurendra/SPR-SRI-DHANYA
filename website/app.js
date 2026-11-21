@@ -4183,26 +4183,56 @@ function renderAdminDashboardOverview() {
   document.getElementById("dbAvgOrderVal").textContent = `₹${totalOrders > 0 ? Math.round(totalRev / totalOrders) : 0}`;
 }
 
-// Tab 2: Products & Categories
+// Tab 2: Products & Categories (Full Interactive Cost, Image, Edit & Delete Controls)
 function renderAdminProductsTable() {
   const tbody = document.getElementById("adminProductsTableBody");
   if (!tbody) return;
 
-  tbody.innerHTML = PRODUCTS.map(p => `
-    <tr>
-      <td><img src="${p.image}" alt="${p.name}" style="width: 36px; height: 36px; object-fit: contain;"></td>
-      <td><strong>${p.name}</strong><br><span style="font-size: 11px; color: #666;">${p.teluguName}</span></td>
-      <td><span class="pay-method-badge">${p.category}</span></td>
-      <td><strong>₹${p.price}</strong> <del style="color: #888;">₹${p.mrp}</del></td>
-      <td>${p.netWt}</td>
-      <td><span class="pay-status-pill ${p.stock < 25 ? 'pending' : 'paid'}">${p.stock} units</span></td>
-      <td><span class="status-pill status-${p.stock > 0 ? 'confirmed' : 'cancelled'}">${p.stock > 0 ? 'In Stock' : 'Out of Stock'}</span></td>
-      <td>
-        <button class="btn btn-secondary btn-sm" onclick="openEditProductModal(${p.id})">✏️ Edit</button>
-        <button class="btn btn-danger-outline btn-sm" onclick="deleteProduct(${p.id})">🗑️</button>
-      </td>
-    </tr>
-  `).join("");
+  tbody.innerHTML = PRODUCTS.map(p => {
+    const discount = (p.mrp && p.price && p.mrp > p.price) ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
+    return `
+      <tr>
+        <td>
+          <div class="admin-prod-thumb-wrap" onclick="openQuickImageModal(${p.id})" title="Click to upload or change image for ${p.name}">
+            <img src="${p.image}" alt="${p.name}">
+            <span class="admin-thumb-change-badge">📷 Edit</span>
+          </div>
+        </td>
+        <td>
+          <strong style="color: #0f172a; font-size: 13.5px;">${p.name}</strong><br>
+          <span style="font-size: 11.5px; color: #64748b; font-family: 'Noto Sans Telugu', sans-serif;">${p.teluguName || ''}</span>
+        </td>
+        <td><span class="pay-method-badge">${p.category}</span></td>
+        <td>
+          <div class="admin-price-cell" onclick="openQuickPriceModal(${p.id})" title="Click to change Selling Cost & MRP">
+            <span class="admin-selling-price">₹${p.price}</span>
+            <del class="admin-mrp-price">₹${p.mrp}</del>
+            ${discount > 0 ? `<span style="font-size: 10px; color: #16a34a; font-weight: 700;">(${discount}% off)</span>` : ''}
+            <span class="admin-price-edit-icon">✏️</span>
+          </div>
+        </td>
+        <td style="font-weight: 600; color: #475569;">${p.netWt || '500 g'}</td>
+        <td><span class="pay-status-pill ${p.stock < 25 ? 'pending' : 'paid'}">${p.stock} units</span></td>
+        <td><span class="status-pill status-${p.stock > 0 ? 'confirmed' : 'cancelled'}">${p.stock > 0 ? 'In Stock' : 'Out of Stock'}</span></td>
+        <td>
+          <div class="admin-action-btn-group">
+            <button class="btn btn-secondary btn-sm" onclick="openEditProductModal(${p.id})" title="Full Edit: Details, Cost, Weight & Image">
+              ✏️ Edit
+            </button>
+            <button class="btn btn-price-quick btn-sm" onclick="openQuickPriceModal(${p.id})" title="Quick Cost / Price Changer">
+              💰 Cost
+            </button>
+            <button class="btn btn-image-quick btn-sm" onclick="openQuickImageModal(${p.id})" title="Upload or Change Product Photo">
+              🖼️ Photo
+            </button>
+            <button class="btn btn-danger-outline btn-sm" onclick="deleteProductWithConfirm(${p.id})" title="Delete Product SKU">
+              🗑️
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
 }
 
 function openAddProductModal() {
@@ -4290,21 +4320,38 @@ function handleProductFormSubmit(e) {
   }
 
   saveProductsDatabase();
+  renderAdminProductsTable();
+  renderAdminInventoryTable();
+  renderProducts();
   closeModal("adminProductFormModal");
-  showToast("Product saved successfully & store catalog synchronized!");
+  showToast("✅ Product saved & live store catalog updated successfully!");
 }
 
-function deleteProduct(id) {
+function deleteProductWithConfirm(id) {
   const p = PRODUCTS.find(prod => prod.id === id);
-  if (!confirm(`Are you sure you want to delete "${p ? p.name : id}"?`)) return;
+  if (!p) return;
+
+  const confirmMsg = `Are you sure you want to delete this product?
+
+📦 SKU: ${p.name}
+💰 Cost: ₹${p.price} (MRP ₹${p.mrp})
+
+This will remove it from the storefront catalog and inventory.`;
+  if (!confirm(confirmMsg)) return;
 
   const idx = PRODUCTS.findIndex(prod => prod.id === id);
   if (idx > -1) {
     const deleted = PRODUCTS.splice(idx, 1)[0];
     saveProductsDatabase();
+    renderAdminProductsTable();
+    renderAdminInventoryTable();
+    renderProducts();
     logAuditEvent("PRODUCT_DELETED", `Deleted SKU: ${deleted.name}`);
-    showToast("Product removed from catalogue.");
+    showToast(`🗑️ "${deleted.name}" removed from catalog.`);
   }
+}
+function deleteProduct(id) {
+  deleteProductWithConfirm(id);
 }
 
 // Tab 4: Inventory & Low-Stock Alerts
@@ -6368,3 +6415,179 @@ window.addEventListener("DOMContentLoaded", function() {
     }
   });
 });
+
+// =========================================================================
+// === QUICK PRICE & COST CHANGER FUNCTIONS ================================
+// =========================================================================
+function openQuickPriceModal(id) {
+  const p = PRODUCTS.find(prod => prod.id === id);
+  if (!p) return;
+
+  document.getElementById("quickPriceProdId").value = p.id;
+  document.getElementById("quickPriceProdTitle").textContent = p.name;
+  document.getElementById("quickPriceProdTelugu").textContent = `${p.teluguName || ''} • Net Wt: ${p.netWt || '500 g'}`;
+  document.getElementById("quickPriceProdImg").src = p.image;
+  
+  document.getElementById("quickPriceSelling").value = p.price;
+  document.getElementById("quickPriceMrp").value = p.mrp;
+  
+  updateQuickDiscountPreview();
+  document.getElementById("quickPriceModal").classList.add("active");
+}
+
+function updateQuickDiscountPreview() {
+  const sellingInput = document.getElementById("quickPriceSelling");
+  const mrpInput = document.getElementById("quickPriceMrp");
+  const previewBox = document.getElementById("quickDiscountPreviewBox");
+  if (!sellingInput || !mrpInput || !previewBox) return;
+
+  const selling = parseFloat(sellingInput.value) || 0;
+  const mrp = parseFloat(mrpInput.value) || 0;
+
+  if (mrp > selling && selling > 0) {
+    const savings = mrp - selling;
+    const pct = Math.round((savings / mrp) * 100);
+    previewBox.innerHTML = `<strong>Customer Offer:</strong> ₹${savings} OFF (${pct}% discount). Storefront shows: <strong>₹${selling}</strong> <del style="color:#64748b;">₹${mrp}</del>`;
+    previewBox.style.background = "#f0fdf4";
+    previewBox.style.color = "#166534";
+    previewBox.style.borderColor = "#bbf7d0";
+  } else if (selling >= mrp && selling > 0) {
+    previewBox.innerHTML = `Selling price is equal to or higher than MRP. (No customer discount displayed).`;
+    previewBox.style.background = "#fffbeb";
+    previewBox.style.color = "#92400e";
+    previewBox.style.borderColor = "#fde68a";
+  } else {
+    previewBox.innerHTML = `Enter valid selling price and MRP in rupees.`;
+    previewBox.style.background = "#f8fafc";
+    previewBox.style.color = "#475569";
+    previewBox.style.borderColor = "#e2e8f0";
+  }
+}
+
+function handleQuickPriceSubmit(e) {
+  e.preventDefault();
+  const id = parseInt(document.getElementById("quickPriceProdId").value);
+  const newPrice = parseInt(document.getElementById("quickPriceSelling").value);
+  const newMrp = parseInt(document.getElementById("quickPriceMrp").value);
+
+  const p = PRODUCTS.find(prod => prod.id === id);
+  if (!p) return;
+
+  const oldPrice = p.price;
+  p.price = newPrice;
+  p.mrp = newMrp;
+
+  saveProductsDatabase();
+  renderAdminProductsTable();
+  renderAdminInventoryTable();
+  renderProducts();
+
+  logAuditEvent("PRICE_UPDATED", `Updated price for ${p.name}: ₹${oldPrice} -> ₹${newPrice} (MRP ₹${newMrp})`);
+  closeModal("quickPriceModal");
+  showToast(`✅ Updated price for "${p.name}" to ₹${newPrice}!`);
+}
+
+// =========================================================================
+// === QUICK IMAGE CHANGER FUNCTIONS =======================================
+// =========================================================================
+function openQuickImageModal(id) {
+  const p = PRODUCTS.find(prod => prod.id === id);
+  if (!p) return;
+
+  document.getElementById("quickImageProdId").value = p.id;
+  document.getElementById("quickImageProdTitle").textContent = p.name;
+  document.getElementById("quickImageCurrentImg").src = p.image;
+  
+  // Set preview
+  document.getElementById("quickImageNewPreview").src = p.image;
+  document.getElementById("quickImageTargetVal").value = p.image;
+  document.getElementById("quickImageFilenameLabel").textContent = `Current image: ${p.image}`;
+  
+  const presetsDrawer = document.getElementById("quickPresetsDrawer");
+  if (presetsDrawer) presetsDrawer.style.display = "none";
+
+  document.getElementById("quickImageModal").classList.add("active");
+}
+
+function handleQuickImageFileUpload(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    showToast("⚠️ Please select a valid image file (JPG, PNG, WebP)");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const rawDataUrl = e.target.result;
+    
+    // Scale image down to max 600px
+    const img = new Image();
+    img.onload = function() {
+      const maxDim = 600;
+      let width = img.width;
+      let height = img.height;
+      
+      if (width > maxDim || height > maxDim) {
+        if (width > height) {
+          height = Math.round((height * maxDim) / width);
+          width = maxDim;
+        } else {
+          width = Math.round((width * maxDim) / height);
+          height = maxDim;
+        }
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      const optimizedDataUrl = canvas.toDataURL("image/jpeg", 0.88);
+      
+      document.getElementById("quickImageNewPreview").src = optimizedDataUrl;
+      document.getElementById("quickImageTargetVal").value = optimizedDataUrl;
+      document.getElementById("quickImageFilenameLabel").textContent = `📁 Uploaded: ${file.name} (${Math.round(optimizedDataUrl.length/1024)} KB)`;
+      showToast(`✅ Loaded photo: ${file.name}`);
+    };
+    img.src = rawDataUrl;
+  };
+  reader.readAsDataURL(file);
+}
+
+function toggleQuickPresetsDrawer() {
+  const drawer = document.getElementById("quickPresetsDrawer");
+  if (!drawer) return;
+  drawer.style.display = (drawer.style.display === "none" || !drawer.style.display) ? "block" : "none";
+}
+
+function applyQuickPreset(path, name) {
+  document.getElementById("quickImageNewPreview").src = path;
+  document.getElementById("quickImageTargetVal").value = path;
+  document.getElementById("quickImageFilenameLabel").textContent = `🖼️ Preset: ${name} (${path})`;
+  const drawer = document.getElementById("quickPresetsDrawer");
+  if (drawer) drawer.style.display = "none";
+  showToast(`✅ Selected preset: ${name}`);
+}
+
+function handleQuickImageSubmit(e) {
+  e.preventDefault();
+  const id = parseInt(document.getElementById("quickImageProdId").value);
+  const newImg = document.getElementById("quickImageTargetVal").value;
+
+  const p = PRODUCTS.find(prod => prod.id === id);
+  if (!p) return;
+
+  p.image = newImg;
+
+  saveProductsDatabase();
+  renderAdminProductsTable();
+  renderAdminInventoryTable();
+  renderProducts();
+
+  logAuditEvent("IMAGE_UPDATED", `Updated product photo for ${p.name}`);
+  closeModal("quickImageModal");
+  showToast(`✅ Updated photo for "${p.name}"!`);
+}

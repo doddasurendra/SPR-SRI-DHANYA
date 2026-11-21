@@ -6428,7 +6428,9 @@ body {
 #adminAddCouponModal,
 #adminRefundModal,
 #addKnowledgeArticleModal,
-#adminLoginModal {
+#adminLoginModal,
+#quickPriceModal,
+#quickImageModal {
   z-index: 10500 !important;
 }
 
@@ -7153,4 +7155,113 @@ body {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid #e2e8f0;
+}
+
+
+/* =========================================================================
+   ENHANCED ADMIN PRODUCT TABLE & CRUD INTERFACE
+   ========================================================================= */
+.admin-prod-thumb-wrap {
+  width: 44px;
+  height: 44px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1.5px solid #e2e8f0;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.admin-prod-thumb-wrap:hover {
+  border-color: #2874f0;
+  box-shadow: 0 2px 8px rgba(40, 116, 240, 0.3);
+  transform: scale(1.08);
+}
+
+.admin-prod-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.admin-thumb-change-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffd700;
+  font-size: 8px;
+  padding: 1px 3px;
+  border-top-left-radius: 4px;
+}
+
+.admin-price-cell {
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-price-cell:hover {
+  background: #eff6ff;
+}
+
+.admin-selling-price {
+  font-weight: 800;
+  color: #15803d;
+  font-size: 13.5px;
+}
+
+.admin-mrp-price {
+  font-size: 11.5px;
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.admin-price-edit-icon {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.admin-action-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.admin-action-btn-group .btn {
+  padding: 4px 8px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+.btn-price-quick {
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+  border: 1px solid #bbf7d0 !important;
+}
+
+.btn-price-quick:hover {
+  background: #dcfce7 !important;
+  border-color: #86efac !important;
+}
+
+.btn-image-quick {
+  background: #eff6ff !important;
+  color: #1e40af !important;
+  border: 1px solid #bfdbfe !important;
+}
+
+.btn-image-quick:hover {
+  background: #dbeafe !important;
+  border-color: #93c5fd !important;
 }
