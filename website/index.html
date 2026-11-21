@@ -3217,9 +3217,81 @@
             <label>Initial Stock Units *</label>
             <input type="number" id="prodFormStock" placeholder="100" required>
           </div>
-          <div class="form-group">
-            <label>Image Asset Path *</label>
-            <input type="text" id="prodFormImage" placeholder="assets/ragi_dosa.png" required>
+          <div class="form-group full-width">
+            <label style="display: flex; justify-content: space-between; align-items: center;">
+              <span>Product Image * (Upload from Device or Select Preset)</span>
+              <span style="font-size: 10.5px; color: #16a34a; font-weight: 600;">JPG, PNG, WebP Supported</span>
+            </label>
+            
+            <div class="product-image-upload-wrapper" id="prodImageDropZone">
+              <input type="file" id="prodFormFileInput" accept="image/*" onchange="handleProductImageUpload(event)" style="display: none;">
+              <input type="hidden" id="prodFormImage" required value="assets/ragi_dosa.png">
+              
+              <div class="prod-image-preview-card">
+                <img id="prodImagePreviewImg" src="assets/ragi_dosa.png" alt="Product Image Preview" class="prod-preview-thumbnail">
+                <div class="prod-preview-details">
+                  <div class="prod-preview-filename" id="prodPreviewFilename">assets/ragi_dosa.png</div>
+                  <div class="prod-preview-actions">
+                    <button type="button" class="btn btn-primary btn-sm btn-upload-device" onclick="document.getElementById('prodFormFileInput').click()">
+                      📁 Upload Image from Device
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="toggleImagePresetsDrawer()">
+                      🖼️ Millet Presets
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="toggleImageUrlDrawer()">
+                      🔗 Custom URL / Path
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Presets Drawer (Collapsible) -->
+              <div class="prod-image-presets-drawer" id="prodImagePresetsDrawer" style="display: none;">
+                <div class="presets-header">Choose from Verified S.P.R. Product Images:</div>
+                <div class="presets-grid">
+                  <div class="preset-option" onclick="selectProductImagePreset('assets/ragi_dosa.png', 'Instant Ragi Dosa')">
+                    <img src="assets/ragi_dosa.png" alt="Ragi Dosa">
+                    <span>Ragi Dosa Mix</span>
+                  </div>
+                  <div class="preset-option" onclick="selectProductImagePreset('assets/korra_dosa.png', 'Instant Korra Dosa')">
+                    <img src="assets/korra_dosa.png" alt="Korra Dosa">
+                    <span>Korra Dosa Mix</span>
+                  </div>
+                  <div class="preset-option" onclick="selectProductImagePreset('assets/jowar_dosa.png', 'Instant Jowar Dosa')">
+                    <img src="assets/jowar_dosa.png" alt="Jowar Dosa">
+                    <span>Jowar Dosa Mix</span>
+                  </div>
+                  <div class="preset-option" onclick="selectProductImagePreset('assets/pesara_dosa.png', 'Instant Pesara Dosa')">
+                    <img src="assets/pesara_dosa.png" alt="Pesara Dosa">
+                    <span>Pesara Dosa Mix</span>
+                  </div>
+                  <div class="preset-option" onclick="selectProductImagePreset('assets/multi_grain_atta.png', 'Multi Grain Atta')">
+                    <img src="assets/multi_grain_atta.png" alt="Multi Grain Atta">
+                    <span>Multi Grain Atta</span>
+                  </div>
+                  <div class="preset-option" onclick="selectProductImagePreset('assets/supermarket_combo.png', 'Wholesale Carton')">
+                    <img src="assets/supermarket_combo.png" alt="Wholesale Carton">
+                    <span>Wholesale Box</span>
+                  </div>
+                  <div class="preset-option" onclick="selectProductImagePreset('assets/brand_poster_logo.png', 'Combo Pack')">
+                    <img src="assets/brand_poster_logo.png" alt="Combo Pack">
+                    <span>5-in-1 Combo</span>
+                  </div>
+                  <div class="preset-option" onclick="selectProductImagePreset('assets/siri_dhanya_official_logo.png', 'Official Brand Logo')">
+                    <img src="assets/siri_dhanya_official_logo.png" alt="Official Logo">
+                    <span>Official Logo</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Custom URL Input (Collapsible) -->
+              <div class="prod-image-url-drawer" id="prodImageUrlDrawer" style="display: none;">
+                <div style="display: flex; gap: 8px; margin-top: 8px;">
+                  <input type="text" id="prodFormImageManual" placeholder="Enter image URL or asset path (e.g. assets/sample.jpg or https://...)" style="flex: 1;" oninput="handleManualImageUrl(this.value)">
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="applyManualImageUrl()">Apply Path</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

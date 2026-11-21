@@ -4134,7 +4134,8 @@ function openAddProductModal() {
   document.getElementById("prodFormPrice").value = "";
   document.getElementById("prodFormMrp").value = "";
   document.getElementById("prodFormStock").value = "100";
-  document.getElementById("prodFormImage").value = "assets/ragi_dosa.png";
+  setProductImageValue("assets/ragi_dosa.png", "assets/ragi_dosa.png (Default Preset)");
+  closeProductImageDrawers();
   document.getElementById("adminProductFormModal").classList.add("active");
 }
 
@@ -4151,7 +4152,8 @@ function openEditProductModal(id) {
   document.getElementById("prodFormPrice").value = p.price;
   document.getElementById("prodFormMrp").value = p.mrp;
   document.getElementById("prodFormStock").value = p.stock;
-  document.getElementById("prodFormImage").value = p.image;
+  setProductImageValue(p.image || "assets/ragi_dosa.png", p.name || p.image);
+  closeProductImageDrawers();
   document.getElementById("adminProductFormModal").classList.add("active");
 }
 
@@ -6127,4 +6129,161 @@ document.addEventListener("keydown", function(e) {
   if (e.key === "Escape") {
     closeBrandLogoModal();
   }
+});
+
+
+// =========================================================================
+// === PRODUCT IMAGE UPLOAD & PRESET MANAGEMENT FUNCTIONS ==================
+// =========================================================================
+function setProductImageValue(val, label) {
+  const hiddenInput = document.getElementById("prodFormImage");
+  const previewImg = document.getElementById("prodImagePreviewImg");
+  const filenameLabel = document.getElementById("prodPreviewFilename");
+  
+  if (hiddenInput) hiddenInput.value = val;
+  if (previewImg) previewImg.src = val;
+  if (filenameLabel) {
+    if (label) {
+      filenameLabel.textContent = label;
+    } else if (val && val.startsWith("data:image")) {
+      filenameLabel.textContent = "📁 Custom Uploaded Image (Ready to Save)";
+    } else {
+      filenameLabel.textContent = val || "assets/ragi_dosa.png";
+    }
+  }
+}
+
+function handleProductImageUpload(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    showToast("⚠️ Please select a valid image file (JPG, PNG, WebP)");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const rawDataUrl = e.target.result;
+    
+    // Scale image down to max 600px to keep storage lightweight and fast
+    const img = new Image();
+    img.onload = function() {
+      const maxDim = 600;
+      let width = img.width;
+      let height = img.height;
+      
+      if (width > maxDim || height > maxDim) {
+        if (width > height) {
+          height = Math.round((height * maxDim) / width);
+          width = maxDim;
+        } else {
+          width = Math.round((width * maxDim) / height);
+          height = maxDim;
+        }
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      const optimizedDataUrl = canvas.toDataURL("image/jpeg", 0.88);
+      
+      setProductImageValue(optimizedDataUrl, `📁 ${file.name} (${Math.round(optimizedDataUrl.length/1024)} KB)`);
+      showToast(`✅ Image "${file.name}" uploaded successfully!`);
+    };
+    img.src = rawDataUrl;
+  };
+  reader.readAsDataURL(file);
+}
+
+function toggleImagePresetsDrawer() {
+  const drawer = document.getElementById("prodImagePresetsDrawer");
+  const urlDrawer = document.getElementById("prodImageUrlDrawer");
+  if (!drawer) return;
+  if (urlDrawer) urlDrawer.style.display = "none";
+  drawer.style.display = (drawer.style.display === "none" || !drawer.style.display) ? "block" : "none";
+}
+
+function toggleImageUrlDrawer() {
+  const urlDrawer = document.getElementById("prodImageUrlDrawer");
+  const presetDrawer = document.getElementById("prodImagePresetsDrawer");
+  if (!urlDrawer) return;
+  if (presetDrawer) presetDrawer.style.display = "none";
+  urlDrawer.style.display = (urlDrawer.style.display === "none" || !urlDrawer.style.display) ? "block" : "none";
+  if (urlDrawer.style.display === "block") {
+    const manualInput = document.getElementById("prodFormImageManual");
+    const currentVal = document.getElementById("prodFormImage")?.value || "";
+    if (manualInput && !currentVal.startsWith("data:image")) {
+      manualInput.value = currentVal;
+    }
+  }
+}
+
+function closeProductImageDrawers() {
+  const presetDrawer = document.getElementById("prodImagePresetsDrawer");
+  const urlDrawer = document.getElementById("prodImageUrlDrawer");
+  if (presetDrawer) presetDrawer.style.display = "none";
+  if (urlDrawer) urlDrawer.style.display = "none";
+}
+
+function selectProductImagePreset(path, name) {
+  setProductImageValue(path, `🖼️ ${name} (${path})`);
+  closeProductImageDrawers();
+  showToast(`✅ Selected preset: ${name}`);
+}
+
+function handleManualImageUrl(val) {
+  if (val && val.trim()) {
+    const previewImg = document.getElementById("prodImagePreviewImg");
+    if (previewImg) previewImg.src = val.trim();
+  }
+}
+
+function applyManualImageUrl() {
+  const manualInput = document.getElementById("prodFormImageManual");
+  if (!manualInput || !manualInput.value.trim()) {
+    showToast("⚠️ Please enter a valid image URL or path");
+    return;
+  }
+  const val = manualInput.value.trim();
+  setProductImageValue(val, `🔗 ${val}`);
+  closeProductImageDrawers();
+  showToast("✅ Custom image path applied!");
+}
+
+// Drag & Drop support on dropzone
+window.addEventListener("DOMContentLoaded", function() {
+  const dropZone = document.getElementById("prodImageDropZone");
+  if (!dropZone) return;
+
+  ["dragenter", "dragover"].forEach(eventName => {
+    dropZone.addEventListener(eventName, function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.add("dragover");
+    });
+  });
+
+  ["dragleave", "drop"].forEach(eventName => {
+    dropZone.addEventListener(eventName, function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.remove("dragover");
+    });
+  });
+
+  dropZone.addEventListener("drop", function(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    if (files && files.length > 0) {
+      const input = document.getElementById("prodFormFileInput");
+      if (input) {
+        input.files = files;
+        handleProductImageUpload({ target: { files: files } });
+      }
+    }
+  });
 });
