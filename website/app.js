@@ -1375,13 +1375,13 @@ ${itemsText}
 
   const encodedWa = encodeURIComponent(waMsg);
 
-  // Button 1: +91 94413 93817
+  // Button 1: Primary Mobile +91 8121158817
   const btn1 = document.getElementById("successWhatsappBtn1");
-  if (btn1) btn1.href = `https://wa.me/919441393817?text=${encodedWa}`;
+  if (btn1) btn1.href = `https://wa.me/918121158817?text=${encodedWa}`;
 
-  // Button 2: 9492468817
+  // Button 2: Management Line +91 94413 93817
   const btn2 = document.getElementById("successWhatsappBtn2");
-  if (btn2) btn2.href = `https://wa.me/919492468817?text=${encodedWa}`;
+  if (btn2) btn2.href = `https://wa.me/919441393817?text=${encodedWa}`;
 
   // Fallback single button
   const btnOld = document.getElementById("successWhatsappBtn");
@@ -1641,8 +1641,8 @@ ${itemsText}`;
   const encodedAlert = encodeURIComponent(alertMsg);
   const notifyWa1 = document.getElementById("adminNotifyWa1");
   const notifyWa2 = document.getElementById("adminNotifyWa2");
-  if (notifyWa1) notifyWa1.href = `https://wa.me/919441393817?text=${encodedAlert}`;
-  if (notifyWa2) notifyWa2.href = `https://wa.me/919492468817?text=${encodedAlert}`;
+  if (notifyWa1) notifyWa1.href = `https://wa.me/918121158817?text=${encodedAlert}`;
+  if (notifyWa2) notifyWa2.href = `https://wa.me/919441393817?text=${encodedAlert}`;
 
   document.getElementById("adminOrderDetailsModal")?.classList.add("active");
 }
@@ -1743,12 +1743,12 @@ function openContactChooser(mode) {
 
   if (mode === "whatsapp") {
     if (title) title.textContent = "Connect on WhatsApp";
-    if (line1) line1.href = "https://wa.me/919441393817?text=Hello%20SPR%20Siri%20Dhanya,%20I%20would%20like%20to%20order%20millet%20products.";
-    if (line2) line2.href = "https://wa.me/919492468817?text=Hello%20SPR%20Siri%20Dhanya,%20I%20would%20like%20to%20order%20millet%20products.";
+    if (line1) line1.href = "https://wa.me/918121158817?text=Hello%20SPR%20Siri%20Dhanya,%20I%20would%20like%20to%20order%20millet%20products.";
+    if (line2) line2.href = "https://wa.me/919441393817?text=Hello%20SPR%20Siri%20Dhanya,%20I%20would%20like%20to%20order%20millet%20products.";
   } else {
     if (title) title.textContent = "Call S.P.R. Siri Dhanya";
-    if (line1) line1.href = "tel:9441393817";
-    if (line2) line2.href = "tel:9492468817";
+    if (line1) line1.href = "tel:8121158817";
+    if (line2) line2.href = "tel:9441393817";
   }
 
   modal.classList.add("active");
@@ -1869,8 +1869,8 @@ const SPR_RAG_ENGINE = {
                      `4. **చిరునామా నమోదు:** **'Proceed to Checkout'** క్లిక్ చేసి, మీ పేరు, ఫోన్ నెంబర్, పూర్తి డెలివరీ అడ్రస్ మరియు పిన్‌కోడ్ నమోదు చేయండి.\n` +
                      `5. **చెల్లింపు విధానం:** UPI (PhonePe, Google Pay, Paytm), క్రెడిట్/డెబిట్ కార్డులు, నెట్ బ్యాంకింగ్ లేదా క్యాష్ ఆన్ డెలివరీ (COD) ఎంచుకోండి.\n` +
                      `6. **ఆర్డర్ నిర్ధారణ:** ఆర్డర్ పూర్తవగానే మీకు ఆర్డర్ ఐడీ, వాట్సాప్ ఇన్వాయిస్ మరియు లైవ్ 7-స్టేజ్ కొరియర్ ట్రాకింగ్ అందుతాయి.\n\n` +
-                     `💡 **డైరెక్ట్ వాట్సాప్ ఆర్డర్:** మీరు నేరుగా మీ అడ్రస్‌ను మా వాట్సాప్ నెంబర్లు **+91 94413 93817** లేదా **9492468817** కు మెసేజ్ చేసి కూడా ఆర్డర్ చేయవచ్చు!`,
-          voiceScript: "నమస్కారం అండి! S.P.R. సిరిధాన్య ఆర్డర్ చేయడం చాలా సులభం. మొదటిగా మీకు కావలసిన రాగి, జొన్న, పెసర, కొర్ర దోశ మిక్స్ లేదా మల్టీ గ్రెయిన్ పిండిని ఎంచుకుని కార్ట్‌కు యాడ్ చేయండి. తరువాత కార్ట్ ఓపెన్ చేసి ప్రొసీడ్ టు చెకౌట్ క్లిక్ చేయండి. మీ పేరు, అడ్రస్ మరియు పిన్‌కోడ్ నమోదు చేసి, గూగుల్ పే, ఫోన్‌పే లేదా క్యాష్ ఆన్ డెలివరీ ద్వారా ఆర్డర్ పూర్తి చేయవచ్చు. లేదా మా మేనేజ్‌మెంట్ వాట్సాప్ నెంబర్ 94413 93817 కు మీ అడ్రస్ మెసేజ్ చేసి కూడా నేరుగా ఆర్డర్ చేయవచ్చు!",
+                     `💡 **డైరెక్ట్ వాట్సాప్ ఆర్డర్:** మీరు నేరుగా మీ అడ్రస్‌ను మా వాట్సాప్ నెంబర్లు **+91 8121158817** లేదా **+91 94413 93817** కు మెసేజ్ చేసి కూడా ఆర్డర్ చేయవచ్చు!`,
+          voiceScript: "నమస్కారం అండి! S.P.R. సిరిధాన్య ఆర్డర్ చేయడం చాలా సులభం. మొదటిగా మీకు కావలసిన రాగి, జొన్న, పెసర, కొర్ర దోశ మిక్స్ లేదా మల్టీ గ్రెయిన్ పిండిని ఎంచుకుని కార్ట్‌కు యాడ్ చేయండి. తరువాత కార్ట్ ఓపెన్ చేసి ప్రొసీడ్ టు చెకౌట్ క్లిక్ చేయండి. మీ పేరు, అడ్రస్ మరియు పిన్‌కోడ్ నమోదు చేసి, గూగుల్ పే, ఫోన్‌పే లేదా క్యాష్ ఆన్ డెలివరీ ద్వారా ఆర్డర్ పూర్తి చేయవచ్చు. లేదా మా ప్రైమరీ వాట్సాప్ నెంబర్ 8121158817 కు మీ అడ్రస్ మెసేజ్ చేసి కూడా నేరుగా ఆర్డర్ చేయవచ్చు!",
           actionBtn: { text: "🚀 Proceed to Checkout", action: "openCheckoutModal()" }
         };
       } else if (lang === "hi") {
@@ -1882,8 +1882,8 @@ const SPR_RAG_ENGINE = {
                      `4. **पता दर्ज करें:** **'Proceed to Checkout'** पर क्लिक करें और नाम, मोबाइल नंबर, पूरा पता और पिनकोड भरें।\n` +
                      `5. **भुगतान करें:** UPI (PhonePe, Google Pay, Paytm), कार्ड्स, नेट बैंकिंग या कैश ऑन डिलीवरी (COD) चुनें।\n` +
                      `6. **तुरंत पुष्टि:** ऑर्डर कन्फर्म होते ही आपको ऑर्डर आईडी और 7-स्टेज लाइव ट्रैकिंग प्राप्त होगी।\n\n` +
-                     `💡 **व्हाट्सएप पर सीधा ऑर्डर:** आप अपना पता हमारे व्हाट्सएप नंबर **+91 94413 93817** या **9492468817** पर भेजकर भी ऑर्डर दे सकते हैं!`,
-          voiceScript: "नमस्ते! S.P.R. सिरी धान्या ऑर्डर करना बहुत आसान है। पहले अपने पसंदीदा डोसा मिक्स या मल्टीग्रेन आटा को कार्ट में जोड़ें। फिर कार्ट खोलकर प्रोसीड टू चेकआउट दबाएं। अपना नाम, पता और पिनकोड दर्ज करें, और फोनपे, गूगल पे या कैश ऑन डिलीवरी से भुगतान करें। आप हमारे व्हाट्सएप नंबर 94413 93817 पर भी अपना पता भेजकर तुरंत ऑर्डर कर सकते हैं!",
+                     `💡 **व्हाट्सएप पर सीधा ऑर्डर:** आप अपना पता हमारे व्हाट्सएप नंबर **+91 8121158817** या **+91 94413 93817** पर भेजकर भी ऑर्डर दे सकते हैं!`,
+          voiceScript: "नमस्ते! S.P.R. सिरी धान्या ऑर्डर करना बहुत आसान है। पहले अपने पसंदीदा डोसा मिक्स या मल्टीग्रेन आटा को कार्ट में जोड़ें। फिर कार्ट खोलकर प्रोसीड टू चेकआउट दबाएं। अपना नाम, पता और पिनकोड दर्ज करें, और फोनपे, गूगल पे या कैश ऑन डिलीवरी से भुगतान करें। आप हमारे व्हाट्सएप नंबर 8121158817 पर भी अपना पता भेजकर तुरंत ऑर्डर कर सकते हैं!",
           actionBtn: { text: "🚀 चेकआउट और ऑर्डर करें", action: "openCheckoutModal()" }
         };
       } else {
@@ -1895,8 +1895,8 @@ const SPR_RAG_ENGINE = {
                      `4. **Enter Shipping Details:** Click **'Proceed to Checkout'** and fill in your Name, Mobile Number, full Street Address, and PIN Code.\n` +
                      `5. **Select Payment:** Choose instant UPI (Google Pay, PhonePe, Paytm), Credit/Debit Card, Net Banking, or Cash on Delivery (COD).\n` +
                      `6. **Order Confirmation:** You immediately receive your Order ID, WhatsApp confirmation invoice, and live 7-stage courier tracking!\n\n` +
-                     `💡 **Instant WhatsApp Order Desk:** You can also simply message your product list and address directly to management at **+91 94413 93817** or **9492468817**!`,
-          voiceScript: "Hello! Ordering S.P.R. Siri Dhanya products is quick and simple. First, browse our pure millet dosa mixes or multi-grain atta and click Add to Cart. Next, open your Cart and tap Proceed to Checkout. Enter your name, delivery address, and pincode, then pay securely with UPI, card, or Cash on Delivery. You can also order directly by messaging your address to our WhatsApp helpline at +91 94413 93817!",
+                     `💡 **Instant WhatsApp Order Desk:** You can also simply message your product list and address directly to management at **+91 8121158817** or **+91 94413 93817**!`,
+          voiceScript: "Hello! Ordering S.P.R. Siri Dhanya products is quick and simple. First, browse our pure millet dosa mixes or multi-grain atta and click Add to Cart. Next, open your Cart and tap Proceed to Checkout. Enter your name, delivery address, and pincode, then pay securely with UPI, card, or Cash on Delivery. You can also order directly by messaging your address to our WhatsApp helpline at +91 8121158817!",
           actionBtn: { text: "🚀 Open Checkout & Place Order", action: "openCheckoutModal()" }
         };
       }
@@ -1987,7 +1987,7 @@ const SPR_RAG_ENGINE = {
       if (lang === "te") {
         return {
           humanText: `⚙️ **S.P.R. సిరిధాన్య ఫ్యాక్టరీ పనితీరు & శాస్త్రీయ తయారీ విధానం (Operations & Working):**\n\n` +
-                     `🏭 **ఫ్యాక్టరీ చిరునామా:** కామేపల్లి గ్రామం, సంతమాగులూరు మండలం, బాపట్ల జిల్లా, ఆంధ్రప్రదేశ్ - 523326.\n\n` +
+                     `🏭 **ఖచ్చితమైన ఫ్యాక్టరీ చిరునామా:** డోర్ నెం. 203/6-1B, ఫ్లాట్ నెం. 63, శ్రీ సాయి బాలాజీ నగర్, మెయిన్ రోడ్, సంతమాగులూరు X రోడ్, కామేపల్లి, బాపట్ల జిల్లా, ఆంధ్రప్రదేశ్ - 523302 (GPS: 16°07'11.5"N 79°55'25.4"E).\n\n` +
                      `🔬 **శాస్త్రీయ ప్రాసెసింగ్ & తయారీ ప్రక్రియ:**\n` +
                      `1. **మల్టీ-స్టేజ్ క్లీనింగ్ & డీ-స్టోనింగ్:** రైతుల నుండి సేకరించిన రాగులు, జొన్నలు, కొర్రలు మరియు పెసలను అత్యాధునిక మెకానికల్ వైబ్రేటరీ స్క్రీనర్లు మరియు ఎయిర్-వాషింగ్ ఛాంబర్స్ ద్వారా దుమ్ము, రాళ్లు, పొట్టు పూర్తిగా తొలగించి శుద్ధి చేస్తాము.\n` +
                      `2. **కోల్డ్-స్టోన్ గ్రైండింగ్ (తక్కువ ఉష్ణోగ్రత గ్రైండింగ్):** ధాన్యాలను తక్కువ ఉష్ణోగ్రత వద్ద శాస్త్రీయంగా పిండి చేయడం వల్ల ధాన్యంలోని విటమిన్ బి-కాంప్లెక్స్, సహజ ఎంజైములు, మరియు డైటరీ ఫైబర్ వేడికి నాశనం కాకుండా భద్రంగా ఉంటాయి.\n` +
@@ -2004,7 +2004,7 @@ const SPR_RAG_ENGINE = {
       } else if (lang === "hi") {
         return {
           humanText: `⚙️ **S.P.R. सिरी धान्या फैक्टरी संचालन और कार्यप्रणाली (Operations & Working):**\n\n` +
-                     `🏭 **फैक्टरी पता:** कामेपल्ली गांव, संतमागलुरु मंडल, बापटला जिला, आंध्र प्रदेश - 523326।\n\n` +
+                     `🏭 **सटीक फैक्टरी पता:** डोर नं. 203/6-1B, फ्लैट नं. 63, श्री साई बालाजी नगर, मेन रोड, संतमागलुरु X रोड, कामेपल्ली, बापटला जिला, आंध्र प्रदेश - 523302 (GPS: 16°07'11.5"N 79°55'25.4"E)।\n\n` +
                      `🔬 **वैज्ञानिक विनिर्माण और कार्यप्रणाली:**\\n` +
                      `1. **मल्टी-स्टेज डी-स्टोनिंग और एयर-वॉशिंग:** किसानों से आए अनाजों को वाइब्रेटरी डी-स्टोनर और एयर-वॉश चैंबर से साफ किया जाता है ताकि धूल, कंकड़ और भूसी पूरी तरह अलग हो सके।\n` +
                      `2. **कम तापमान पर स्टोन ग्राइंडिंग:** अनाजों को कम गति और कम तापमान पर पीसा जाता है जिससे विटामिन बी, पाचक एंजाइम और फाइबर नष्ट नहीं होते।\n` +
@@ -2018,7 +2018,7 @@ const SPR_RAG_ENGINE = {
       } else {
         return {
           humanText: `⚙️ **S.P.R. Siri Dhanya Factory Operations & How It Works:**\n\n` +
-                     `🏭 **Manufacturing Plant:** Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326.\n\n` +
+                     `🏭 **Exact Manufacturing Plant & Location:** Flat/Door/Block No. 203/6-1B, Flat no 63, Sri Sai Balaji Nagar, Main Road, Santhamaguluru X Road, Kamepalli, Bapatla District, Andhra Pradesh - 523302 (GPS: 16°07'11.5"N 79°55'25.4"E).\n\n` +
                      `🔬 **Step-by-Step Production & Milling Operations:**\n` +
                      `1. **Multi-Stage Air Destoning & Cleaning:** Raw millets sourced from local Andhra farmers pass through vibratory destoners, gravity separators, and pressurized air-wash chambers to eliminate every trace of dust, husk, and impurities.\n` +
                      `2. **Low-Temperature Controlled Stone Milling:** Grains are stone-ground and roller-milled at controlled low RPM and low temperature, ensuring that heat-sensitive Vitamin B-complex, natural live enzymes, and dietary fibres are 100% retained.\n` +
@@ -2176,7 +2176,7 @@ const SPR_RAG_ENGINE = {
                    `• **మాస్టర్ కార్టన్ ప్యాక్:** 24 ప్యాక్‌ల మాస్టర్ కార్టన్ ఫ్యాక్టరీ రేటు **₹2,490 కే** లభిస్తుంది (రీటైల్ MRP విలువ ₹3,350).\n` +
                    `• **ఆకర్షణీయమైన లాభం:** రిటైల్ వ్యాపారులకు **20% నుండి 25% వరకు నికర మార్జిన్** లభిస్తుంది.\n` +
                    `• **అధికారిక జీఎస్టీ ఇన్వాయిస్:** పూర్తి జీఎస్టీ B2B టాక్స్ ఇన్వాయిస్ మరియు ఫాస్ట్ కొరియర్ సదుపాయం.\n` +
-                   `• **డైరెక్ట్ కాంటాక్ట్:** హోల్‌సేల్ ఆర్డర్ల కోసం మేనేజ్‌మెంట్ లైన్లు **+91 94413 93817** లేదా **9492468817** కు నేరుగా కాల్ లేదా వాట్సాప్ చేయండి!`,
+                   `• **డైరెక్ట్ కాంటాక్ట్:** హోల్‌సేల్ ఆర్డర్ల కోసం మేనేజ్‌మెంట్ లైన్లు **+91 8121158817** లేదా **+91 94413 93817** కు నేరుగా కాల్ లేదా వాట్సాప్ చేయండి!`,
         voiceScript: "సూపర్ మార్కెట్లు మరియు డిస్ట్రిబ్యూటర్లకు 24 ప్యాక్‌ల మాస్టర్ కార్టన్ ఫ్యాక్టరీ రేటు 2,490 రూపాయలకే లభిస్తుంది. దీనిలో వ్యాపారులకు 25 శాతం వరకు లాభం మరియు జీఎస్టీ ఇన్వాయిస్ అందుతాయి. వివరాలకు మా నెంబర్ 94413 93817 కు సంప్రదించండి!",
         actionBtn: { text: "🤝 Open Wholesale B2B Portal", action: "openWholesalePortalModal()" }
       };
@@ -2221,9 +2221,11 @@ const SPR_RAG_ENGINE = {
       
       return {
         humanText: `📞 **S.P.R. సిరిధాన్య అధికారిక సంప్రదింపుల వివరాలు (Official Contacts):**\n\n` +
-                   `• **మేనేజ్‌మెంట్ లైన్ 1:** [+91 94413 93817](tel:9441393817) *(డైరెక్ట్ కాల్ & వాట్సాప్)*\n` +
-                   `• **మేనేజ్‌మెంట్ లైన్ 2:** [9492468817](tel:9492468817)\n` +
-                   `• **ఫ్యాక్టరీ & ఆఫీస్:** కామేపల్లి, సంతమాగులూరు మండలం, బాపట్ల జిల్లా, ఆంధ్రప్రదేశ్ - 523326.\n` +
+                   `• **ప్రైమరీ మొబైల్ / వాట్సాప్:** [+91 8121158817](tel:8121158817) *(డైరెక్ట్ కాల్ & వాట్సాప్)*\n` +
+                   `• **మేనేజ్‌మెంట్ లైన్ 2:** [+91 94413 93817](tel:9441393817) | [9492468817](tel:9492468817)\n` +
+                   `• **ఈమెయిల్:** [sprsiridhanya6@gmail.com](mailto:sprsiridhanya6@gmail.com)\n` +
+                   `• **ఖచ్చితమైన చిరునామా:** డోర్ నెం. 203/6-1B, ఫ్లాట్ నెం. 63, శ్రీ సాయి బాలాజీ నగర్, మెయిన్ రోడ్, సంతమాగులూరు X రోడ్, కామేపల్లి, బాపట్ల జిల్లా, ఆంధ్రప్రదేశ్ - 523302\n` +
+                   `• **GPS లొకేషన్:** 16°07'11.5"N 79°55'25.4"E\n` +
                    `• **FSSAI లైసెన్స్:** 20126152000402\n\n` +
                    `వాట్సాప్ ద్వారా నేరుగా మాట్లాడటానికి లేదా ఆర్డర్ ఇవ్వడానికి కింద క్లిక్ చేయండి:`,
         voiceScript: "S.P.R. సిరిధాన్య మేనేజ్‌మెంట్ ఫోన్ మరియు వాట్సాప్ నెంబర్లు 94413 93817 మరియు 9492468817. మా ఫ్యాక్టరీ బాపట్ల జిల్లా కామేపల్లిలో ఉంది. మీరు ఎప్పుడైనా సంప్రదించవచ్చు!",
@@ -2390,7 +2392,7 @@ function initExtraDatabases() {
         category: "Company & Manufacturing",
         title: "S.P.R. Siri Dhanya Company Background, Mission & Location",
         language: "Multilingual (Universal)",
-        content: "S.P.R. Siri Dhanya is a premier traditional millet food enterprise founded with the mission: 'సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం | ప్రతి గింజలో ఆరోగ్యం' (Traditional Nutrition with Modern Convenience). Manufacturing plant and factory desk are located at Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326. Contact lines: +91 94413 93817 and 9492468817. FSSAI License: 20126152000402.",
+        content: `S.P.R. Siri Dhanya is a premier traditional millet food enterprise founded with the mission: 'సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం | ప్రతి గింజలో ఆరోగ్యం' (Traditional Nutrition with Modern Convenience). Exact factory location: Flat/Door/Block No. 203/6-1B, Flat no 63, Sri Sai Balaji Nagar, Main Road, Santhamaguluru X Road, Kamepalli, Bapatla District, Andhra Pradesh - 523302. GPS Coordinates: 16°07'11.5"N 79°55'25.4"E (16.119861, 79.923722). Primary Mobile: +91 8121158817, Helpline: +91 94413 93817 / 9492468817. Email: sprsiridhanya6@gmail.com. FSSAI License: 20126152000402.`,
         updated: "2026-11-04"
       },
       {
@@ -3356,6 +3358,20 @@ state.chatMessages = [];
 
 // --- 1. Master Database Initialization ---
 function initMasterDatabase() {
+  // Automatic migration for exact location & coordinates in cached KB
+  try {
+    const kbRaw = localStorage.getItem(DB_KNOWLEDGE_KEY);
+    if (kbRaw && (kbRaw.includes("523326") || !kbRaw.includes("16°07'11.5"))) {
+      let kbList = JSON.parse(kbRaw);
+      let kb1 = kbList.find(k => k.id === "KB-01");
+      if (kb1) {
+        kb1.content = "S.P.R. Siri Dhanya is a premier traditional millet food enterprise founded with the mission: 'సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం | ప్రతి గింజలో ఆరోగ్యం' (Traditional Nutrition with Modern Convenience). Exact factory location: Flat/Door/Block No. 203/6-1B, Flat no 63, Sri Sai Balaji Nagar, Main Road, Santhamaguluru X Road, Kamepalli, Bapatla District, Andhra Pradesh - 523302. GPS Coordinates: 16°07'11.5\"N 79°55'25.4\"E (16.119861, 79.923722). Primary Mobile: +91 8121158817, Helpline: +91 94413 93817 / 9492468817. Email: sprsiridhanya6@gmail.com. FSSAI License: 20126152000402.";
+        kb1.updated = "2026-11-21";
+        localStorage.setItem(DB_KNOWLEDGE_KEY, JSON.stringify(kbList));
+      }
+    }
+  } catch(e) { console.warn("KB migration skipped:", e); }
+
   // 1. Products DB
   const savedProds = localStorage.getItem(DB_PRODUCTS_KEY);
   if (savedProds) {
@@ -3803,7 +3819,7 @@ Please dispatch through India Post / DTDC. Thank you!`;
 
   const encodedWa = encodeURIComponent(waMsg);
   const btn1 = document.getElementById("successWhatsappBtn1") || document.getElementById("successWhatsappBtn");
-  if (btn1) btn1.href = `https://wa.me/919441393817?text=${encodedWa}`;
+  if (btn1) btn1.href = `https://wa.me/918121158817?text=${encodedWa}`;
   const btn2 = document.getElementById("successWhatsappBtn2");
   if (btn2) btn2.href = `https://wa.me/919492468817?text=${encodedWa}`;
 
@@ -4048,7 +4064,8 @@ function downloadOrderInvoice(orderId) {
             <div>
               <div class="inv-title">S.P.R. SIRI DHANYA</div>
               <div class="inv-sub">సంప్రదాయ పోషణ – ఆధునిక సౌలభ్యం | ప్రతి గింజలో ఆరోగ్యం</div>
-              <div style="font-size: 11px; margin-top: 4px;">Kamepalli, Santamaguluru Mandal, Bapatla Dist, A.P. - 523326</div>
+              <div style="font-size: 11px; margin-top: 4px;">Flat/Door/Block No. 203/6-1B, Flat no 63, Sri Sai Balaji Nagar, Main Road, Santhamaguluru X Road, Kamepalli, Bapatla Dist, A.P. - 523302 (GPS: 16°07'11.5"N 79°55'25.4"E)</div>
+              <div style="font-size: 11px;">Mobile: <strong>+91 8121158817</strong> / <strong>+91 94413 93817</strong> | Email: <strong>sprsiridhanya6@gmail.com</strong></div>
               <div style="font-size: 11px;">FSSAI Lic: <strong>20126152000402</strong> | GSTIN: <strong>37AAPFS9492K1Z9</strong></div>
             </div>
             <div style="text-align: right;">
@@ -4791,7 +4808,7 @@ function handleDistributorRegistration(e) {
   localStorage.setItem(DB_WHOLESALE_KEY, JSON.stringify(state.wholesaleAccounts));
 
   const alertMsg = `🚚 *NEW DISTRIBUTOR ENQUIRY*\nFirm: ${name}\nTerritory: ${territory}\nContact: ${contact}\nInvestment: ${investment}\nPlease connect immediately.`;
-  window.open(`https://wa.me/919441393817?text=${encodeURIComponent(alertMsg)}`, "_blank");
+  window.open(`https://wa.me/918121158817?text=${encodeURIComponent(alertMsg)}`, "_blank");
 
   closeModal("wholesalePortalModal");
   showToast("Distributor enquiry sent directly to factory directors!");
@@ -4898,7 +4915,7 @@ function switchPolicyTab(tab) {
       <h4>🛡️ FSSAI CERTIFICATION & FOOD LABELLING DECLARATIONS</h4>
       <ul>
         <li><strong>FSSAI License Number:</strong> <code>20126152000402</code></li>
-        <li><strong>Manufacturing Facility:</strong> Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326.</li>
+        <li><strong>Exact Manufacturing Facility:</strong> Flat/Door/Block No. 203/6-1B, Flat no 63, Sri Sai Balaji Nagar, Main Road, Santhamaguluru X Road, Kamepalli, Bapatla District, Andhra Pradesh - 523302 (GPS: 16°07'11.5"N 79°55'25.4"E).</li>
         <li><strong>Dietary Classification:</strong> 100% Pure Vegetarian (Green Dot Vegetarian Logo on all packaging).</li>
         <li><strong>Preservative Free:</strong> 100% natural grains, stone-milled, zero artificial colors, zero synthetic chemical preservatives, zero maida.</li>
         <li><strong>Shelf Life:</strong> 6 to 9 months from date of manufacture when stored in cool, dry conditions away from moisture.</li>
@@ -5330,8 +5347,8 @@ function downloadQrHubCode(format) {
 
             <div class="footer-compliance">
               🛡️ <strong>FSSAI Central/State License:</strong> 20126152000402<br>
-              🏭 <strong>Manufacturing Facility:</strong> Kamepalli, Santamaguluru Mandal, Bapatla District, A.P. - 523326<br>
-              📞 <strong>WhatsApp & Order Inquiries:</strong> +91 94413 93817 / 9492468817
+              🏭 <strong>Exact Location:</strong> Flat/Door/Block No. 203/6-1B, Flat no 63, Sri Sai Balaji Nagar, Main Road, Santhamaguluru X Road, Kamepalli, Bapatla District, A.P. - 523302 (GPS: 16°07'11.5"N 79°55'25.4"E)<br>
+              📞 <strong>Primary Mobile:</strong> +91 8121158817 | Management: +91 94413 93817 | ✉️ <strong>Email:</strong> sprsiridhanya6@gmail.com
             </div>
           </div>
           <script>
@@ -6007,7 +6024,7 @@ function renderWhySprCurrentTab() {
           `).join('')}
         </div>
         <div style="margin-top: 16px; padding-top: 12px; border-top: 1px dashed #bbf7d0; font-size: 12.5px; color: #166534;">
-          🏭 <strong>Manufacturing Facility:</strong> Kamepalli, Santamaguluru Mandal, Bapatla District, Andhra Pradesh - 523326.
+          🏭 <strong>Exact Manufacturing Facility:</strong> Flat/Door/Block No. 203/6-1B, Flat no 63, Sri Sai Balaji Nagar, Main Road, Santhamaguluru X Road, Kamepalli, Bapatla District, Andhra Pradesh - 523302 (GPS: 16°07'11.5"N 79°55'25.4"E).
         </div>
       </div>
     `;
@@ -6123,7 +6140,7 @@ function filterAdminPayments(status, btn) {
 function copyOrderDetailsText() {
   const orderId = document.getElementById("successOrderId")?.textContent || "SPR-ORDER";
   const amount = document.getElementById("successAmount")?.textContent || "₹0";
-  const summary = `🌾 S.P.R. SIRI DHANYA - ORDER SUMMARY\nOrder ID: ${orderId}\nAmount: ${amount}\nStatus: Confirmed & Dispatched\nDispatch: India Post Speed Post / Express Delivery\nFactory Location: Kamepalli, Santamaguluru Mandal, Bapatla District, AP - 523326\nOfficial Helpline: +91 94413 93817 / 9492468817\nEmail: sprsiridhanya6@gmail.com\nStorefront: https://spr-siri-dhanya.web.app`;
+  const summary = `🌾 S.P.R. SIRI DHANYA - ORDER SUMMARY\nOrder ID: ${orderId}\nAmount: ${amount}\nStatus: Confirmed & Dispatched\nDispatch: India Post Speed Post / Express Delivery\nFactory Location: Flat/Door/Block No. 203/6-1B, Flat no 63, Sri Sai Balaji Nagar, Main Road, Santhamaguluru X Road, Kamepalli, Bapatla District, AP - 523302 (GPS: 16°07'11.5"N 79°55'25.4"E)\nOfficial Mobile: +91 8121158817 | Helpline: +91 94413 93817\nEmail: sprsiridhanya6@gmail.com\nStorefront: https://spr-siri-dhanya.web.app`;
   
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(summary).then(() => {
